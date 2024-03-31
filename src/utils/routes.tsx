@@ -1,9 +1,19 @@
 import React from "react";
-import { RouteObject } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
+import { CreateNewPassword, ErrorPage, ForgotPassword, Home, SignIn, SignUp } from "../pages";
+import SuccessPage from "../pages/auth/sign-up/SuccessPage";
 
 
 const routes: RouteObject[] = [
-    { path: '/', element: <div>Hi there! <br/> This template layout is a brain child of HOC's (Henry Okafor Chidiebere)</div>}
+    { path: '/', element: <Navigate to="/parent/sign-in" replace />},
+    { path: '/parent/sign-up', element: <SignUp />},
+    { path: '/parent/sign-in', element: <SignIn />},
+    { path: '/parent/forgot-psd', element: <ForgotPassword />},
+    { path: '/parent/create-psd', element: <CreateNewPassword />},
+    { path: '/parent/home', element: <Home/> },
+
+    { path: '/success', element: <SuccessPage />},
+    { path: '*', element: <ErrorPage />}
 ];
 
 export { routes };
