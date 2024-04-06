@@ -8,11 +8,11 @@ const initialValues = {
     lastName: '',
     email: '',
     country: '',
-    state: '',
+    state: 'Badakhshan',
     phone: '',
     password: '',
     timezone: '',
-    timeOffset: 0
+    // timeOffset: 0
 }
 
 export default function SignUp({}) {

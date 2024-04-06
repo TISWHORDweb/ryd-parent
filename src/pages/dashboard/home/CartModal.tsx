@@ -3,23 +3,37 @@ import deleteImg from '../../../assets/icons/delete.svg';
 import { Button, Empty } from '../../../components/ui';
 import UserService from '../../../services/user.service';
 import { toast } from 'react-toastify';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCart } from '../../../redux/reducers/userSlice';
+import { RootState } from '../../../redux/rootReducer';
+import { formatCurrency } from '../../../components/custom-hooks';
 
 interface Props {
     closeCart: () => void,
 }
 
 export default function CartModal({ closeCart }: Props) {
+    const currencyInfo =  useSelector((state: RootState) => state.user.currency);
     const userService = new UserService();
+    const dispatch = useDispatch();
 
     const [ loading, setLoading ] = useState(false);
     const [ cartArr, setCartArr ] = useState([]);
     const [ totalAmount, setTotalAmount ] = useState(0);
     const [ deleteLoading, setDeleteLoading ] = useState(false); 
-    const [ deleteId, setDeleteId ] = useState<number| null>(null)
+    const [ deleteId, setDeleteId ] = useState<number| null>(null);
+    const  [ currency, setCurrency ] = useState<any>(null);
+
+    useEffect(() => {
+        if(currencyInfo && currencyInfo?.useRate){
+            setCurrency(currencyInfo);
+        }
+    }, [currencyInfo]);
 
     useEffect(() => {
         getCart();
     }, [])
+
 
     const getCart = async() => {
         setLoading(true);
@@ -27,10 +41,15 @@ export default function CartModal({ closeCart }: Props) {
             const response = await userService.getCart();
             setLoading(false);
             if(!response.status){
-                toast.error(response.message);
+                // toast.error(response.message);
                 return;
             }
             setCartArr(response.data);
+            if(response.data === 0){
+                dispatch(setCart(false));
+            }else{
+                dispatch(setCart(true));
+            }
 
             // calculate total of all courses 
             let total = 0;
@@ -41,7 +60,7 @@ export default function CartModal({ closeCart }: Props) {
 
         }catch(err: any){
             setLoading(false);
-            toast.error(err.message);
+            // toast.error(err.message);
             return;
         }
     }
@@ -66,11 +85,13 @@ export default function CartModal({ closeCart }: Props) {
         }
     }
 
-    const handleCheckout = () => {}
+    const handleCheckout = () => {
+        dispatch(setCart(false));
+    }
 
     const formStyle = `h-fit overflow-y-auto px-5 pb-[2rem] pt-[2rem]`;
     const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[1rem]`;
-    const flexContainer = `w-full grid grid-cols-5 items-center hover:bg-gray-100/[.8] py-2 px-5 rounded-[16px]`;
+    const flexContainer = `w-full grid grid-cols-6 items-center hover:bg-gray-100/[.8] py-2 px-5 rounded-[16px]`;
     const pStyle = `text-[16px] font-[400] capitalize`;
     const pSubStyle = `text-[13px] font-[400] text-ryd-primary capitalize`;
 
@@ -85,8 +106,14 @@ export default function CartModal({ closeCart }: Props) {
                             <p className={pStyle}> {`${item?.firstName} ${item?.lastName}`}</p>
                             <p className={pSubStyle}>{item?.programs[0]?.package?.title}</p>
                         </div>
-                        <div className='col-span-1 text-center'>
-                            <p className={pStyle}>${item?.programs[0]?.package?.amount}</p>
+                        <div className='col-span-2 text-center'>
+                            <p className={pStyle}>
+                                <span className='text-[12px]'>{currency ? currency?.currencyCode : 'USD'} </span>
+                                {currency ? 
+                                    formatCurrency(item?.programs[0]?.package?.amount * currency?.rate) :
+                                    formatCurrency(item?.programs[0]?.package?.amount)
+                                }
+                            </p>
                         </div>
                         <div className='col-span-1 flex justify-end'>
                             <img 
@@ -102,16 +129,20 @@ export default function CartModal({ closeCart }: Props) {
 
                 <div className='flex justify-end mt-5 px-5 gap-x-3 font-[AvertaStd-Semibold]'>
                     <p className={`${pStyle}`}>Total:</p>
-                    <p>${totalAmount}</p>
+                    <p>
+                        <span className='text-[12px]'>{ currency ? currency?.currencyCode : 'USD' } </span> 
+                        {currency ? formatCurrency(totalAmount * currency?.rate) : formatCurrency(totalAmount)}
+                    </p>
                 </div>
 
-                <Button
-                    isInverted={false}
-                    category='button'
-                    text='Checkout'
-                    handleClick={handleCheckout}
-                    btnStyle='w-full rounded-[16px] text-white bg-ryd-primary py-4 mt-6'
-                />
+                    <Button
+                        isInverted={false}
+                        category='link'
+                        text='Checkout'
+                        to='http://192.168.0.161:3000/common/payment/1'
+                        handleClick={handleCheckout}
+                        btnStyle='w-full flex justify-center rounded-[16px] text-white text-center bg-ryd-primary py-4 mt-6'
+                    />
             </div> :
             <Empty text="No items in cart" />
             }

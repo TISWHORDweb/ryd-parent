@@ -2,19 +2,28 @@ import { useEffect, useState } from 'react';
 import { Button, Empty, ProgramCard } from '../../../components/ui';
 import UserService from '../../../services/user.service';
 import { toast } from 'react-toastify';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
+import { setCart, setRenewal } from '../../../redux/reducers/userSlice';
 
 interface Props {
     handlePrevious: () => void,
     childInfo: any;
     setSuccessModal: () => void, 
-    closeRegTab: () => void
+    closeRegTab: () => void,
+    isRenewing: boolean,
 }
 
-export default function RegSubModal({ childInfo, handlePrevious, setSuccessModal, closeRegTab }: Props) {
+export default function RegSubModal({
+    childInfo,
+    handlePrevious,
+    setSuccessModal,
+    closeRegTab,
+    isRenewing,
+}: Props) {
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const userService = new UserService();
+    const dispatch = useDispatch();
 
     const [ selected, setSelected ] = useState<any>(null);
     const [ programArr, setProgramArr ] = useState([]);
@@ -33,10 +42,10 @@ export default function RegSubModal({ childInfo, handlePrevious, setSuccessModal
             if(!response.status){
                 toast.error(response.message)
                 return;
-            }
-            // filter programs based on student age; compare child age to viable age range  
-            const programFilter = response.data.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age))
+            } 
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age))
             setProgramArr(programFilter);
+            setSelected(programFilter[0].id);
         }catch(err: any){
             setLoading(false)
             toast.error(err?.message);
@@ -47,13 +56,13 @@ export default function RegSubModal({ childInfo, handlePrevious, setSuccessModal
 
     const handleSubmit = async() => {
         if(selected){
-            console.log(selected)
-            const packageId = selected;
-            const timeOffset = userInfo.timeOffset;
-            const day = childInfo.selectedDay.value;
-            const time = childInfo.selectedTime.value;
+            const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
+            const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
+            const day = isRenewing ? childInfo.programs[0]?.day : childInfo.selectedDay.value;
+            const level =  isRenewing ? childInfo.level : 1;
+            const time = isRenewing ? childInfo.programs[0]?.time :childInfo.selectedTime.value;
             const childId = childInfo.id;
-            const payload = { packageId, timeOffset, day, time }
+            const payload = { packageId, timeOffset, day, time, level } 
 
             setSubmitLoading(true);
             try{
@@ -61,11 +70,13 @@ export default function RegSubModal({ childInfo, handlePrevious, setSuccessModal
                 setSubmitLoading(false);
                 if(!response.status){
                     toast.error(response.message);
+                    dispatch(setCart(false));
                     return
                 }
                 setSuccessModal();
-                closeRegTab()
-
+                closeRegTab();
+                dispatch(setCart(true));
+                dispatch(setRenewal(null))
             }catch(err: any){
                 setSubmitLoading(false);
                 toast.error(err.message);
@@ -74,49 +85,54 @@ export default function RegSubModal({ childInfo, handlePrevious, setSuccessModal
         return false;
     }
 
-    const divStyle = `lg:h-[75vh] h-[90vh] overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
+    const divStyle = `h-fit  overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
     const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[2rem]`;
 
     const disabled = !selected ? true : false;
 
     return (
         <div className={divStyle}>    
-            <h1 className={h1Style}>Select a program</h1>
+            <h1 className={h1Style}>Available Program</h1>
 
-            <div className='grid lg:grid-cols-2 grid-cols-1 gap-7 mx-auto'>
+            <div className='lg:w-[75%] mx-auto'>
                 {programArr.length > 0 ?
                 <> {programArr.map((item: any) => (
                     <ProgramCard 
-                        setSelected={(data) => setSelected(data)}
-                        selected={selected}
+                        // setSelected={(data) => setSelected(data)}
+                        // selected={selected}
                         id={item.id}
                         key={item.id}
                         price={item.amount}
                         program={item.title}
                         description={item.description}
+                        minAge={item.minAge}
+                        maxAge={item.maxAge}
+                        duration={item.weekDuration}
                     />
-                ))} </> : <Empty text="There is no available package for this Age group" />
+                ))} </> : <Empty text="There is no available package for this age group" />
                 }
             </div>       
 
-            <div className='grid lg:gap-3 gap-4 lg:grid-cols-3 grid-cols-1 mt-[4rem]'>
-                <div className="col-span-1">
+            <div className={`grid ${!isRenewing ? 'lg:gap-3 gap-y-4 lg:grid-cols-5' : 'lg:gap-0 gap-y-0 lg:grid-cols-1'} grid-cols-1 mt-[4rem]`}>
+                {!isRenewing && 
+                <div className="col-span-2">
                     <Button 
                         text='Previous'
                         isInverted={true}
                         category='button'
                         handleClick={handlePrevious}
-                        btnStyle='w-full rounded-[16px] text-[16px] leading-[26px] font-[400] text-ryd-primary border border-ryd-primary px-[26px] py-[15px]'
+                        btnStyle='w-full rounded-[16px] text-[16px] leading-[26px] font-[400] text-ryd-primary border border-ryd-primary px-[26px] py-[12px]'
                     />
                 </div>
-                <div className="lg:col-span-2 col-span-1">
+                }
+                <div className="lg:col-span-3 col-span-1">
                     <Button 
                         text={submitLoading ? 'Processing...' : 'Submit'}
                         isInverted={false}
                         category='button'
                         disabled={disabled}
                         handleClick={handleSubmit}
-                        btnStyle='w-full border rounded-[16px] border-0 text-[16px] leading-[26px] font-[400] text-white px-[26px] py-[15px]'
+                        btnStyle='w-full border rounded-[16px] border-0 text-[16px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
                     />
                 </div>
             </div>

@@ -11,7 +11,7 @@ export default function AppLayout({ children }: Props){
     return (
          <div className={containerStyle}>
             <Nav />
-            <div className="lg:px-[100px] md:px-[50px] px-[10px] mt-[7rem] h-[100vh] oveflow-y-auto">{children}</div>
+            <div className="lg:px-[300px] md:px-[50px] px-[10px] mt-[7rem] h-[100vh] oveflow-y-auto">{children}</div>
          </div>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import notificationImg from '../../../assets/icons/notificationImg.svg';
 import downArrowImg from '../../../assets/icons/downArrowImg.svg';
 import upArrowImg from '../../../assets/icons/upArrowImg.svg';
@@ -9,15 +9,24 @@ import userAvatar from '../../../assets/images/user-avatar.png';
 import { logout } from '../../../redux/reducers/authSlice';
 import { CustomModal, ProfileUpdate } from '../../ui';
 import { toast } from 'react-toastify';
+import cartImg from '../../../assets/icons/shoppingCart.svg';
+import CartModal from '../../../pages/dashboard/home/CartModal';
+import UserService from '../../../services/user.service';
+import { setCart } from '../../../redux/reducers/userSlice';
 
 export default function () {
     const userInfo: any = useSelector((state: RootState) => state?.auth?.userInfo);
+    const cart: boolean = useSelector((state: RootState) => state?.user?.cart);
+    const userService = new UserService();
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const [ toggleDropdown, setToggleDropdown ] = useState(false);
     const [ showProfile, setShowProfile ] = useState(false);
     const [ toggleLogout, setToggleLogout ] = useState(false);
+    const [ toggleCartModal, setToggleCartModal ] = useState(false);
+
 
     const handleLogout = () => {
         localStorage.clear();
@@ -26,16 +35,22 @@ export default function () {
         toast.success('Logout successful!');
     }
 
+
     const containerHeaderStyle = `w-full fixed top-0 z-20 flex justify-end items-center border-b border-b-[#E6E8EB] bg-white h-[82px] mb-6`;
 
     return (
         <>
             <nav className={containerHeaderStyle}>
-                <div className='flex items-center gap-x-3 lg:mr-[5rem] mr-[2rem]'>
+                <div className='flex items-center lg:gap-x-7 gap-x-3 lg:mr-[5rem] mr-[2rem]'>
                     {/* cart  */}
-                    {/* <div className='hover:cursor-pointer' >
-                        <img src={notificationImg} alt="notification-img" className='h-[45px] w-[45px]' />
-                    </div> */}
+                    <div className='relative hover:cursor-pointer bg-ryd-primaryLess1/[.4] p-[12px] rounded-full' onClick={() => setToggleCartModal(true)}>
+                        {cart  && 
+                            <div 
+                               className='absolute -top-1 right-0 bg-amber-400 border border-white rounded-[32px] p-[7px] text-[10px] text-white animate-pulse' 
+                               title='new item in cart'></div> 
+                        }
+                        <img src={cartImg} alt="notification-img" className='h-[22px] w-[22px]' />
+                    </div>
                     {/* profile info  */}
                     <div className='flex relative items-center gap-x-3'>
                         <img src={userAvatar} alt="user-avatar" className='h-[40px] w-[40px] rounded-full border-0 bg-gray-50 object-contain' />
@@ -76,12 +91,12 @@ export default function () {
 
             { showProfile && 
             <CustomModal
-            closeModal={() => {
-                setShowProfile(false);
-                setToggleDropdown(false)
-            }}
-            modalStyle='bg-white lg:w-[30%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[3rem] mt-[3rem]'
-            >
+                closeModal={() => {
+                    setShowProfile(false);
+                    setToggleDropdown(false);
+                }}
+                modalStyle='bg-white lg:w-[30%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[1rem] mt-[3rem]'
+                >
                 <ProfileUpdate 
                     closeModal={() => {
                         setShowProfile(false);
@@ -112,6 +127,18 @@ export default function () {
                                     Yes
                                 </button>
                         </div>
+                </CustomModal>
+            }
+
+            {toggleCartModal && 
+                <CustomModal
+                modalStyle="relative bg-white lg:w-[35%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[7rem] mt-[3rem]"
+                closeModal={() => {
+                    setToggleCartModal(false);
+                    // dispatch(setCart(false));
+                }}
+                >
+                    <CartModal closeCart={() => setToggleCartModal(false)} />
                 </CustomModal>
             }
         </>

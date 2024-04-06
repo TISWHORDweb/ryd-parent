@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
@@ -10,15 +10,14 @@ interface Props {
 
 export default function AuthMiddleware({ children }: Props) {
     const navigate = useNavigate();
-    const token = localStorage.getItem('ryd-parents-token');
+    const token = localStorage.getItem('ryd-parent-token');
 
-    if(!token){
-        toast.error('Session Expired! Login');
-        navigate('/parent/sign-in');
-        return null
-    }else{
-        return (
-            <div>{children}</div>
-        )
-    }
+    useEffect(() => {
+        if (!token) {
+            toast.error('Session Expired! Login');
+            navigate('/parent/sign-in');
+        }
+    }, [navigate, token]);
+
+    return <div>{children}</div>;
 }

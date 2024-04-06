@@ -22,11 +22,7 @@ export default function CreateNewPassword() {
 
     return (
         <AuthLayout
-            headerText="Password Recovery"
-            subText={<>Create a strong password to ensure the safety of your <br /> account. Use a combination of letters, numbers, and <br /> symbols for added security.</>}
         >
-            <h1 className={h1Style}>Create New Password</h1>
-
             <form className='mt-[3rem]' onSubmit={handleSubmit}>
                 {/* password  */}
                 <div className={flexContainer}>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { AuthLayout } from '../../../components/layouts';
-import { Button, CountrySelectInput, CustomInput, PhoneNumberInput, StateSelectInput, Stepper } from '../../../components/ui';
+import { Button, CountrySelectInput, CustomInput, PhoneNumberInput, StateSelectInput, Stepper, TimezoneSelect } from '../../../components/ui';
 import { Link } from 'react-router-dom';
 import { fetchTimezoneInfo } from '../../../components/custom-hooks';
 import AuthService from '../../../services/auth.service';
@@ -19,7 +19,7 @@ export type AuthProps = {
             phone: string,
             password: string,
             timezone: string,
-            timeOffset: number
+            // timeOffset: number
         
         }
     },
@@ -27,40 +27,47 @@ export type AuthProps = {
 }
 
 export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
-  const authService = new AuthService();
-  const [ country, setCountry ] = useState<any>(null);
-  const [ txZone, setTxZone ] = useState<any>(null);
-  const [ stateItem, setStateItem ] = useState(0);
-  const [loading, setLoading] = useState(false);
+    const authService = new AuthService();
+    const [ country, setCountry ] = useState<any>(null);
+    const [ stateItem, setStateItem ] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [ timezoneError, setTimezoneError ] = useState< null | string>(null)
 
-  const { setFormData, formData } = props;
+    const { setFormData, formData } = props;
 
-  const h1Style = `font-[400] text-[28px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mt-5 mb-[1.5rem]`;
-  const flexContainer = `w-full lg:flex grid gap-10 mb-[2rem]`;
-  const gridContainer = `w-full grid gap-2`;
-  const inputFieldStyle = `w-full bg-ryd-gray rounded-[1000px] text-[16px] leading-[26px] font-[400] text-[#576877] px-[26px] py-[15px] outline-none active:outline-none`;
-  const labelStyle = `text-ryd-subTextPrimary font-[400] text-[15px] leading-[26px]`;
+    const flexContainer = `w-full lg:flex grid lg:gap-3 gap-5 mb-[1rem]`;
+    const gridContainer = `w-full grid gap-1`;
+    const inputFieldStyle = `w-full bg-ryd-gray rounded-[16px] text-[14px] leading-[26px] font-[400] text-[#576877] px-[26px] py-[12px] outline-none active:outline-none`;
+    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px]`;
 
-  useEffect(() => {
-    const  { timeOffset, timezoneName } = fetchTimezoneInfo();
-    setTxZone({timeOffset, timezoneName});
-    setFormData({...formData, timeOffset: timeOffset, timezone: timezoneName });
-  }, [])
 
-  const handleStateChange = (data: any) => {
-        setStateItem(data);
-        setFormData({...formData, state: data.name});
+    const handleStateChange = (data: any) => {
+            setStateItem(data);
+            setFormData({...formData, state: data.name});
+        }
+
+    const handlePhoneChange = (data: string) => {
+        setFormData({...formData, phone: data});
     }
 
-  const handleCountryChange = (data: any) => {
-        
+    const handleTimezoneChange = (data: any) => {
+        setFormData({...formData, timezone: data.zoneName});
+    }
+
+    const handleCountryChange = (data: any) => {  
         setCountry(data);
-        setFormData({...formData, country: data.name });
+        setFormData({...formData, country: data.name, state: data?.states[0]?.name, });
     }
 
-  const handleSubmit = async(e: any) => {
+    const handleSubmit = async(e: any) => {
         e.preventDefault();
+        if(formData.timezone === ''){
+            setTimezoneError('Required!');
+            toast.error('Timezone is required!')
+            return;
+        }
 
+        setTimezoneError(null);
         setLoading(true);
         try{
             const response = await authService.verifyEmail({ email: formData.email });
@@ -81,94 +88,111 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
 
 
 
-  return (
-    <AuthLayout>
-        <h1 className={`${h1Style}`}>Parents Details</h1>
-        <Stepper currentTab={1} />
+    return (
+        <AuthLayout>
+            <Stepper currentTab={1} />
 
-        <form className='mt-[3rem] pb-[2rem]' onSubmit={handleSubmit}>
-            {/* first name and last name  */}
-            <div className={flexContainer}>
-                <div className={gridContainer}>
-                    <label className={labelStyle}>First name</label>
-                    <CustomInput
-                        type="text" 
-                        placeholder='John'
-                        required={true}
-                        onChange={(e: any) => setFormData({...formData, firstName: e.target.value })}
-                    />
-                </div>
-                <div className={gridContainer}>
-                    <label className={labelStyle}>Last name</label>
-                    <CustomInput
-                        type="text" 
-                        placeholder='Doe'
-                        required={true}
-                        onChange={(e: any) => setFormData({...formData, lastName: e.target.value })}
-                    />
-                </div>
-            </div>
-
-            {/* email address  */}
-            <div className={flexContainer}>
-                <div className={gridContainer}>
-                    <label className={labelStyle}>Email Address</label>
-                    <CustomInput
-                        type="email" 
-                        placeholder='Example@example.com'
-                        required={true}
-                        onChange={(e: any) => setFormData({...formData, email: e.target.value })}
-                    />
-                </div>
-            </div>
-
-            {/* country and state  */}
-             <div className='mb-[2rem]'>
-                <div className={'w-full lg:flex grid gap-10'}>
+            <form className='mt-[1.5rem] px-[1rem]' onSubmit={handleSubmit}>
+                {/* first name and last name  */}
+                <div className={flexContainer}>
                     <div className={gridContainer}>
-                        <label className={labelStyle}>Country</label>
-                        <CountrySelectInput
-                            handleCountryChange={handleCountryChange}
-                            className={inputFieldStyle}
-                            />
+                        <label className={labelStyle}>First Name</label>
+                        <CustomInput
+                            type="text" 
+                            placeholder='John'
+                            required={true}
+                            onChange={(e: any) => setFormData({...formData, firstName: e.target.value })}
+                        />
                     </div>
                     <div className={gridContainer}>
-                        <label className={labelStyle}>State</label>
-                        <StateSelectInput
-                            country={country}
-                            handleStateChange={handleStateChange}
-                            className={inputFieldStyle}
-                            />
+                        <label className={labelStyle}>Last Name</label>
+                        <CustomInput
+                            type="text" 
+                            placeholder='Doe'
+                            required={true}
+                            onChange={(e: any) => setFormData({...formData, lastName: e.target.value })}
+                        />
                     </div>
                 </div>
-                {txZone && <div className='mx-auto px-5 py-3 text-[11px] bg-amber-100 mt-3 rounded-[16px]'>Your timezone and time-offset is <span className='text-green-600'>{txZone?.timeOffset} {txZone.timezoneName}</span> based on your current location</div>}
-            </div>
 
-            {/* phone number  */}
-            <div className={flexContainer}>
-                <div className={gridContainer}>
-                    <label className={labelStyle}>Phone</label>
-                    <CustomInput
-                        type="tel" 
-                        placeholder='+234 812 8224 769'
-                        pattern="[0-9]*"
-                        onChange={(e: any) => setFormData({...formData, phone: e.target.value})}
-                        required={true}
-                    />
+                {/* email address  */}
+                <div className={flexContainer}>
+                    <div className={gridContainer}>
+                        <label className={labelStyle}>Email Address</label>
+                        <CustomInput
+                            type="email" 
+                            placeholder='Example@example.com'
+                            required={true}
+                            onChange={(e: any) => setFormData({...formData, email: e.target.value })}
+                        />
+                    </div>
                 </div>
-            </div>
 
-            <Button 
-                text={loading ? 'Processing...' : 'Continue'}
-                isInverted={false}
-                category='button'
-                btnStyle='w-full rounded-[1000px] border-0 mt-6 text-[18px] leading-[26px] font-[400] text-white px-[26px] py-[15px]'
-            />
+                {/* country and state  */}
+                <div className='mb-[1rem]'>
+                    <div className={'w-full lg:flex grid lg:gap-3 gap-5'}>
+                        <div className={gridContainer}>
+                            <label className={labelStyle}>Country</label>
+                            <CountrySelectInput
+                                handleCountryChange={handleCountryChange}
+                                className={inputFieldStyle}
+                                />
+                        </div>
+                        <div className={gridContainer}>
+                            <label className={labelStyle}>Province/State</label>
+                            <StateSelectInput
+                                country={country}
+                                handleStateChange={handleStateChange}
+                                className={inputFieldStyle}
+                                />
+                        </div>
+                    </div>
+                </div>
 
-            <p className="text-[16px] font-[400] leading-[26px] text-center mt-[2rem]">
-                <span className="text-ryd-subTextPrimary">Already have an account? </span><Link to='/parent/sign-in' className="text-ryd-primary">Sign In</Link>
-            </p>
-        </form>
-    </AuthLayout>
-  )
+                {/* phone / timezone  */}
+                <div className='mb-[1rem]'>
+                    <div className={'w-full lg:flex grid lg:gap-3 gap-5'}>
+                        <div className={gridContainer}>
+                            <label className={labelStyle}>Phone</label>
+                            <PhoneNumberInput
+                                country={country}
+                                handlePhoneInputChange={handlePhoneChange}
+                                className={inputFieldStyle}
+                            />
+                        </div>
+                        <div className={gridContainer}>
+                            <label className={labelStyle}>Study Timezone { timezoneError && <small className='text-red-500'>({timezoneError})</small>}</label>
+                            <TimezoneSelect
+                                country={country}
+                                handleTimezoneChange={handleTimezoneChange}
+                                className={inputFieldStyle}
+                                placeholder='-- select timezone --'
+                                />
+                            
+                        </div>
+                    </div>
+                </div>
+
+    
+
+                <div className={` flex items-center gap-3`}>
+                    <input type="checkbox" required className='accent-ryd-primary hover:cursor-pointer' />
+                    <label className={labelStyle}>
+                        I agree to the <a href='' target='_blank' className='text-ryd-primary'>terms</a> and <a href='' target='_blank' className='text-ryd-primary'>conditions</a>
+                    </label>
+                </div>
+
+                <Button 
+                    text={loading ? 'Processing...' : 'Continue'}
+                    isInverted={false}
+                    category='button'
+                    btnStyle='w-full rounded-[16px] border-0 mt-6 text-[14px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
+                />
+
+                <p className="text-[14px] font-[400] leading-[26px] text-center mt-[.5rem]">
+                    <span className="text-ryd-subTextPrimary">Already have an account? </span><Link to='/parent/sign-in' className="text-ryd-primary">Sign In</Link>
+                </p>
+            </form>
+        </AuthLayout>
+    )
 }

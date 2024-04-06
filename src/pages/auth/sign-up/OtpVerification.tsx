@@ -20,8 +20,6 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const h1Style = `font-[400] text-[28px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mt-[5rem] mb-[1.5rem]`;
-
 
     const handleVerification = async(data: number | string) => {
         const obj: any = localStorage.getItem('email-confirmation');
@@ -56,13 +54,10 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
 
     return (
         <AuthLayout
-        headerText="Confirm Email Address"
-        subText={<>A one-time verification password has been sent <br /> to your mail, verify to proceed.</>}
         >
-            <h1 className={h1Style}>Verify OTP</h1>
             <Stepper currentTab={3} />
 
-            <div className='lg:w-[80%] w-[90%] mx-auto mt-[5rem]'>
+            <div className='lg:px-[2rem] mx-auto mt-[5rem]'>
                 <OtpVerification btnText={loading ? "Processing..." : "Verify OTP"} handleVerification={handleVerification} />
             </div>
         </AuthLayout>

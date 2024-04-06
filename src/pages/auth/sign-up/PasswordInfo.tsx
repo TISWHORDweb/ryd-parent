@@ -11,9 +11,9 @@ export default function PasswordInfo({ props, setActiveTab }: AuthProps){
     const [ confirmPassword, setConfirmPassword ] = useState('');
 
     const h1Style = `font-[400] text-[28px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mt-5 mb-[1.5rem]`;
-    const flexContainer = `w-full lg:flex grid gap-10 mb-[2rem]`;
-    const gridContainer = `w-full grid gap-2`;
-    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[15px] leading-[26px]`;
+    const flexContainer = `w-full lg:flex grid gap-5 mb-[2rem]`;
+    const gridContainer = `w-full grid gap-1`;
+    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px]`;
 
     const { setFormData, formData } = props;
 
@@ -36,17 +36,14 @@ export default function PasswordInfo({ props, setActiveTab }: AuthProps){
 
     return (
         <AuthLayout
-        headerText="Secure Your Account"
-        subText={<>Create a strong password to ensure the safety of your <br /> account. Use a combination of letters, numbers, and <br /> symbols for added security.</>}
         >
-            <h1 className={h1Style}>Create Password</h1>
             <Stepper currentTab={2} />
 
-            <form className='mt-[3rem]' onSubmit={handleSubmit}>
+            <form className='mt-[3rem] lg:px-[1rem]' onSubmit={handleSubmit}>
                 {/* password  */}
                 <div className={flexContainer}>
                     <div className={gridContainer}>
-                        <label className={labelStyle}>Enter password</label>
+                        <label className={labelStyle}>Enter Password</label>
                         <CustomInput
                             type="password" 
                             placeholder='XXXXXXXXX'
@@ -70,11 +67,24 @@ export default function PasswordInfo({ props, setActiveTab }: AuthProps){
                     <small className='text-red-600'>{error && 'Passwords must match!'}</small>
                 </div>
 
+                  {/* activation code */}
+                  {/* <div className={flexContainer}>
+                    <div className={gridContainer}>
+                        <label className={labelStyle}>Enter Activation Code</label>
+                        <CustomInput
+                            type="text" 
+                            placeholder='code'
+                            required={true}
+                            // onChange={(e: any) => setFormData({...formData, password: e.target.value })}
+                        />
+                    </div>
+                </div> */}
+
                 <Button 
                     text={'Continue'}
                     isInverted={false}
                     category='button'
-                    btnStyle='w-full rounded-[1000px] border-0 mt-6 text-[18px] leading-[26px] font-[400] text-white px-[26px] py-[15px]'
+                    btnStyle='w-full rounded-[16px] border-0 mt-6 text-[14px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
                 />
             </form>
         </AuthLayout>

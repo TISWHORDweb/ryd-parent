@@ -1,4 +1,3 @@
-const ct = require('countries-and-timezones');
 
 
 export default function fetchTimezoneInfo(){

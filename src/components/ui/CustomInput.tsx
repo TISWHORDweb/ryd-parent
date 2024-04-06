@@ -2,8 +2,8 @@ import React, { InputHTMLAttributes } from 'react';
 
 interface Props extends InputHTMLAttributes<HTMLInputElement> {}
 
-export default function CustomInput({ type, placeholder, onChange, required, pattern, maxLength }: Props){
-    const inputFieldStyle = `w-full bg-ryd-gray rounded-[1000px] text-[16px] leading-[26px] font-[400] text-[#576877] px-[26px] py-[15px] outline-none active:outline-none`;
+export default function CustomInput({ type, title, placeholder, onChange, required, pattern, maxLength }: Props){
+    const inputFieldStyle = `w-full bg-ryd-gray rounded-[16px] text-[14px] leading-[26px] font-[400] text-[#576877] px-[20px] py-[12px] outline-none active:outline-none`;
 
     return (
         <input 
@@ -12,6 +12,7 @@ export default function CustomInput({ type, placeholder, onChange, required, pat
             className={`${inputFieldStyle}`}
             onChange={onChange}
             pattern={pattern}
+            title={title}
             required={required}
             maxLength={maxLength}
         />

@@ -5,13 +5,13 @@ import {  combineReducers } from '@reduxjs/toolkit';
 // Import your reducers here
 // import myReducer from './myReducer';
 import authReducer from './reducers/authSlice';
-import dayTimeReducer from './reducers/timeSlice'
+import userReducer from './reducers/userSlice'
 
 
 
 const rootReducer = combineReducers({
     auth: authReducer,
-    dayTime: dayTimeReducer,
+    user: userReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

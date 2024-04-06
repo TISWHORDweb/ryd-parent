@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CountrySelectInput, CustomInput, DateSelect, GenderSelect, StateSelectInput } from '../../../components/ui';
+import { Button, CountrySelectInput, CustomInput, DateSelect, GenderSelect, } from '../../../components/ui';
 import CustomDropdown from '../../../components/ui/CustomDropdown';
 import { toast } from 'react-toastify';
 import UserService from '../../../services/user.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
 import { calculateAge } from '../../../components/custom-hooks';
-import { setDayTimeInfo } from '../../../redux/reducers/timeSlice';
+import { setDayTimeInfo } from '../../../redux/reducers/userSlice';
 
 export interface ChildRegProps {
     firstName: string,
@@ -27,13 +27,25 @@ interface Props {
     setChildInfo: (data: any) => void;
 }
 
+
+const formStyle = `lg:h-fit h-[80vh] overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
+const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[1rem]`;
+const flexContainer = `w-full lg:flex grid gap-5 mb-[1rem]`;
+const gridContainer = `w-full grid gap-1`;
+const inputFieldStyle = `w-full bg-ryd-gray rounded-[16px] text-[14px] leading-[26px] font-[400] text-[#576877] px-[26px] py-[12px] outline-none active:outline-none`;
+const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px]`;
+const legendStyle = 'mx-auto px-5 py-2 text-[11px] bg-amber-100 mt-3 rounded-[16px] mb-[1rem]';
+
+
+
+
+
 export default function NewRegModal({ handleNext, setChildInfo }: Props) {
     const userInfo: any = useSelector((state:RootState) => state.auth.userInfo);
     const userService = new UserService();
     const dispatch = useDispatch();
 
     const [ formData, setFormData ] = useState(initialValues);
-    const [ dob, setDob ] = useState(new Date());
     const [ dayTime, setDayTime ] = useState<any>([]);
     const [ dayArr, setDayArr ] = useState<{ name: string; value: number; }[] | []>([]);
     const [ selectedDay, setSelectedDay ] = useState<{ name: string, value: number } | null>(null);
@@ -42,6 +54,7 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
     const [ loading, setLoading ] = useState(false);
 
 
+    // load all available days and their corresponding time for BE
     const getDayTime = async() => {
         try{
             const response = await userService.getDayTime();
@@ -53,7 +66,7 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
             // dispatch(setDayTimeInfo(response.data))
 
             let xdayArr = []
-            if(response.data.length > 0){
+            if(response?.data?.length > 0){
                 // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
                 for(let i=0; i < response.data.length; i++){
                     let name = response.data[i].dayText;
@@ -70,10 +83,10 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
     };
 
 
-    const handleDateChange = (date: Date) => {
-        const age = calculateAge(date)
-        setDob(date);
-        setFormData({...formData, age })
+    const handleDateChange = (e: any) => {
+        const age = calculateAge(e.target.value);
+        setFormData({...formData, age });
+        console.log('child age:', age)
     }
 
     const handleSubmit = async(e: any) => {
@@ -91,14 +104,13 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
                 toast.error(response.message);
                 return;
             }
-            // console.log(response.data)
             const childData = { ...response.data, selectedDay, selectedTime };
-            setChildInfo(childData)
+            setChildInfo(childData);
+            handleNext();
         }catch(err: any){
             setLoading(false);
             toast.error(err.mesage);
         }
-        handleNext();
 
         return false;
     };
@@ -127,19 +139,12 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
 
 
 
-    const formStyle = `lg:h-fit h-[80vh] overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
-    const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[1rem]`;
-    const flexContainer = `w-full lg:flex grid gap-5 mb-[1rem]`;
-    const gridContainer = `w-full grid gap-1`;
-    const inputFieldStyle = `w-full bg-ryd-gray rounded-[1000px] text-[16px] leading-[26px] font-[400] text-[#576877] px-[26px] py-[15px] outline-none active:outline-none`;
-    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[15px] leading-[26px]`;
-    const legendStyle = 'mx-auto px-5 py-3 text-[11px] bg-amber-100 mt-3 rounded-[16px] mb-[1rem]';
-
     return (
         <form className={formStyle} onSubmit={handleSubmit}>
             <h1 className={h1Style}>Register Child</h1>
             
-            <div className={legendStyle}>Every child will adopt and use the parent's registered timezone and time-offset: <br /><span className='text-green-600'>{userInfo.timeOffset > 0 ? '+' : '-'}{userInfo?.timeOffset}&nbsp;&nbsp;{userInfo.timezone}</span> </div>
+            <div className={legendStyle}>Every child will adopt and use the parent's registered timezone and time-offset: <br />
+            <span className='text-green-600'>{userInfo.timeOffset > 0 && '+' }&nbsp;&nbsp;{userInfo.timezone} ({userInfo?.timeOffset})</span> </div>
 
             {/* first name and last name  */}
             <div className={flexContainer}>
@@ -175,7 +180,6 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
                 <div className={gridContainer}>
                     <label className={labelStyle}>Date of birth</label>
                     <DateSelect
-                        selected={dob}
                         handleDateChange={handleDateChange}
                     />
                 </div>
@@ -210,7 +214,7 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
                 text={loading ? 'Processing...' : 'Next'}
                 isInverted={false}
                 category='button'
-                btnStyle='w-full rounded-[1000px] border-0 mt-6 text-[16px] leading-[26px] font-[400] text-white px-[26px] py-[15px]'
+                btnStyle='w-full rounded-[16px] border-0 mt-6 text-[16px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
             />
 
         </form>

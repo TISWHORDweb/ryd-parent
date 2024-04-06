@@ -1,17 +1,17 @@
 import React from 'react';
-import emptyImg from '../../assets/images/empty.png';
+import emptyImg from '../../assets/images/empty.svg';
 
 interface Props {
-    text: string
+    text: any
 }
 
 export default function Empty({ text }: Props) {
-    const container = 'w-fit mx-auto mt-[5rem] grid gap-y-3';
+    const container = 'w-fit mx-auto mt-[2rem] grid gap-y-3';
 
     return (
         <div className={container}>
-            <img src={emptyImg} alt="empty" className='h-[120px] w-[120px] mx-auto' />
-            <p className='text-center text-[18px] font-[400]'>{text}</p>
+            <img src={emptyImg} alt="empty" className='h-[120px] w-[120px] mx-auto mb-2' />
+            <p className='text-center text-[16px] font-[800] text-gray-300'>{text}</p>
         </div>
     )
 }

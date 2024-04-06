@@ -21,8 +21,8 @@ export default function SignIn() {
 
     const h1Style = `font-[400] text-[28px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mt-[5rem] mb-[1.5rem]`;
     const flexContainer = `w-full lg:flex grid gap-10 mb-[2rem]`;
-    const gridContainer = `w-full grid gap-2`;
-    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[15px] leading-[26px]`;
+    const gridContainer = `w-full grid gap-1`;
+    const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px]`;
 
     const handleSubmit = async(e: any) => {
         e.preventDefault();
@@ -47,13 +47,9 @@ export default function SignIn() {
     }
 
     return (
-        <AuthLayout
-        headerText="Welcome back!"
-        subText={<>Welcome Back! Log in to your<br/> account and pick up right where you left off in <br/>your learning journey. </>}   
+        <AuthLayout   
         >
-            <h1 className={`${h1Style}`}>Log in to your account</h1>
-
-            <form className='mt-[3rem]  pb-[2rem]' onSubmit={handleSubmit}>
+            <form className='mt-[2.5rem] pb-[2rem]  lg:px-[1rem]' onSubmit={handleSubmit}>
                  {/* email address  */}
                 <div className={flexContainer}>
                     <div className={gridContainer}>
@@ -83,7 +79,7 @@ export default function SignIn() {
                 {/* forgot password  */}
                 <Link 
                     to='/parent/forgot-psd' 
-                    className="text-[16px] font-[400] font-[AvertaStd-Semibold] leading-[26px] flex justify-end -mt-5 mb-[2rem] text-ryd-primary">
+                    className="text-[14px] font-[400] font-[AvertaStd-Semibold] leading-[26px] flex justify-end -mt-5  text-ryd-primary">
                         Forgot password?
                 </Link>
 
@@ -91,10 +87,10 @@ export default function SignIn() {
                     text={loading ? 'Processing...' : 'Sign In and Explore'}
                     isInverted={false}
                     category='button'
-                    btnStyle='w-full rounded-[1000px] border-0 mt-6 text-[18px] leading-[26px] font-[400] text-white px-[26px] py-[15px]'
+                    btnStyle='w-full rounded-[16px] border-0 mt-6 text-[14px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
                 />
 
-                <p className="text-[16px] font-[400] leading-[26px] text-center mt-[2rem]">
+                <p className="text-[14px] font-[400] leading-[26px] text-center mt-6">
                     <span className="text-ryd-subTextPrimary">Haven't registered yet? </span><Link to='/parent/sign-up' className="text-ryd-primary">Sign Up</Link>
                 </p>
             </form>

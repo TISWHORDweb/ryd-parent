@@ -164,6 +164,71 @@ class UserService {
     }
 
 
+    async getCurrency(){
+        try {
+            const response = await request(
+                `/parent/get/currency` , 
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    async getChildren(){
+        try {
+            const response = await request(
+                `/parent/program/get/all` , 
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    async getSurvey(){
+        try {
+            const response = await request(
+                `/parent/survey/get` , 
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    async answerSurvey(id: string | number, payload: { response: boolean }){
+        try {
+            const response = await request(
+                `/parent/survey/answer/${id}` , 
+                'POST',
+                payload,
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
+
 }
 
 

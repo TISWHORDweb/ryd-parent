@@ -1,5 +1,5 @@
 export const homeTabs = [
-    { name: 'Accounts', icon: 'profile.svg', id: 0 },
+    { name: 'Profiles', icon: 'profile.svg', id: 0 },
     { name: 'Activity', icon: 'activity.svg', id: 1 }
 ];
 

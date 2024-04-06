@@ -14,6 +14,7 @@ import ActivityCard from "./ActivityCard";
 import Empty from "./Empty";
 import StudentCard from "./StudentCard";
 import ProfileUpdate from "./ProfileUpdate";
+import TimezoneSelect from "./TimezonSelect";
 
 export {
     OtpVerification,
@@ -31,5 +32,6 @@ export {
     ActivityCard,
     Empty,
     StudentCard,
-    ProfileUpdate
+    ProfileUpdate,
+    TimezoneSelect
 }
