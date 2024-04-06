@@ -139,7 +139,6 @@ export default function Home() {
                     <NewRegModal 
                         setChildInfo={(data: any) => { 
                             setChildInfo(data);
-                            console.log('data', data)
                         }}
                         handleNext={handleNext}
                     />

@@ -34,7 +34,6 @@ export default function SignIn() {
                 toast.error(response?.message);
                 return;
             }
-            console.log(response)
             toast.success(response?.message);
             dispatch(setUserInfo(response?.data));
             localStorage.setItem('ryd-parent-token', response?.data?.token);

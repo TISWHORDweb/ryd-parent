@@ -86,7 +86,6 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
     const handleDateChange = (e: any) => {
         const age = calculateAge(e.target.value);
         setFormData({...formData, age });
-        console.log('child age:', age)
     }
 
     const handleSubmit = async(e: any) => {

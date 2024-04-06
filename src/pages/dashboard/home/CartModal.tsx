@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCart } from '../../../redux/reducers/userSlice';
 import { RootState } from '../../../redux/rootReducer';
 import { formatCurrency } from '../../../components/custom-hooks';
+import { useNavigate } from 'react-router-dom';
 
 interface Props {
     closeCart: () => void,
@@ -14,8 +15,10 @@ interface Props {
 
 export default function CartModal({ closeCart }: Props) {
     const currencyInfo =  useSelector((state: RootState) => state.user.currency);
+    const userInfo: any = useSelector((state: RootState) => state.auth.userInfo)
     const userService = new UserService();
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [ loading, setLoading ] = useState(false);
     const [ cartArr, setCartArr ] = useState([]);
@@ -75,7 +78,6 @@ export default function CartModal({ closeCart }: Props) {
                 toast.error(response.message);
                 return;
             }
-            console.log(response.data);
             toast.success(response.message);
             closeCart();
         }catch(err: any){
@@ -86,6 +88,7 @@ export default function CartModal({ closeCart }: Props) {
     }
 
     const handleCheckout = () => {
+        navigate(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`)
         dispatch(setCart(false));
     }
 
@@ -137,9 +140,8 @@ export default function CartModal({ closeCart }: Props) {
 
                     <Button
                         isInverted={false}
-                        category='link'
+                        category='button'
                         text='Checkout'
-                        to='http://192.168.0.161:3000/common/payment/1'
                         handleClick={handleCheckout}
                         btnStyle='w-full flex justify-center rounded-[16px] text-white text-center bg-ryd-primary py-4 mt-6'
                     />

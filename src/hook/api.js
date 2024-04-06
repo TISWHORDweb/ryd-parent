@@ -26,7 +26,7 @@ import { toast } from 'react-toastify';
    */
   
   
-  const API_USER_URL = "http://192.168.0.164:3000"  // process.env.REACT_APP_BASE_URL;   // get BASE URL from backend
+  const API_USER_URL =  "https://api-pro.rydlearning.com"  // get BASE URL from backend
   
   export async function request(url, method, payload, token, text, form) {
     const  bearerToken = localStorage.getItem('ryd-parent-token');

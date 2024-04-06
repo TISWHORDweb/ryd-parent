@@ -23,7 +23,6 @@ export default function PhoneNumberInput({ country, handlePhoneInputChange, clas
     useEffect(() => {
         const codeWithSign = country?.phone_code.includes('+') ? country?.phone_code : `+${country?.phone_code}`;
         setPhoneCode(codeWithSign);
-        console.log( country)
     }, [country])
 
   const inputFieldStyle = `w-full bg-ryd-gray rounded-[16px] text-[14px] leading-[26px] font-[400] text-[#576877] pr-[26px] pl-[15px] py-[10px] outline-none active:outline-none`;

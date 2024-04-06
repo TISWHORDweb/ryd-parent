@@ -5,8 +5,12 @@ import { formatDate } from '../custom-hooks';
 import premiumIcon from '../../assets/icons/premium.svg';
 import onPremiumIcon from '../../assets/icons/on.premium.svg';
 import { Days, Times } from '../../utils/constants';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setRenewal } from '../../redux/reducers/userSlice';
+import Moment from 'react-moment';
+import moment from 'moment-timezone';
+import 'moment-timezone';
+import { RootState } from '../../redux/rootReducer';
 
 interface Props {
     setTab: (data: number) => void,
@@ -14,10 +18,10 @@ interface Props {
 }
 
 export default function StudentCard({ setTab, item }: Props) {
+    const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const dispatch = useDispatch();
     const [ hoverToggle, setHoverToggle ] = useState<any>(false);
 
-    console.log(item.allowNewCohort)
 
     const cardContainerStyle = 'border shadow shadow-ryd-primaryLess1 border-ryd-gray rounded-[16px] w-full grid relative';
     const h1Style = 'clear-both lg:text-[24px] capitalize text-[20px] lg:mt-1 mb-2 leading-[35px] font-[400] font-[AvertaStd-Semibold] text-ryd-subTextPrimary';
@@ -26,6 +30,12 @@ export default function StudentCard({ setTab, item }: Props) {
     const goToBtn = 'flex items-center gap-1 px-[15px] lg:py-[7px] py-[5px] rounded-[1000px] border  text-[12px]';
     const subFlexCont = 'flex items-center'
     const labelStyle = 'text-[13px] py-[3px] px-3 bg-ryd-primaryLess1 text-ryd-primary border-0 rounded-l-[16px]';
+
+    const pTime = moment.utc().utcOffset(userInfo.timeOffset)
+        pTime.day(item?.programs[0]?.day)
+        pTime.hour(item?.programs[0]?.time)
+        pTime.second(0)
+        pTime.minute(0)
 
     return (
         <div className={cardContainerStyle}>
@@ -68,7 +78,9 @@ export default function StudentCard({ setTab, item }: Props) {
                     </div>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Time</label>
-                        <label className={pStyle}>{Times[item?.programs[0]?.time]}</label>
+                        <label className={pStyle}>
+                        <Moment format="hh:mm A" date={pTime.toISOString()} tz={userInfo.timezone}></Moment>
+                        </label>
                     </div>
                 </div>
 

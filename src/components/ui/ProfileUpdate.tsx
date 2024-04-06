@@ -69,7 +69,6 @@ export default function ProfileUpdate({ closeModal }: Props) {
                 return;
             }
             dispatch(setCurrency(response.data));
-            console.log(response.data)
         }catch(err){
             return;
         }
