@@ -21,9 +21,11 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
     const [loading, setLoading] = useState(false);
 
 
+    const obj: any = localStorage.getItem('email-confirmation');
+    const tdx = JSON.parse(obj);
+
+
     const handleVerification = async(data: number | string) => {
-        const obj: any = localStorage.getItem('email-confirmation');
-        const tdx = JSON.parse(obj);
         const newOtp = tdx?.data?.otp + '1';
         if(data === newOtp){
             registerParent();
@@ -56,6 +58,8 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
         <AuthLayout
         >
             <Stepper currentTab={3} />
+
+            {tdx && <p className='mb-1 text-[14px] text-center text-green-500'>{tdx?.message}</p>}
 
             <div className='lg:px-[2rem] mx-auto mt-[5rem]'>
                 <OtpVerification btnText={loading ? "Processing..." : "Verify OTP"} handleVerification={handleVerification} />

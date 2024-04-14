@@ -17,6 +17,7 @@ import { ForgotPasswordProps, PasswordResetProps, SignInProps, SignUpProps } fro
 
 class AuthService {
     async signIn(payload: SignInProps) {
+
         try {
             const response = await request(
                 '/parent/auth/login' , 

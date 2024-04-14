@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useOnClickOutside } from "../custom-hooks";
 
 
 interface Props {
@@ -17,11 +18,21 @@ export default function StateSelectInput({ country, placeholder, handleStateChan
   const [ untouchedStateArr, setUntouchedStateArr ] = useState([]);
   const [ _placeholder, setPlaceholder ] = useState<any>(placeholder);
 
+  const stateSelectRef = useRef(null);
+
   const boxStyle = `relative`;
+
+  const closeModal = () => {
+    setToggle(false);
+    setSearchQuery('');
+    setStateList(country?.states)
+  }
+
+  useOnClickOutside(stateSelectRef, closeModal);
 
   const handleStateSearch = (e: any) => {
     const text = e.target.value;
-    setSearchQuery(text);
+    setSearchQuery(text.toLowerCase());
   }
 
   useEffect(() => {
@@ -29,6 +40,8 @@ export default function StateSelectInput({ country, placeholder, handleStateChan
     setSelectedState(country?.states[0]);
     setUntouchedStateArr(country?.states);
   }, [country]);
+
+
 
 
   useEffect(() => {
@@ -43,7 +56,7 @@ export default function StateSelectInput({ country, placeholder, handleStateChan
   
 
   return (
-    <div className={`${boxStyle}`}>
+    <div className={`${boxStyle}`} ref={stateSelectRef}>
       <div
         className={`${className} hover:cursor-pointer`}
         onClick={() => setToggle(prevState => !prevState)}

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useOnClickOutside } from '../custom-hooks';
 
 interface Props {
     className?: string,
@@ -10,10 +11,19 @@ const genderClassification = ['male', 'female'];
 export default function GenderSelect({ className, handleGenderChange}: Props) {
     const [ gender, setGender ] = useState('male');
     const [ toggle, setToggle ] = useState(false);
+
+    const genderDropdownRef = useRef(null);
+
     const boxStyle = 'relative';
 
+    const closeModal = () => {
+        setToggle(false);
+    }
+
+    useOnClickOutside(genderDropdownRef, closeModal)
+
     return (
-        <div className={`${boxStyle}`}>
+        <div className={`${boxStyle}`} ref={genderDropdownRef}>
             <div
                 className={`${className} hover:cursor-pointer capitalize`}
                 onClick={() => setToggle(prevState => !prevState)}

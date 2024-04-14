@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useOnClickOutside } from "../custom-hooks";
 
 
 const  countriesArr = require('../../utils/countries.json');
@@ -16,18 +17,24 @@ export default function TimezoneSelect({ country, handleTimezoneChange, classNam
   const [ toggle, setToggle ] = useState(false);
   const [ _placeholder, setPlaceholder ] = useState<any>(placeholder);
 
+  const timezoneSelectRef = useRef(null)
+
   const boxStyle = `relative`;
 
+  const closeModal = () => {
+    setToggle(false);
+    setZoneList(country?.timezones);
+  }
+
+  useOnClickOutside(timezoneSelectRef, closeModal);
 
   useEffect(() => {
     setZoneList(country?.timezones);
-    // setSelectedZone(country?.timezones[0]);
-    // handleTimezoneChange(country?.timezones[0]);
   }, [country]);
 
 
   return (
-    <div className={`${boxStyle} z-0`}>
+    <div className={`${boxStyle} z-0`} ref={timezoneSelectRef}>
       <div
         className={`${className} hover:cursor-pointer`}
         onClick={() => setToggle(prevState => !prevState)}

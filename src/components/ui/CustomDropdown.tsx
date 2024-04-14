@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { useOnClickOutside } from '../custom-hooks';
 
 interface Props {
     className?: string,
@@ -10,6 +11,8 @@ export default function CustomDropdown({ className, handleChange, data }: Props)
     const [ toggle, setToggle ] = useState(false);
     const [ value, setValue ] = useState(null);
 
+    const dropdownRef = useRef(null);
+
     const boxStyle = 'relative';
 
     const handleSelectChange = (data: any) => {
@@ -17,8 +20,14 @@ export default function CustomDropdown({ className, handleChange, data }: Props)
         handleChange(data);
     }
 
+    const closeModal = () => {
+        setToggle(false);
+    }
+
+    useOnClickOutside(dropdownRef, closeModal)
+
     return (
-        <div className={boxStyle}>
+        <div className={boxStyle} ref={dropdownRef}>
             <div
                 className={`${className} hover:cursor-pointer capitalize`}
                 onClick={() => setToggle(prevState => !prevState)}
