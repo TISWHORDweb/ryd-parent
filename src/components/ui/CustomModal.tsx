@@ -1,16 +1,20 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useOnClickOutside } from "../custom-hooks";
 
 interface ModalProps {
   modalStyle?: string;
   children: any;
   closeModal?: () => void;
+  noCloseOnClick?: boolean;
   //   closeBtn: boolean;
   //   closeBtnStyle?: string;
 }
 
-function CustomModal({ modalStyle, children, closeModal }: ModalProps) {
+function CustomModal({ modalStyle, children, closeModal, noCloseOnClick }: ModalProps) {
   const ref = useRef(null);
+
+      
+   // if noCloseOnClick is false, the close modal onClickOutside applies
   useOnClickOutside(ref, closeModal);
 
   return (

@@ -6,7 +6,7 @@ import UserService from '../../../services/user.service';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
 import { calculateAge } from '../../../components/custom-hooks';
-import { setDayTimeInfo } from '../../../redux/reducers/userSlice';
+import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 export interface ChildRegProps {
     firstName: string,
@@ -25,6 +25,8 @@ const initialValues = {
 interface Props {
     handleNext: () => void;
     setChildInfo: (data: any) => void;
+    closeModalOnOutsideClick: (data: boolean) => void;
+    closeRegModal: () => void;
 }
 
 
@@ -40,10 +42,9 @@ const legendStyle = 'mx-auto px-5 py-2 text-[11px] bg-amber-100 mt-3 rounded-[16
 
 
 
-export default function NewRegModal({ handleNext, setChildInfo }: Props) {
+export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOutsideClick, closeRegModal }: Props) {
     const userInfo: any = useSelector((state:RootState) => state.auth.userInfo);
     const userService = new UserService();
-    const dispatch = useDispatch();
 
     const [ formData, setFormData ] = useState(initialValues);
     const [ dayTime, setDayTime ] = useState<any>([]);
@@ -115,10 +116,24 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
     };
 
 
+    const keepModalOpen = () => {
+        // if all these are unfilled or empty then closing modal by clicking outside is possible 
+        if(formData.firstName === '' && formData.lastName === '' && formData.age === 0 && selectedTime === null && selectedDay === null){
+            closeModalOnOutsideClick(true)
+        }else{
+            closeModalOnOutsideClick(false)
+        }
+    }
+
 
     useEffect(() => {
         getDayTime();
+        keepModalOpen();
     }, []);
+
+    useEffect(() => {
+        keepModalOpen();
+    }, [formData])
 
     useEffect(() => {
         if(selectedDay){
@@ -140,6 +155,9 @@ export default function NewRegModal({ handleNext, setChildInfo }: Props) {
 
     return (
         <form className={formStyle} onSubmit={handleSubmit}>
+
+            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegModal} />
+
             <h1 className={h1Style}>Register Child</h1>
             
             <div className={legendStyle}>Every child will adopt and use the parent's registered timezone and time-offset: <br />

@@ -59,9 +59,9 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
         >
             <Stepper currentTab={3} />
 
-            {tdx && <p className='mb-1 text-[14px] text-center text-green-500'>{tdx?.message}</p>}
+            {tdx && <p className='mt-3 text-[14px] text-center text-green-500'>{tdx?.message}</p>}
 
-            <div className='lg:px-[2rem] mx-auto mt-[5rem]'>
+            <div className='lg:px-[2rem] mx-auto mt-[2rem]'>
                 <OtpVerification btnText={loading ? "Processing..." : "Verify OTP"} handleVerification={handleVerification} />
             </div>
         </AuthLayout>

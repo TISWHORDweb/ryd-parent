@@ -26,7 +26,8 @@ export default function Home() {
     const [ successModal, setSuccessModal ] = useState(false);
     const [ programArr, setProgramArr ] = useState<any>(null);
     const [ isRenewing, setIsRenewing ] = useState<any>(false);
-    const [ survey, setSurvey ] = useState<any>([])
+    const [ survey, setSurvey ] = useState<any>([]);
+    const [ isClosable, setIsClosable ] = useState(false);
 
 
     const getSurvey = async() => {
@@ -85,9 +86,20 @@ export default function Home() {
     };
 
     const closeRegToggleModal = () => {
+        if(isClosable){
+            setRegTab(0);
+            setToggleRegModal(false);
+            dispatch(setRenewal(null));
+        }else{
+            return;
+        }
+    }
+
+    const closeRegTabByBtnClick = () => {
         setRegTab(0);
         setToggleRegModal(false);
-        dispatch(setRenewal(null))
+        dispatch(setRenewal(null));
+        setIsClosable(true)
     }
 
     const handleNext = () => {
@@ -141,6 +153,8 @@ export default function Home() {
                             setChildInfo(data);
                         }}
                         handleNext={handleNext}
+                        closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}
+                        closeRegModal={closeRegTabByBtnClick}
                     />
                 }
                 { regTab === 1 &&

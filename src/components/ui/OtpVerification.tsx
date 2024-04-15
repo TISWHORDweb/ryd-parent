@@ -114,7 +114,7 @@ function OtpVerification({ btnText, handleVerification }: Props) {
         isInverted={false}
         text={btnText}
         category="button"
-        btnStyle='w-full rounded-[16px] border-0 mt-6 text-[14px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
+        btnStyle='w-full rounded-[16px] border-0  text-[14px] leading-[26px] font-[400] text-white px-[26px] py-[12px]'
         handleClick={handleNext}
       />
     </>
