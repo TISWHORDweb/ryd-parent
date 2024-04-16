@@ -13,7 +13,7 @@ export default function AccountSection({ data, setTab,  }: Props) {
         <div className={`grid gap-[3rem] ${data?.length === 0 && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
             { data?.length === 0 && 
                 <div className='mt-[3rem]'>
-                    <Empty text={<>No Child profile has been created, <br /> click 'Add +' to get started.</>} /> 
+                    <Empty text={<>No Child profile has been created, <br /> click 'Add Child +' to get started.</>} /> 
                 </div>
             }
             { data?.length > 0 && 

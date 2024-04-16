@@ -31,7 +31,7 @@ export default function SectionOne({ toggleRegModal }: Props) {
                 </div>
                 <div className='flex items-center relative'>
                     <img src={sectionImg2} alt="section img2" className='h-[50px] w-[60px] absolute' />
-                    <p className={headerPStyle}>Yet to enroll your child? Click 'Add +' to get started 😉</p>
+                    <p className={headerPStyle}>Yet to enroll your child? Click 'Add Child +' to get started 😉</p>
                 </div>
             </div>
         </section>

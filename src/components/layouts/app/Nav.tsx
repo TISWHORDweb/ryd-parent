@@ -43,13 +43,15 @@ export default function () {
             <nav className={containerHeaderStyle}>
                 <div className='flex items-center lg:gap-x-7 gap-x-3 lg:mr-[5rem] mr-[2rem]'>
                     {/* cart  */}
-                    <div className='relative hover:cursor-pointer bg-ryd-primaryLess1/[.4] p-[12px] rounded-full' onClick={() => setToggleCartModal(true)}>
-                        {cart  && 
-                            <div 
-                               className='absolute -top-1 right-0 bg-amber-400 border border-white rounded-[32px] p-[7px] text-[10px] text-white animate-pulse' 
-                               title='new item in cart'></div> 
-                        }
-                        <img src={cartImg} alt="notification-img" className='h-[22px] w-[22px]' />
+                    <div>
+                        <div className='relative hover:cursor-pointer bg-ryd-primaryLess1/[.4] p-[12px] rounded-full' onClick={() => setToggleCartModal(true)}>
+                            {cart  && 
+                                <div 
+                                className='absolute -top-1 right-0 bg-amber-400 border border-white rounded-[32px] p-[7px] text-[10px] text-white animate-pulse' 
+                                title='new item in cart'></div> 
+                            }
+                            <img src={cartImg} alt="notification-img" className='h-[22px] w-[22px]' />
+                        </div>
                     </div>
                     {/* profile info  */}
                     <div className='flex relative items-center gap-x-3'>
