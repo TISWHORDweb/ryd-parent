@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
 import { setCart, setRenewal } from '../../../redux/reducers/userSlice';
+import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 interface Props {
     handlePrevious: () => void,
@@ -92,6 +93,8 @@ export default function RegSubModal({
 
     return (
         <div className={divStyle}>    
+            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegTab} />
+
             <h1 className={h1Style}>Available Program</h1>
 
             <div className='lg:w-[75%] mx-auto'>
@@ -109,7 +112,9 @@ export default function RegSubModal({
                         maxAge={item.maxAge}
                         duration={item.weekDuration}
                     />
-                ))} </> : <Empty text="There is no available package for this age group" />
+                ))} 
+                </> : 
+                <Empty text="There is no available package for this age group" />
                 }
             </div>       
 

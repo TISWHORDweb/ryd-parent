@@ -54,7 +54,7 @@ export default function ProgramCard({ setSelected, selected, id, price, program,
                 </h1>
                 <p className={pricePStyle}>/month</p>
             </div>
-            <p className={descriptionStyle}>{description} the ryd basic program the ryd basic program the ryd basic programthe ryd basic program</p>
+            <p className={descriptionStyle}>{description}</p>
             <ul className={listItemStyle}>
                 <li className='text-[14px] font-[900] font-[AvertaStd-Light]'>Age range: <span className='font-[400]'>{minAge}yrs - {maxAge}yrs</span></li>
                 <li className='text-[14px] font-[900] font-[AvertaStd-Light]'>Duration: <span className='font-[400]'>{duration}weeks</span></li>

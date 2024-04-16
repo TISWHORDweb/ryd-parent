@@ -3,7 +3,6 @@ import { AppLayout } from '../../../components/layouts';
 import { CustomModal } from '../../../components/ui';
 import NewRegModal from './NewRegModal';
 import SectionOne from './SectionOne';
-import SectionTwo from './SectionTwo';
 import SectionThree from './SectionThree';
 import RegSubModal from './RegSubModal';
 import successGif from '../../../assets/images/success.json';
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setCurrency, setRenewal, setCart } from '../../../redux/reducers/userSlice';
 import { RootState } from '../../../redux/rootReducer';
 import SurveySection from './SurveySection';
+import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 
 export default function Home() {
@@ -180,6 +180,8 @@ export default function Home() {
                 closeModal={() => setSuccessModal(false)}
                 >
                     <div className='p-[2rem]'>
+                        <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={() => setSuccessModal(false)} />
+
                         <div className='lg:h-[180px] h-[100px] lg:w-[180px] w-[100px] mx-auto'>
                             <Lottie animationData={successGif} />
                         </div>

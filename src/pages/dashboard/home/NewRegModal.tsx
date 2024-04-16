@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Button, CountrySelectInput, CustomInput, DateSelect, GenderSelect, } from '../../../components/ui';
+import { Button, CustomInput, DateSelect, GenderSelect, } from '../../../components/ui';
 import CustomDropdown from '../../../components/ui/CustomDropdown';
 import { toast } from 'react-toastify';
 import UserService from '../../../services/user.service';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
 import { calculateAge } from '../../../components/custom-hooks';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
@@ -172,6 +172,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                         placeholder='John'
                         required={true}
                         onChange={(e: any) => setFormData({...formData, firstName: e.target.value })}
+                        value={formData.firstName}
                     />
                 </div>
                 <div className={gridContainer}>
@@ -181,6 +182,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                         placeholder='Doe'
                         required={true}
                         onChange={(e: any) => setFormData({...formData, lastName: e.target.value })}
+                        value={formData.lastName}
                     />
                 </div>
             </div>

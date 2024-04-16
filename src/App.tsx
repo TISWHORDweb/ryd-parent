@@ -15,7 +15,7 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <RouterProvider router={router} />
         </PersistGate>
-        <ToastContainer />
+        <ToastContainer position='top-center' />
       </Provider>
   );
 }
