@@ -114,7 +114,7 @@ export default function RegSubModal({
                     />
                 ))} 
                 </> : 
-                <Empty text="There is no available package for this age group" />
+                <Empty text={<>There is no available package for this age group, kindly contact the admin via <a href="tel:+18337371275">+1-8337371275</a> or  <a href="https://t.me/+kRUSHEc8S_thYzJk" target='_blank'>Telegram</a></>}/>
                 }
             </div>       
 
