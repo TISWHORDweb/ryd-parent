@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, RouteObject } from "react-router-dom";
-import { CreateNewPassword, ErrorPage, ForgotPassword, Home, SignIn, SignUp } from "../pages";
+import { CreateNewPassword, ErrorPage, ForgotPassword, Home, SignIn, SignUp, SurveyForm } from "../pages";
 import SuccessPage from "../pages/auth/sign-up/SuccessPage";
 import AuthMiddleware from "./AuthMiddleware";
 
@@ -17,7 +17,8 @@ const routes: RouteObject[] = [
         </AuthMiddleware> 
     )},
     { path: '/success', element: <SuccessPage />},
-    { path: '*', element: <ErrorPage />}
+    { path: '*', element: <ErrorPage />},
+    { path: '/survey', element: <SurveyForm />}
 ];
 
 export { routes };
