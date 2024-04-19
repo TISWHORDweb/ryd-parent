@@ -85,7 +85,7 @@ export default function SectionThree() {
                                     setActiveTab(tab.id);
                                     setActiveChild(null)
                                 }} 
-                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer ${ activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f]' }`}
+                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer  ${ activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f] border-r border-r-gray-600 ' }`}
                                 // onMouseOver={() => setImgSrc(tab.name)}
                                 // onMouseOut={() => setImgSrc(tab.name)}
                                 >
