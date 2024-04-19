@@ -105,6 +105,7 @@ export default function CartModal({ closeCart }: Props) {
 
     return (
         <div className={formStyle} >
+            {/* <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegModal} /> */}
             <h1 className={h1Style}>Cart</h1>
             { cartArr.length > 0 ?
             <div>

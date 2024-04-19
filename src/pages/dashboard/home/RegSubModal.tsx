@@ -44,7 +44,7 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             } 
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.child?.level));
             if(programFilter?.length > 0){
                 setSelected(programFilter[0].id);
             }
