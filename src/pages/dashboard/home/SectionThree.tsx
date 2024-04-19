@@ -16,14 +16,18 @@ export default function SectionThree() {
     const [ data, setData ] = useState<any>([]);
     const [ activeChild, setActiveChild ] = useState<any>(null);
     const [ searchValue, setSearchValue ] = useState<any>('');
+    const [loading, setLoading] = useState(false);
 
 
     const getPackages = async() => {
+        setLoading(true)
         try {
             const response  =  await userService.getChildren();
+            setLoading(false);
             if(!response.status){ return }
             setData(response.data);
         }catch(err){
+            setLoading(false);
             return;
         }
     }
@@ -108,10 +112,14 @@ export default function SectionThree() {
                         setActiveChild(data);
                     }} 
                     data={data} 
+                    loading={loading}
                     />
                 }
                 {activeTab === 1 &&
-                    <ActivitySection data={data} />
+                    <ActivitySection 
+                        data={data} 
+                        loading={loading}
+                        />
                 }
             </section>
         </section>
