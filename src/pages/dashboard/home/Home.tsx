@@ -77,7 +77,7 @@ export default function Home() {
                 return;
             }
             // filter programs based on student age; compare child age to viable age range  
-            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age))
+            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === child?.child?.level))
             setProgramArr(programFilter);
         }catch(err: any){
             return;
@@ -186,7 +186,9 @@ export default function Home() {
                             <Lottie animationData={successGif} />
                         </div>
                         <h1 className={h1Style}>Successful!</h1>
-                        <p className={pStyle}>Go to cart to initate payment and complete the registration process <br /> or<br /> Click on 'Add +' button to enroll another child!</p>
+                        <p className={pStyle}>
+                            Go to cart to initate payment and complete the registration process <br /> or<br /> Click on 'Add +' button to enroll another child!
+                        </p>
                     </div>
                 </CustomModal>
             }
