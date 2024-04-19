@@ -17,7 +17,11 @@ interface Props {
     createdAt: any,
     mediaUrl: string,
     altAmount: number,
-    attendance: any[]
+    attendance: any[],
+    classUrl: string,
+    docUrl: string,
+    childName: string,
+    teacher: string
 }
 
 export default function ActivityCard({
@@ -31,7 +35,11 @@ export default function ActivityCard({
     week,
     createdAt,
     mediaUrl,
-    attendance
+    attendance,
+    classUrl,
+    docUrl,
+    childName,
+    teacher
 }: Props) {
     const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
@@ -65,7 +73,7 @@ export default function ActivityCard({
                     </div>
                 </div>
 
-                <p className={`${pStyle} first-letter:uppercase`}>{description}</p>
+                <p className={`${pStyle} first-letter:uppercase`}>{description} - {childName}</p>
 
                 <div className={flexBoxStyle}>
                     <div className={subFlexStyle}>
@@ -84,14 +92,18 @@ export default function ActivityCard({
                         <label className={subLabelStyle}>Attendance</label>
                         <p className={subPStyle}>{attendance.length}</p>
                     </div>
+                    <div className={subFlexStyle}>
+                        <label className={subLabelStyle}>Teacher</label>
+                        <p className={subPStyle}>{teacher}</p>
+                    </div>
                 </div>
                 <div className={mediaBoxContainer}>
                     <Link to={mediaUrl} target='_blank' rel="noopener noreferrer" className={mediaBtn}>
                         <img src={mediaIcon} alt="media" className='h-[14px] w-[14px]' /> 
                         <span>Media</span> 
                     </Link>
-                    <Link to='/' className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link> 
-                    <Link to='/' className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link> 
+                    <Link to={docUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link> 
+                    <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link> 
                 </div>
             </div>
         </div>

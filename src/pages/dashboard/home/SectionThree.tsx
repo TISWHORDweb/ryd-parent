@@ -23,6 +23,7 @@ export default function SectionThree() {
             const response  =  await userService.getChildren();
             if(!response.status){ return }
             setData(response.data);
+            console.log(response.data);
         }catch(err){
             return;
         }

@@ -18,6 +18,7 @@ export default function ActivitySection({ data }: Props) {
                 {data?.map((item, index) => (
                     <ActivityCard
                         key={index} 
+                        childName={item?.firstName}
                         imageUrl={item?.programs[0]?.package?.imageUrl}
                         title={item?.programs[0]?.package?.title}
                         amount={item?.programs[0]?.package?.amount}
@@ -28,7 +29,10 @@ export default function ActivitySection({ data }: Props) {
                         week={item?.programs[0]?.package?.weekDuration}
                         createdAt={item?.programs[0]?.package?.createdAt}
                         mediaUrl={item?.programs[0]?.mediaUrl}
+                        teacher={item?.programs[0]?.teacher?.firstName + ' ' + item?.programs[0]?.teacher?.lastName}
                         attendance={item?.programs[0].attendance}
+                        classUrl={item?.programs[0]?.teacher?.classLink}
+                        docUrl={item?.programs[0]?.teacher?.docUrl}
                     />
                 ))}
             </div>

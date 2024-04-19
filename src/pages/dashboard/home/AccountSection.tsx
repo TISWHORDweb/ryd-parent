@@ -8,6 +8,7 @@ interface Props {
 }
 
 export default function AccountSection({ data, setTab,  }: Props) {
+    console.log('account', data)
 
     return (
         <div className={`grid gap-[3rem] ${data?.length === 0 && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
