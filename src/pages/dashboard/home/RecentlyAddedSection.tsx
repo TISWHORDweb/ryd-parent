@@ -17,7 +17,7 @@ export default function RecentlyAddedSection() {
     const [ isRegComplete, setIsRegComplete ] = useState(false);
     const [ toggleDel, setToggleDel ] = useState(false);
     const [ selectedChild, setSelectedChild ] = useState<any>({});
-    const [ loading, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
 
     const handleRegResumption = () => {}
 
@@ -57,6 +57,7 @@ export default function RecentlyAddedSection() {
             console.log(res)
             setChildrenArr(res)
            console.log(response.data)
+            setLoading(false);
         }catch(err: any){
             toast.error(err?.message);
             return;
@@ -69,22 +70,23 @@ export default function RecentlyAddedSection() {
 
 
     return (
+        loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[20%] border border-ryd-primary border-l-white animate-spin'></div> :
         <>
             <div className={`mt-[3rem] ${childrenArr.length > 0 ? 'border-x border-x-[#F7F7F7] border-b border-b-[#F7F7F7]' : 'border-0'} lg:w-full w-[700px] overflow-x-auto`}>
-                { childrenArr?.length > 0 ? 
+                { childrenArr?.length > 0 ?
                     <>
                         <ul>
-                            <li className='w-full flex items-center p-3 rounded-t-[10px] bg-[#F7F7F7]'>       
-                                <p className={`${tableHeader} w-[20%]`}>First Name</p>     
+                            <li className='w-full flex items-center p-3 rounded-t-[10px] bg-[#F7F7F7]'>
+                                <p className={`${tableHeader} w-[20%]`}>First Name</p>
                                 <p className={`${tableHeader} w-[20%]`}>Last Name</p>
                                 <p className={`${tableHeader} w-[10%] `}>Age</p>
                                 <p className={`${tableHeader} w-[15%] `}>Date Added</p>
                                 <p className={`${tableHeader} w-[15%] `}>Reg. Status</p>
                                 <p className={`${tableHeader} w-[20%] text-center`}>Action</p>
                             </li>
-                        </ul> 
+                        </ul>
                         <ol>
-                        {childrenArr?.map((item: any, index: number) => { 
+                        {childrenArr?.map((item: any, index: number) => {
                             return(
                                 <li key={index} className={`w-full flex items-center p-3 ${index % 2 !== 0 ? 'bg-[#F7F7F7]' : 'bg-white'}`}>
                                     <p className={`${tableBody} w-[20%] capitalize`}>{item?.firstName}</p>
@@ -95,12 +97,16 @@ export default function RecentlyAddedSection() {
                                    {item?.programs?.length === 0 ?
                                         <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
                                             <button onClick={handleRegResumption} title='inactive: coming soon' className={`${btnStyle} border border-gray-100 text-gray-100`}>Resume</button>
-                                            <button onClick={() => triggerDelete(item)} className={`${btnStyle} border border-red-700 text-red-700`}>Delete</button>
+                                            <button onClick={() => triggerDelete(item)} className={`${btnStyle} border border-red-700 text-red-700`}>Remove</button>
                                         </p> :
-                                         <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>null</p>
-                                    }
+                                       <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
+                                           <button disabled={true} className={`${btnStyle} border border-gray-100 text-gray-100`}>Done
+                                           </button>
+                                       </p>
+                                   }
                                 </li>
-                            )})}
+                            )
+                        })}
                         </ol>
                     </> :
                     <Empty text='You have no recent child record' />
@@ -117,7 +123,7 @@ export default function RecentlyAddedSection() {
                     <h2 className='text-[18px] text-center mb-5'>Are you sure you want to delete child?</h2>
                     <div className='flex items-center gap-x-5 text-[14px]'>
                         <button onClick={handleChildDelete}  className={`w-full px-5 py-3 border border-red-700 bg-red-700 text-white rounded-[8px]`}>{loading ? 'deleteing...' : 'Yes, delete'}</button>
-                        <button  onClick={() => setToggleDel(false)} className={`w-full px-5 py-3 border border-gray-200 bg-gray-200 text-black rounded-[8px]`}>No</button>                
+                        <button  onClick={() => setToggleDel(false)} className={`w-full px-5 py-3 border border-gray-200 bg-gray-200 text-black rounded-[8px]`}>No</button>
                     </div>
                 </div>
             </CustomModal>

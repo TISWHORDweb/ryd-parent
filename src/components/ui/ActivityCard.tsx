@@ -7,9 +7,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
 
 interface Props {
-    imageUrl: string, 
-    amount: number, 
-    title: string, 
+    imageUrl: string,
+    amount: number,
+    title: string,
     description: string,
     minAge: number,
     maxAge: number,
@@ -21,7 +21,8 @@ interface Props {
     classUrl: string,
     docUrl: string,
     childName: string,
-    teacher: string
+    teacher: string,
+    isActive: boolean
 }
 
 export default function ActivityCard({
@@ -39,7 +40,7 @@ export default function ActivityCard({
     classUrl,
     docUrl,
     childName,
-    teacher
+    teacher, isActive
 }: Props) {
     const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
@@ -64,11 +65,11 @@ export default function ActivityCard({
             </div>
             <div className='lg:col-span-4 col-span-1 px-[2rem] pt-2 pb-5'>
                 <div className="flex items-center justify-between py-2">
-                    <h1 className={h1Style}>{title}</h1>
+                    <h1 className={h1Style}>{title+(isActive?" *":"")}</h1>
                     <div className={programStyle}>
                         {currencyInfo?.currencyCode}
-                        {userInfo.country.toLowerCase() === 'nigeria' ? formatCurrency(altAmount) : 
-                        (userInfo.country.toLowerCase() !== 'nigeria') ?  formatCurrency(amount * currencyInfo.rate) : 
+                        {userInfo.country.toLowerCase() === 'nigeria' ? formatCurrency(altAmount) :
+                        (userInfo.country.toLowerCase() !== 'nigeria') ?  formatCurrency(amount * currencyInfo.rate) :
                         formatCurrency(amount)}
                     </div>
                 </div>
@@ -94,16 +95,16 @@ export default function ActivityCard({
                     </div>
                     <div className={subFlexStyle}>
                         <label className={subLabelStyle}>Teacher</label>
-                        <p className={subPStyle}>{teacher}</p>
+                        <p className={subPStyle}>{teacher.includes("undefined")?"No Teacher":teacher}</p>
                     </div>
                 </div>
                 <div className={mediaBoxContainer}>
                     <Link to={mediaUrl} target='_blank' rel="noopener noreferrer" className={mediaBtn}>
-                        <img src={mediaIcon} alt="media" className='h-[14px] w-[14px]' /> 
-                        <span>Media</span> 
+                        <img src={mediaIcon} alt="media" className='h-[14px] w-[14px]' />
+                        <span>Media</span>
                     </Link>
-                    <Link to={docUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link> 
-                    <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link> 
+                    <Link to={docUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
+                    <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link>
                 </div>
             </div>
         </div>

@@ -44,11 +44,11 @@ export default function StudentCard({ setTab, item }: Props) {
             <div className='pt-7 pb-[2rem] w-fit mx-auto'>
                 <div className='flex  flex-wrap items-start  gap-5'>
                     <h1 className={h1Style}>{item?.firstName} {item?.lastName}</h1>
-                    <div className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status ? 'bg-green-500': 'bg-red-500'}`}>{item.status ? 'Active' : 'Inactive'}</div>
+                    <div className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status && item.allowNewCohort === 'false' ? 'bg-green-500': 'bg-red-500'}`}>{item.status && item.allowNewCohort === 'false' ? 'Active' : 'Inactive'}</div>
                 </div>
 
-                
-                <div className='flex flex-wrap gap-3 mt-4'> 
+
+                <div className='flex flex-wrap gap-3 mt-4'>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Gender</label>
                         <label className={pStyle}>{item.gender}</label>
@@ -59,7 +59,7 @@ export default function StudentCard({ setTab, item }: Props) {
                     </div>
                 </div>
 
-                <div className='flex gap-3 mt-4'> 
+                <div className='flex gap-3 mt-4'>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Program</label>
                         <label className={pStyle}>{item?.programs[0]?.package?.title}</label>
@@ -71,7 +71,7 @@ export default function StudentCard({ setTab, item }: Props) {
                 </div>
 
                 {/* study day/ time  */}
-                <div className='flex gap-3 mt-4'> 
+                <div className='flex gap-3 mt-4'>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Study day</label>
                         <label className={pStyle}>{Days[item?.programs[0]?.day]}</label>
@@ -92,36 +92,36 @@ export default function StudentCard({ setTab, item }: Props) {
                 </div>
 
                 <div className={mediaBoxContainer}>
-                    <button 
-                        onClick={() => setTab(item?.id)} 
+                    <button
+                        onClick={() => setTab(item?.id)}
                         className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}>
                             View Activity
-                    </button> 
+                    </button>
 
-                    { !item.programs[0].isCompleted && 
-                    <Link 
-                        to={item?.programs[0]?.teacher?.classLink} 
-                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`} 
-                        target='_blank' 
+                    { !item.programs[0].isCompleted &&
+                    <Link
+                        to={item?.programs[0]?.teacher?.classLink}
+                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}
+                        target='_blank'
                         rel="noopener noreferrer">
                             Go to class
-                        </Link> 
+                        </Link>
                     }
 
                     { item.allowNewCohort === 'true' &&
-                        <button 
-                            onClick={() => dispatch(setRenewal(item))} 
-                            className={`${goToBtn} border-amber-400 text-amber-400 hover:bg-amber-400 hover:text-white`}
+                        <button
+                            onClick={() => dispatch(setRenewal(item))}
+                            className={`${goToBtn} border-red-800 text-red-800 hover:bg-red-800 hover:text-white`}
                             onMouseOver={() => setHoverToggle(true)}
                             onMouseOut={() => setHoverToggle(false)}
                             >
-                            <img 
-                                src={hoverToggle ? premiumIcon : onPremiumIcon} 
-                                alt="prem" 
-                                className='h-[15px] flex items-start' 
-                                />  
-                            Renew
-                        </button> 
+                            <img
+                                src={hoverToggle ? premiumIcon : onPremiumIcon}
+                                alt="prem"
+                                className='h-[15px] flex items-start'
+                                />
+                            Add New Program
+                        </button>
                     }
                 </div>
             </div>

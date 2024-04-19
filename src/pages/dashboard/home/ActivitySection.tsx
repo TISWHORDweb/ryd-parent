@@ -11,16 +11,16 @@ export default function ActivitySection({ data, loading }: Props) {
     <div className={`grid gap-[3rem] relative ${data?.length === 0 && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
         {loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[20%] border border-ryd-primary border-l-white animate-spin'></div> :
         <>
-            { data?.length === 0 && 
+            { data?.length === 0 &&
                 <div className='mt-[3rem]'>
-                    <Empty text={<>You have no activity yet, <br /> click 'Add Child +' to get started.</>} /> 
+                    <Empty text={<>You have no activity yet, <br /> click 'Add Child +' to get started.</>} />
                 </div>
             }
-            { data?.length > 0 && 
+            { data?.length > 0 &&
                 <div className='grid gap-5'>
                     {data?.map((item, index) => (
                         <ActivityCard
-                            key={index} 
+                            key={index}
                             childName={item?.firstName}
                             imageUrl={item?.programs[0]?.package?.imageUrl}
                             title={item?.programs[0]?.package?.title}
@@ -36,6 +36,7 @@ export default function ActivitySection({ data, loading }: Props) {
                             attendance={item?.programs[0].attendance}
                             classUrl={item?.programs[0]?.teacher?.classLink}
                             docUrl={item?.programs[0]?.teacher?.docUrl}
+                            isActive={!item?.programs[0]?.isCompleted}
                         />
                     ))}
                 </div>
