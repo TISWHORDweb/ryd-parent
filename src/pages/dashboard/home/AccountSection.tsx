@@ -24,14 +24,14 @@ export default function AccountSection({ data, setTab, loading }: Props) {
             { loading ? <div className='h-[100px] w-[100px] left-[50%] top-[20%] rounded-full absolute border border-ryd-primary border-l-white animate-spin'></div> :
             <>
                 { data?.length === 0 && 
-                ( !cart ? 
+                ( 
                     <div className='mt-[3rem]'>
                         <Empty text={<>No Child profile has been created, <br /> click 'Add Child +' to get started.</>} /> 
-                    </div> : 
-                    <div className='mt-[3rem] w-fit mx-auto'>
-                        <p className='text-center text-[18px] font-[800] mb-3 text-gray-300'>You have unpaid in your cart awaiting checkout.</p>
-                        <button onClick={handleShowCart} className='flex justify-center py-3 px-[2rem] mx-auto rounded-[8px] bg-ryd-primary text-white'>Open Cart</button>
-                    </div>
+                    </div> 
+                    // <div className='mt-[3rem] w-fit mx-auto'>
+                    //     <p className='text-center text-[18px] font-[800] mb-3 text-gray-300'>You have unpaid in your cart awaiting checkout.</p>
+                    //     <button onClick={handleShowCart} className='flex justify-center py-3 px-[2rem] mx-auto rounded-[8px] bg-ryd-primary text-white'>Open Cart</button>
+                    // </div>
                     )
                 }
                 { data?.length > 0 && 

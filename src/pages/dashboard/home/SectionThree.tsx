@@ -4,6 +4,7 @@ import { CustomSearchInput } from '../../../components/ui';
 import AccountSection from './AccountSection';
 import ActivitySection from './ActivitySection';
 import UserService from '../../../services/user.service';
+import RecentlyAddedSection from './RecentlyAddedSection';
 
 interface Props {
     setRegTab: () => void
@@ -85,7 +86,7 @@ export default function SectionThree() {
                                     setActiveTab(tab.id);
                                     setActiveChild(null)
                                 }} 
-                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer  ${ activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f] border-r border-r-gray-600 ' }`}
+                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer  ${ activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f]' }`}
                                 // onMouseOver={() => setImgSrc(tab.name)}
                                 // onMouseOut={() => setImgSrc(tab.name)}
                                 >
@@ -122,10 +123,9 @@ export default function SectionThree() {
                         />
                 }
                 {activeTab === 2 &&
-                    <ActivitySection 
-                        data={data} 
-                        loading={loading}
-                        />
+                    // <div className='lg:w-full w-[300px] overflow-hidden'>
+                        <RecentlyAddedSection />
+                    // </div>
                 }
             </section>
         </section>

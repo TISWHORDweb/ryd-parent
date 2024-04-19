@@ -114,6 +114,22 @@ class UserService {
         }
     }
 
+    async deleteChild(payload: AddChildProps){
+        try {
+            const response = await request(
+                `/parent/child/remove/${payload}` , 
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
     async addProgram(payload: AddProgramProps, id: number | string){
         try {
             const response = await request(
@@ -180,6 +196,7 @@ class UserService {
         }
     }
 
+
     async getChildren(){
         try {
             const response = await request(
@@ -218,6 +235,22 @@ class UserService {
                 `/parent/survey/answer/${id}` , 
                 'POST',
                 payload,
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    async getAllChildren(){
+        try {
+            const response = await request(
+                `/parent/child/get` , 
+                'GET',
+                {},
                 true,
                 false,
                 false,
