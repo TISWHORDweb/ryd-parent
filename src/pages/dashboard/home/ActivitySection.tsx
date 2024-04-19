@@ -21,6 +21,7 @@ export default function ActivitySection({ data }: Props) {
                         imageUrl={item?.programs[0]?.package?.imageUrl}
                         title={item?.programs[0]?.package?.title}
                         amount={item?.programs[0]?.package?.amount}
+                        altAmount={item?.programs[0]?.package?.altAmount}
                         description={item?.programs[0]?.package?.description}
                         minAge={item?.programs[0]?.package?.minAge}
                         maxAge={item?.programs[0]?.package?.maxAge}

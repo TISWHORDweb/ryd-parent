@@ -57,7 +57,11 @@ export default function CartModal({ closeCart }: Props) {
             // calculate total of all courses 
             let total = 0;
             for(let i = 0; i<response.data.length; i++){
-                total = total + response.data[i]?.programs[0]?.package?.amount;
+                if(userInfo.country.toLowerCase() === 'nigeria'){
+                    total = total + response.data[i]?.programs[0]?.package?.altAmount;
+                }else{
+                    total = total + response.data[i]?.programs[0]?.package?.amount;
+                }
             }
             setTotalAmount(total);
 
@@ -88,8 +92,9 @@ export default function CartModal({ closeCart }: Props) {
     }
 
     const handleCheckout = () => {
-        navigate(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`)
+        window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`, '_blank')
         dispatch(setCart(false));
+        closeCart();
     }
 
     const formStyle = `h-fit overflow-y-auto px-5 pb-[2rem] pt-[2rem]`;
@@ -112,8 +117,8 @@ export default function CartModal({ closeCart }: Props) {
                         <div className='col-span-2 text-center'>
                             <p className={pStyle}>
                                 <span className='text-[12px]'>{currency ? currency?.currencyCode : 'USD'} </span>
-                                {currency ? 
-                                    formatCurrency(item?.programs[0]?.package?.amount * currency?.rate) :
+                                {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(item?.programs[0]?.package?.altAmount) :
+                                (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(item?.programs[0]?.package?.amount * currency?.rate) :
                                     formatCurrency(item?.programs[0]?.package?.amount)
                                 }
                             </p>
@@ -134,7 +139,9 @@ export default function CartModal({ closeCart }: Props) {
                     <p className={`${pStyle}`}>Total:</p>
                     <p>
                         <span className='text-[12px]'>{ currency ? currency?.currencyCode : 'USD' } </span> 
-                        {currency ? formatCurrency(totalAmount * currency?.rate) : formatCurrency(totalAmount)}
+                        {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(totalAmount) : 
+                        (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(totalAmount * currency?.rate) : 
+                        formatCurrency(totalAmount)}
                     </p>
                 </div>
 

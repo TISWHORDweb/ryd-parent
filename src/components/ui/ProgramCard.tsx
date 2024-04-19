@@ -8,6 +8,7 @@ import { formatCurrency } from '../custom-hooks';
 
 interface Props {
     price: number,
+    altPrice: number,
     program: string,
     description: string,
     features?: string[],
@@ -17,6 +18,7 @@ interface Props {
     minAge: number,
     maxAge: number,
     duration: number,
+    country: any
 }
 
 
@@ -30,7 +32,7 @@ const containerStyle = 'border rounded-[8px] lg:px-[1.2rem] px-[25px] pt-[1.2rem
 const overlayContainer = 'absolute top-0 right-0 left-0 h-full w-full rounded-[8px] bg-gray-100/[0.8]';
 
 
-export default function ProgramCard({ setSelected, selected, id, price, program, description, minAge, maxAge, duration }: Props) {
+export default function ProgramCard({ setSelected, selected, id, price, program, description, minAge, maxAge, duration, country, altPrice }: Props) {
     const currencyInfo =  useSelector((state: RootState) => state.user.currency);
 
     const  [ currency, setCurrency ] = useState<any>(null);
@@ -50,7 +52,9 @@ export default function ProgramCard({ setSelected, selected, id, price, program,
                     <span className='text-[16px]'>
                         {currency ? currency?.currencyCode : 'USD'}&nbsp;
                     </span>
-                    {currency ?  formatCurrency(price * currency?.rate) : formatCurrency(price)}
+                    {(currency && country.toLowerCase() === 'nigeria') ? formatCurrency(altPrice) : 
+                    (currency && country.toLowerCase() !== 'nigeria') ?  formatCurrency(price * currency?.rate) : 
+                    formatCurrency(price)}
                 </h1>
                 <p className={pricePStyle}>/month</p>
             </div>

@@ -19,6 +19,7 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
     const dispatch = useDispatch();
     const [error, setError] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [otpLoading, setOtpLoading] = useState(false);
 
 
     const obj: any = localStorage.getItem('email-confirmation');
@@ -32,6 +33,24 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
         }else{
             toast.error('Invalid OTP!');
             return;
+        }
+    }
+
+    const handleOtpResend = async() => {
+        setOtpLoading(true);
+        try{
+            const response = await authService.verifyEmail({ email: formData.email });
+            setOtpLoading(false)
+            if(!response.status){
+                toast.error(response?.message);
+                return
+            }
+            toast.success(response?.message);
+            const obj = JSON.stringify(response)
+            localStorage.setItem('email-confirmation', obj);
+        }catch(err: any){
+            setOtpLoading(false)
+            toast.error(err?.message);
         }
     }
 
@@ -64,6 +83,8 @@ export default function OtpVerificationForm({ setSubmitForm, formData }: Props){
             <div className='lg:px-[2rem] mx-auto mt-[2rem]'>
                 <OtpVerification btnText={loading ? "Processing..." : "Verify OTP"} handleVerification={handleVerification} />
             </div>
+
+            <p className='text-center text-[13px] mt-4'>Didn't recieve code? <span className='text-ryd-primary hover:cursor-pointer' onClick={handleOtpResend}>{otpLoading ? 'Initiating resend...' : 'Resend'}</span></p>
         </AuthLayout>
     )
 }

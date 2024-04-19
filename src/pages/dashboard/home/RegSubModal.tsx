@@ -44,9 +44,11 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             } 
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age))
-            setProgramArr(programFilter);
-            setSelected(programFilter[0].id);
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age));
+            if(programFilter?.length > 0){
+                setProgramArr(programFilter);
+                setSelected(programFilter[0].id);
+            }
         }catch(err: any){
             setLoading(false)
             toast.error(err?.message);
@@ -111,6 +113,8 @@ export default function RegSubModal({
                         minAge={item.minAge}
                         maxAge={item.maxAge}
                         duration={item.weekDuration}
+                        altPrice={item.altAmount}
+                        country={userInfo.country}
                     />
                 ))} 
                 </> : 

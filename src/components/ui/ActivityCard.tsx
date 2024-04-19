@@ -1,12 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import mediaIcon from '../../assets/icons/mediaIcon.svg';
-import { formatDate } from '../custom-hooks';
+import { formatCurrency, formatDate } from '../custom-hooks';
 import imgBg from '../../assets/images/bg-info.jpg';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/rootReducer';
 
 interface Props {
     imageUrl: string, 
-    amount: string, 
+    amount: number, 
     title: string, 
     description: string,
     minAge: number,
@@ -14,12 +16,14 @@ interface Props {
     week: number,
     createdAt: any,
     mediaUrl: string,
+    altAmount: number,
     attendance: any[]
 }
 
 export default function ActivityCard({
     imageUrl,
     amount,
+    altAmount,
     title,
     description,
     minAge,
@@ -29,7 +33,8 @@ export default function ActivityCard({
     mediaUrl,
     attendance
 }: Props) {
-
+    const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
+    const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const cardContainerStyle = 'h-fit border border-[#E7EEFE] shadow shadow-ryd-primaryLess1 rounded-[16px] w-full grid lg:grid-cols-5 grid-cols-1';
     const programStyle = 'rounded-[10px] px-[15px] py-[1px] bg-[#ECF9EA]/[.8] text-ryd-green  text-center w-fit text-[12px] font-[800]';
     const h1Style = 'leading-0 lg:text-[24px] text-[20px] font-[400] font-[AvertaStd-Semibold] text-ryd-subTextPrimary';
@@ -45,14 +50,19 @@ export default function ActivityCard({
     return (
         <div className={cardContainerStyle}>
             <div className='col-span-1 p-2'>
-                <div className="lg:h-full h-[200px]">
-                    <img src={imageUrl} alt="banner" className='object-cover h-full w-full rounded-[16px] border' />
+                <div className="lg:h-full h-[200px] overflow-hidden rounded-[16px]">
+                    <img src={imageUrl} alt="banner" className='scale-110 h-full w-full rounded-[16px] border' />
                 </div>
             </div>
             <div className='lg:col-span-4 col-span-1 px-[2rem] pt-2 pb-5'>
                 <div className="flex items-center justify-between py-2">
                     <h1 className={h1Style}>{title}</h1>
-                    <div className={programStyle}>${amount}</div>
+                    <div className={programStyle}>
+                        {currencyInfo?.currencyCode}
+                        {userInfo.country.toLowerCase() === 'nigeria' ? formatCurrency(altAmount) : 
+                        (userInfo.country.toLowerCase() !== 'nigeria') ?  formatCurrency(amount * currencyInfo.rate) : 
+                        formatCurrency(amount)}
+                    </div>
                 </div>
 
                 <p className={`${pStyle} first-letter:uppercase`}>{description}</p>

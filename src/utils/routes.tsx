@@ -18,7 +18,7 @@ const routes: RouteObject[] = [
     )},
     { path: '/success', element: <SuccessPage />},
     { path: '*', element: <ErrorPage />},
-    { path: '/survey', element: <SurveyForm />}
+    // { path: '/survey', element: <SurveyForm />}
 ];
 
 export { routes };
