@@ -121,6 +121,12 @@ export default function SectionThree() {
                         loading={loading}
                         />
                 }
+                {activeTab === 2 &&
+                    <ActivitySection 
+                        data={data} 
+                        loading={loading}
+                        />
+                }
             </section>
         </section>
     )

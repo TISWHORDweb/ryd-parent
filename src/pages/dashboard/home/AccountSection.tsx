@@ -16,7 +16,7 @@ export default function AccountSection({ data, setTab, loading }: Props) {
     const dispatch = useDispatch();
 
     const handleShowCart = () => {
-        dispatch(setCart(true))
+        dispatch(setCart(!cart))   /////////////////////////////////////// maybe changed later
     }
 
     return (
@@ -30,7 +30,7 @@ export default function AccountSection({ data, setTab, loading }: Props) {
                     </div> : 
                     <div className='mt-[3rem] w-fit mx-auto'>
                         <p className='text-center text-[18px] font-[800] mb-3 text-gray-300'>You have unpaid in your cart awaiting checkout.</p>
-                        <button onClick={handleShowCart} className='py-3 px-[2rem] mx-auto rounded-[8px] bg-ryd-primary text-white'>Open Cart</button>
+                        <button onClick={handleShowCart} className='flex justify-center py-3 px-[2rem] mx-auto rounded-[8px] bg-ryd-primary text-white'>Open Cart</button>
                     </div>
                     )
                 }
