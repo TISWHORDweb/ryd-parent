@@ -10,7 +10,7 @@ import closeIcon from "../../../assets/icons/closeIcon.svg";
 interface Props {
     handlePrevious: () => void,
     childInfo: any;
-    setSuccessModal: () => void, 
+    setSuccessModal: () => void,
     closeRegTab: () => void,
     isRenewing: boolean,
 }
@@ -43,8 +43,9 @@ export default function RegSubModal({
             if(!response.status){
                 toast.error(response.message)
                 return;
-            } 
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.level));
+            }
+            //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.level));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
                 setSelected(programFilter[0].id);
             }
@@ -65,7 +66,7 @@ export default function RegSubModal({
             const level =  isRenewing ? childInfo.level : 1;
             const time = isRenewing ? childInfo.programs[0]?.time :childInfo.selectedTime.value;
             const childId = childInfo.id;
-            const payload = { packageId, timeOffset, day, time, level } 
+            const payload = { packageId, timeOffset, day, time, level }
 
             setSubmitLoading(true);
             try{
@@ -94,7 +95,7 @@ export default function RegSubModal({
     const disabled = !selected ? true : false;
 
     return (
-        <div className={divStyle}>    
+        <div className={divStyle}>
             <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegTab} />
 
             <h1 className={h1Style}>Available Program</h1>
@@ -102,7 +103,7 @@ export default function RegSubModal({
             <div className='lg:w-[75%] mx-auto'>
                 {programArr.length > 0 ?
                 <> {programArr.map((item: any) => (
-                    <ProgramCard 
+                    <ProgramCard
                         // setSelected={(data) => setSelected(data)}
                         // selected={selected}
                         id={item.id}
@@ -116,16 +117,16 @@ export default function RegSubModal({
                         altPrice={item.altAmount}
                         country={userInfo.country}
                     />
-                ))} 
-                </> : 
+                ))}
+                </> :
                 <Empty text={<>There is no available package for this age group, kindly contact the admin via <a href="tel:+18337371275" target='_blank'>+1-8337371275</a> or  <a href="https://t.me/+kRUSHEc8S_thYzJk" target='_blank'>Telegram</a></>}/>
                 }
-            </div>       
+            </div>
 
             <div className={`grid ${!isRenewing ? 'lg:gap-3 gap-y-4 lg:grid-cols-5' : 'lg:gap-0 gap-y-0 lg:grid-cols-1'} grid-cols-1 mt-[4rem]`}>
-                {!isRenewing && 
+                {!isRenewing &&
                 <div className="col-span-2">
-                    <Button 
+                    <Button
                         text='Previous'
                         isInverted={true}
                         category='button'
@@ -135,7 +136,7 @@ export default function RegSubModal({
                 </div>
                 }
                 <div className="lg:col-span-3 col-span-1">
-                    <Button 
+                    <Button
                         text={submitLoading ? 'Processing...' : 'Submit'}
                         isInverted={false}
                         category='button'

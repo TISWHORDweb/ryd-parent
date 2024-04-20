@@ -76,8 +76,9 @@ export default function Home() {
             if(!response.status){
                 return;
             }
-            // filter programs based on student age; compare child age to viable age range  
-            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === child?.child?.level))
+            // filter programs based on student age; compare child age to viable age range
+            //const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === child?.child?.level))
+            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === 1))
             setProgramArr(programFilter);
         }catch(err: any){
             return;
@@ -136,20 +137,20 @@ export default function Home() {
     return (
         <AppLayout>
             {survey.length > 0 && <SurveySection surveys={survey} />}
-            <SectionOne 
+            <SectionOne
                 toggleRegModal={() => setToggleRegModal(true)}
             />
-            <SectionThree  /> 
+            <SectionThree  />
 
-            
-            {toggleRegModal && 
+
+            {toggleRegModal &&
              <CustomModal
              modalStyle={`relative bg-white ${regTab === 0 ? 'lg:w-[35%] lg:mt-[1rem] mt-[3rem]' : 'lg:w-[30%] lg:mt-[5rem] mt-[3rem]'} md:w-[70%] w-[95%] mx-auto rounded-[16px] `}
              closeModal={closeRegToggleModal}
              >
                 {regTab === 0 &&
-                    <NewRegModal 
-                        setChildInfo={(data: any) => { 
+                    <NewRegModal
+                        setChildInfo={(data: any) => {
                             setChildInfo(data);
                         }}
                         handleNext={handleNext}
@@ -158,7 +159,7 @@ export default function Home() {
                     />
                 }
                 { regTab === 1 &&
-                    <RegSubModal 
+                    <RegSubModal
                         childInfo={childInfo}
                         handlePrevious={handlePrevious}
                         isRenewing={isRenewing}
@@ -174,7 +175,7 @@ export default function Home() {
             </CustomModal>
             }
 
-            {successModal && 
+            {successModal &&
                 <CustomModal
                 modalStyle="relative bg-white lg:w-[35%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[7rem] mt-[3rem]"
                 closeModal={() => setSuccessModal(false)}
