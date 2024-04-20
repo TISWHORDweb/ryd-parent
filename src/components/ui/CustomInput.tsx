@@ -7,6 +7,8 @@ export default function CustomInput({ type, title, placeholder, onChange, requir
 
     return (
         <input
+            min={7}
+            max={16}
             type={type || "text"}
             placeholder={placeholder}
             className={`${inputFieldStyle}`}
