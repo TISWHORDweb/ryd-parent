@@ -7,6 +7,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
 import { calculateAge } from '../../../components/custom-hooks';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
+import DatePicker from "react-date-picker";
+type ValuePiece = Date | null;
+
+type Value = ValuePiece | [ValuePiece, ValuePiece];
 
 export interface ChildRegProps {
     firstName: string,
@@ -46,6 +50,8 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
     const userInfo: any = useSelector((state:RootState) => state.auth.userInfo);
     const userService = new UserService();
 
+    const [value, onChange] = useState<Value>(new Date());
+
     const [ formData, setFormData ] = useState(initialValues);
     const [ dayTime, setDayTime ] = useState<any>([]);
     const [ dayArr, setDayArr ] = useState<{ name: string; value: number; }[] | []>([]);
@@ -62,13 +68,13 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
             if(!response.status){
                 toast.error(response.message)
                 return;
-            }       
+            }
             setDayTime(response.data);
             // dispatch(setDayTimeInfo(response.data))
 
             let xdayArr = []
             if(response?.data?.length > 0){
-                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
                 for(let i=0; i < response.data.length; i++){
                     let name = response.data[i].dayText;
                     let value = response.data[i].day;
@@ -85,7 +91,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
 
 
     const handleDateChange = (e: any) => {
-        const age = calculateAge(e.target.value);
+        const age = calculateAge(e);
         setFormData({...formData, age });
     }
 
@@ -117,7 +123,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
 
 
     const keepModalOpen = () => {
-        // if all these are unfilled or empty then closing modal by clicking outside is possible 
+        // if all these are unfilled or empty then closing modal by clicking outside is possible
         if(formData.firstName === '' && formData.lastName === '' && formData.age === 0 && selectedTime === null && selectedDay === null){
             closeModalOnOutsideClick(true)
         }else{
@@ -139,7 +145,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
         if(selectedDay){
             const timeX = dayTime?.filter((item: any) => item.dayText === selectedDay.name);
             const tdx = timeX[0].times;
-            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
             let arr = []
             for(let i=0; i < tdx.length; i++){
                 let name = tdx[i].timeText;
@@ -151,6 +157,9 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
         }
     }, [ selectedDay ]);
 
+    const dateChange=(d: any)=>{
+        console.log(d)
+    }
 
 
     return (
@@ -159,7 +168,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
             <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegModal} />
 
             <h1 className={h1Style}>Register Child</h1>
-            
+
             <div className={legendStyle}>Every child will adopt and use the parent's registered timezone and time-offset: <br />
             <span className='text-green-600'>{userInfo.timeOffset > 0 && '+' }&nbsp;&nbsp;{userInfo.timezone} ({userInfo?.timeOffset})</span> </div>
 
@@ -168,7 +177,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                 <div className={gridContainer}>
                     <label className={labelStyle}>First name</label>
                     <CustomInput
-                        type="text" 
+                        type="text"
                         placeholder='John'
                         required={true}
                         onChange={(e: any) => setFormData({...formData, firstName: e.target.value })}
@@ -178,7 +187,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                 <div className={gridContainer}>
                     <label className={labelStyle}>Last name</label>
                     <CustomInput
-                        type="text" 
+                        type="text"
                         placeholder='Doe'
                         required={true}
                         onChange={(e: any) => setFormData({...formData, lastName: e.target.value })}
@@ -197,10 +206,11 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                     />
                 </div>
                 <div className={gridContainer}>
-                    <label className={labelStyle}>Date of birth</label>
-                    <DateSelect
-                        handleDateChange={handleDateChange}
-                    />
+                    <label className={labelStyle}>Date of birth [{formData.age}]</label>
+                    <DatePicker onChange={handleDateChange} value={value} format={"yyyy-MM"} />
+                    {/*<DateSelect*/}
+                    {/*    handleDateChange={handleDateChange}*/}
+                    {/*/>*/}
                 </div>
             </div>
 
@@ -210,7 +220,7 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                     <label className={labelStyle}>Lesson day</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)}
                         data={dayArr}
                         />
                 </div>
@@ -222,14 +232,14 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                     <label className={labelStyle}>Lesson time</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)}
                         data={timeArr}
                         />
                 </div>
             </div>
 
 
-            <Button 
+            <Button
                 text={loading ? 'Processing...' : 'Next'}
                 isInverted={false}
                 category='button'
