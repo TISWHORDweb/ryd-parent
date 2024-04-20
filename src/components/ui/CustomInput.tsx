@@ -6,7 +6,7 @@ export default function CustomInput({ type, title, placeholder, onChange, requir
     const inputFieldStyle = `w-full bg-ryd-gray rounded-[16px] text-[14px] leading-[26px] font-[400] text-[#576877] px-[20px] py-[12px] outline-none active:outline-none`;
 
     return (
-        <input 
+        <input
             type={type || "text"}
             placeholder={placeholder}
             className={`${inputFieldStyle}`}

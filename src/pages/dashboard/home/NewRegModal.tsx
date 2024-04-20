@@ -206,10 +206,17 @@ export default function NewRegModal({ handleNext, setChildInfo, closeModalOnOuts
                     />
                 </div>
                 <div className={gridContainer}>
-                    <label className={labelStyle}>Date of birth [{formData.age}]</label>
+                    <label className={labelStyle}>Child Age. Min [{formData.age || 7}]</label>
                     {/*<DatePicker onChange={handleDateChange} value={value} format={"yyyy-MM"} />*/}
-                    <DateSelect
-                        handleDateChange={handleDateChange}
+                    {/*<DateSelect*/}
+                    {/*    handleDateChange={handleDateChange}*/}
+                    {/*/>*/}
+                    <CustomInput
+                        type="number"
+                        placeholder='Child age'
+                        required={true}
+                        onChange={(e: any) => setFormData({...formData, age: e.target.value })}
+                        value={formData.age || 7}
                     />
                 </div>
             </div>
