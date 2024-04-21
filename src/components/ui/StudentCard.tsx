@@ -23,7 +23,7 @@ export default function StudentCard({ setTab, item }: Props) {
     const [ hoverToggle, setHoverToggle ] = useState<any>(false);
 
 
-    const cardContainerStyle = 'border shadow shadow-ryd-primaryLess1 border-ryd-gray rounded-[16px] w-full grid relative';
+    const cardContainerStyle = 'border shadow shadow-ryd-primaryLess1 border-ryd-gray rounded-[16px] w-full grid relative p-2';
     const h1Style = 'clear-both lg:text-[24px] capitalize text-[20px] lg:mt-1 mb-2 leading-[35px] font-[400] font-[AvertaStd-Semibold] text-ryd-subTextPrimary';
     const pStyle = 'text-[13px]  px-5 py-[2px] rounded-r-[16px] border border-ryd-primaryLess1 font-[400] text-[#576877] capitalize';
     const mediaBoxContainer = 'w-full flex flex-wrap lg:justify-between gap-3 items-center mt-[2rem]';
@@ -44,7 +44,7 @@ export default function StudentCard({ setTab, item }: Props) {
             <div className='pt-7 pb-[2rem] w-fit mx-auto'>
                 <div className='flex  flex-wrap items-start  gap-5'>
                     <h1 className={h1Style}>{item?.firstName} {item?.lastName}</h1>
-                    <div className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status && item.allowNewCohort === 'false' ? 'bg-green-500': 'bg-red-500'}`}>{item.status && item.allowNewCohort === 'false' ? 'Active' : 'Inactive'}</div>
+                    <div className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status && item.allowNewCohort === false ? 'bg-green-500': 'bg-red-500'}`}>{item.status && item.allowNewCohort === false ? 'Active' : 'Inactive'}</div>
                 </div>
 
 
@@ -108,7 +108,7 @@ export default function StudentCard({ setTab, item }: Props) {
                         </Link>
                     }
 
-                    { item.allowNewCohort === 'true' &&
+                    { item.allowNewCohort === true &&
                         <button
                             onClick={() => dispatch(setRenewal(item))}
                             className={`${goToBtn} border-red-800 text-red-800 hover:bg-red-800 hover:text-white`}

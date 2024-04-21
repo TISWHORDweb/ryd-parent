@@ -8,11 +8,11 @@ import { setCart, setRenewal } from '../../../redux/reducers/userSlice';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 interface Props {
-    handlePrevious: () => void,
+    handlePrevious?: () => void,
     childInfo: any;
-    setSuccessModal: () => void,
+    setSuccessModal?: any,
     closeRegTab: () => void,
-    isRenewing: boolean,
+    isRenewing?: boolean,
 }
 
 export default function RegSubModal({
@@ -44,8 +44,8 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             }
-            //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.level));
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.level));
+            //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
                 setSelected(programFilter[0].id);
             }
@@ -127,10 +127,10 @@ export default function RegSubModal({
                 {!isRenewing &&
                 <div className="col-span-2">
                     <Button
-                        text='Previous'
+                        text='Cancel'
                         isInverted={true}
                         category='button'
-                        handleClick={handlePrevious}
+                        handleClick={()=>{closeRegTab()}}
                         btnStyle='w-full rounded-[16px] text-[16px] leading-[26px] font-[400] text-ryd-primary border border-ryd-primary px-[26px] py-[12px]'
                     />
                 </div>

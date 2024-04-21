@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { homeTabs } from '../../../utils/constants';
-import { CustomSearchInput } from '../../../components/ui';
+import React, {useEffect, useState} from 'react';
+import {homeTabs} from '../../../utils/constants';
+import {CustomSearchInput} from '../../../components/ui';
 import AccountSection from './AccountSection';
 import ActivitySection from './ActivitySection';
 import UserService from '../../../services/user.service';
@@ -12,42 +12,44 @@ interface Props {
 
 export default function SectionThree() {
     const userService = new UserService();
-    const [ activeTab, setActiveTab ] = useState(0);
-    const [ imgSrc, setImgSrc ] = useState('');
-    const [ data, setData ] = useState<any>([]);
-    const [ activeChild, setActiveChild ] = useState<any>(null);
-    const [ searchValue, setSearchValue ] = useState<any>('');
+    const [activeTab, setActiveTab] = useState(0);
+    const [imgSrc, setImgSrc] = useState('');
+    const [data, setData] = useState<any>([]);
+    const [activeChild, setActiveChild] = useState<any>(null);
+    const [searchValue, setSearchValue] = useState<any>('');
     const [loading, setLoading] = useState(false);
 
 
-    const getPackages = async() => {
+    const getPackages = async () => {
         setLoading(true)
         try {
-            const response  =  await userService.getChildren();
+            const response = await userService.getChildren();
             setLoading(false);
-            if(!response.status){ return }
+            if (!response.status) {
+                return
+            }
             setData(response.data);
-        }catch(err){
+        } catch (err) {
             setLoading(false);
             return;
         }
     }
 
     const handleSetSearchValue = (e: any) => {
-       setSearchValue(e.target.value);
-       if(e.target.value === ''){
+        setSearchValue(e.target.value);
+        if (e.target.value === '') {
             getPackages();
-       }
+        }
     }
 
     const handleSearch = () => {
-        if(searchValue === ''){
+        if (searchValue === '') {
             getPackages();
             return;
-        }else{
-            const filteredResult = data.filter((item: any) => 
-                item?.firstName.toLowerCase().includes(searchValue) || 
-                item?.lastName.toLowerCase().includes(searchValue) || 
+        } else {
+            const filteredResult = data.filter((item: any) =>
+                item?.firstName.toLowerCase().includes(searchValue) ||
+                item?.lastName.toLowerCase().includes(searchValue) ||
                 item?.programs[0].package.title.toLowerCase().includes(searchValue));
 
             setData(filteredResult);
@@ -56,14 +58,14 @@ export default function SectionThree() {
 
 
     useEffect(() => {
-        getPackages()
+        getPackages();
     }, []);
 
     useEffect(() => {
-        if(activeChild){
+        if (activeChild) {
             const activeChildActivity = data.filter((item: any) => item?.id === activeChild);
             setData(activeChildActivity);
-        }else{
+        } else {
             getPackages();
         }
 
@@ -80,17 +82,17 @@ export default function SectionThree() {
                     {homeTabs.map((tab) => {
                         let img = activeTab === tab.id ? require(`../../../assets/icons/on.${tab.icon}`) : require(`../../../assets/icons/${tab.icon}`);
                         return (
-                            <div 
-                                key={tab.id} 
+                            <div
+                                key={tab.id}
                                 onClick={() => {
                                     setActiveTab(tab.id);
                                     setActiveChild(null)
-                                }} 
-                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer  ${ activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f]' }`}
+                                }}
+                                className={`flex items-center gap-x-2 px-5 py-3 text-[14px] rounded-[16px] hover:cursor-pointer  ${activeTab === tab.id ? 'bg-ryd-primary text-white' : 'text-[#b4b4b48f]'}`}
                                 // onMouseOver={() => setImgSrc(tab.name)}
                                 // onMouseOut={() => setImgSrc(tab.name)}
-                                >
-                                <img src={img} alt="tab icon" />
+                            >
+                                <img src={img} alt="tab icon"/>
                                 <p>{tab.name}</p>
                             </div>
                         )
@@ -98,7 +100,7 @@ export default function SectionThree() {
                 </div>
                 {/* filter  */}
                 <div className='lg:w-[350px] lg:order-2 order-1 w-full'>
-                    <CustomSearchInput 
+                    <CustomSearchInput
                         handleSearch={handleSearch}
                         setSearchValue={handleSetSearchValue}
                         placeholder='Search by name or program...'
@@ -107,24 +109,24 @@ export default function SectionThree() {
             </section>
             <section className='mt-[3.2rem]'>
                 {activeTab === 0 &&
-                    <AccountSection 
-                    setTab={(data: number) => {
-                        setActiveTab(1)
-                        setActiveChild(data);
-                    }} 
-                    data={data} 
-                    loading={loading}
+                    <AccountSection
+                        setTab={(data: number) => {
+                            setActiveTab(1)
+                            setActiveChild(data);
+                        }}
+                        data={data}
+                        loading={loading}
                     />
                 }
                 {activeTab === 1 &&
-                    <ActivitySection 
-                        data={data} 
+                    <ActivitySection
+                        data={data}
                         loading={loading}
-                        />
+                    />
                 }
                 {activeTab === 2 &&
                     // <div className='lg:w-full w-[300px] overflow-hidden'>
-                        <RecentlyAddedSection />
+                    <RecentlyAddedSection/>
                     // </div>
                 }
             </section>

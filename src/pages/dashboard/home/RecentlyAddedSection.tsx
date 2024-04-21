@@ -3,6 +3,9 @@ import { CustomModal, Empty } from '../../../components/ui';
 import UserService from '../../../services/user.service';
 import { toast } from 'react-toastify';
 import { formatDate } from '../../../components/custom-hooks';
+import RegSubModal from "./RegSubModal";
+import {setCart, setRenewal} from "../../../redux/reducers/userSlice";
+import {useDispatch} from "react-redux";
 
 
 const tableHeader = 'text-[15px] font-[400] leading-[26px] font-[AvertaStd-Semibold] text-ryd-headerTextPrimary';
@@ -12,14 +15,20 @@ const btnStyle = 'text-[10px] px-3 py-1 rounded-[8px] bg-white'
 
 export default function RecentlyAddedSection() {
     const userService = new UserService();
+    const dispatch = useDispatch()
 
     const [ childrenArr, setChildrenArr ] = useState([])
     const [ isRegComplete, setIsRegComplete ] = useState(false);
     const [ toggleDel, setToggleDel ] = useState(false);
+    const [ togglePayModal, setTogglePayModal ] = useState(false);
     const [ selectedChild, setSelectedChild ] = useState<any>({});
     const [ loading, setLoading ] = useState(true);
 
-    const handleRegResumption = () => {}
+    const handleRegResumption = (data: any) => {
+        setSelectedChild(data);
+        setTogglePayModal(true);
+        // console.log(data)
+    }
 
     const triggerDelete = (data: any) => {
         setSelectedChild(data);
@@ -54,9 +63,9 @@ export default function RecentlyAddedSection() {
            }
         //    setData(response.data)
             const res = response.data;
-            console.log(res)
+            // console.log(res)
             setChildrenArr(res)
-           console.log(response.data)
+           // console.log(response.data)
             setLoading(false);
         }catch(err: any){
             toast.error(err?.message);
@@ -64,15 +73,23 @@ export default function RecentlyAddedSection() {
         }
     }
 
+    const handleClosePayModal = () => {
+        setTogglePayModal(false)
+        setSelectedChild({});
+        dispatch(setCart(false))
+        dispatch(setRenewal(null))
+    }
+
+
     useEffect(() => {
         getChildren();
     }, [])
 
 
     return (
-        loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[20%] border border-ryd-primary border-l-white animate-spin'></div> :
+        loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[50%] border border-ryd-primary border-l-white animate-spin'></div> :
         <>
-            <div className={`mt-[3rem] ${childrenArr.length > 0 ? 'border-x border-x-[#F7F7F7] border-b border-b-[#F7F7F7]' : 'border-0'} lg:w-full w-[700px] overflow-x-auto`}>
+            <div className={`mt-[3rem] ${childrenArr.length > 0 ? 'border-x border-x-[#F7F7F7] border-b border-b-[#F7F7F7]' : 'border-0'} md:w-full w-[700px] overflow-x-auto`}>
                 { childrenArr?.length > 0 ?
                     <>
                         <ul>
@@ -96,11 +113,20 @@ export default function RecentlyAddedSection() {
                                     <p className={`${tableBody} w-[15%] `}>{item?.programs?.length === 0 ? <span>Incomplete</span> : <span>Completed</span>}</p>
                                    {item?.programs?.length === 0 ?
                                         <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
-                                            <button onClick={handleRegResumption} title='inactive: coming soon' className={`${btnStyle} border border-gray-100 text-gray-100`}>Resume</button>
-                                            <button onClick={() => triggerDelete(item)} className={`${btnStyle} border border-red-700 text-red-700`}>Remove</button>
+                                            {/*<button*/}
+                                            {/*    onClick={() => handleRegResumption(item)}*/}
+                                            {/*    title='inactive: coming soon'*/}
+                                            {/*    className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}>*/}
+                                            {/*    Resume*/}
+                                            {/*</button>*/}
+                                            <button
+                                                onClick={() => triggerDelete(item)}
+                                                className={`${btnStyle} border border-red-700 text-red-700 hover:bg-red-700 hover:text-white`}>
+                                                Remove
+                                            </button>
                                         </p> :
                                        <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
-                                           <button disabled={true} className={`${btnStyle} border border-gray-100 text-gray-100`}>Done
+                                           <button disabled={true} className={`${btnStyle} border border-gray-200 text-gray-200`}>Done
                                            </button>
                                        </p>
                                    }
@@ -116,7 +142,7 @@ export default function RecentlyAddedSection() {
 
             {toggleDel &&
             <CustomModal
-                modalStyle="relative bg-white lg:w-[30%] w-[80%] mx-auto rounded-[16px] lg:mt-[13rem] mt-[4rem]"
+                modalStyle="relative bg-white lg:w-[25%] w-[80%] mx-auto rounded-[16px] lg:mt-[13rem] mt-[4rem]"
                 closeModal={() => setToggleDel(false)}
                 >
                 <div className='p-[2rem]'>
@@ -127,6 +153,20 @@ export default function RecentlyAddedSection() {
                     </div>
                 </div>
             </CustomModal>
+            }
+
+            {togglePayModal &&
+                <CustomModal
+                    modalStyle={`relative bg-white lg:w-[30%] lg:mt-[5rem] mt-[3rem] md:w-[70%] w-[95%] mx-auto rounded-[16px] `}
+                    closeModal={handleClosePayModal}
+                >
+                    <RegSubModal
+                        childInfo={selectedChild}
+                        handlePrevious={handleClosePayModal}
+                        isRenewing={false}
+                        closeRegTab={handleClosePayModal}
+                    />
+                </CustomModal>
             }
         </>
     )
