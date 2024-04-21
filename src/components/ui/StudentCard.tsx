@@ -31,12 +31,11 @@ export default function StudentCard({ setTab, item }: Props) {
     const subFlexCont = 'flex items-center'
     const labelStyle = 'text-[13px] py-[3px] px-3 bg-ryd-primaryLess1 text-ryd-primary border-0 rounded-l-[16px]';
 
-    const pTime = moment.utc().utcOffset(userInfo.timeOffset)
+    const pTime = moment()
         pTime.day(item?.programs[0]?.day)
         pTime.hour(item?.programs[0]?.time)
         pTime.second(0)
         pTime.minute(0)
-
     return (
         <div className={cardContainerStyle}>
             <img src={achieveImg} alt="achieve" className='absolute right-0 -top-2 h-[70px] w-[70px] drop-shadow' />
@@ -79,7 +78,7 @@ export default function StudentCard({ setTab, item }: Props) {
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Time</label>
                         <label className={pStyle}>
-                        <Moment format="hh:mm A" date={pTime.toISOString()} tz={userInfo.timezone}></Moment>
+                        <Moment format="hh:mm A" date={pTime.toISOString()}></Moment>
                         </label>
                     </div>
                 </div>
