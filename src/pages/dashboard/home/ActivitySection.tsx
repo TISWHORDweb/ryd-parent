@@ -35,6 +35,7 @@ export default function ActivitySection({ data, loading }: Props) {
                             teacher={item?.programs[0]?.teacher?.firstName + ' ' + item?.programs[0]?.teacher?.lastName}
                             attendance={item?.programs[0].attendance}
                             classUrl={item?.programs[0]?.teacher?.classLink}
+                            oldClassLink={item?.programs[1]?.teacher?.classLink}
                             docUrl={item?.programs[0]?.teacher?.docUrl}
                             isActive={!item?.programs[0]?.isCompleted}
                         />

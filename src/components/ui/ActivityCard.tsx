@@ -22,7 +22,8 @@ interface Props {
     docUrl: string,
     childName: string,
     teacher: string,
-    isActive: boolean
+    isActive: boolean,
+    oldClassLink: string
 }
 
 export default function ActivityCard({
@@ -40,7 +41,7 @@ export default function ActivityCard({
     classUrl,
     docUrl,
     childName,
-    teacher, isActive
+    teacher, isActive, oldClassLink
 }: Props) {
     const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
@@ -104,6 +105,7 @@ export default function ActivityCard({
                         <span>Media</span>
                     </Link>
                     <Link to={docUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
+                    {oldClassLink?<Link to={oldClassLink} className={goToBtn} target='_blank' rel="noopener noreferrer">Previous Class</Link>:null}
                     <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link>
                 </div>
             </div>
