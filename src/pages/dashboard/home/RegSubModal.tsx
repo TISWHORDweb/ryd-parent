@@ -50,6 +50,7 @@ export default function RegSubModal({
                 setSelected(programFilter[0].id);
             }
             setProgramArr(programFilter);
+            console.log(programFilter)
         }catch(err: any){
             setLoading(false)
             toast.error(err?.message);
@@ -60,7 +61,8 @@ export default function RegSubModal({
 
     const handleSubmit = async() => {
         if(selected){
-            const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
+            //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
+            const packageId = selected;
             const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
             const day = isRenewing ? childInfo.programs[0]?.day : childInfo.selectedDay.value;
             const level =  isRenewing ? childInfo.level : 1;

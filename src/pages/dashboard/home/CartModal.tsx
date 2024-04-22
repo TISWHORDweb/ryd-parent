@@ -23,9 +23,10 @@ export default function CartModal({ closeCart }: Props) {
     const [ loading, setLoading ] = useState(false);
     const [ cartArr, setCartArr ] = useState([]);
     const [ totalAmount, setTotalAmount ] = useState(0);
-    const [ deleteLoading, setDeleteLoading ] = useState(false); 
+    const [ deleteLoading, setDeleteLoading ] = useState(false);
     const [ deleteId, setDeleteId ] = useState<number| null>(null);
     const  [ currency, setCurrency ] = useState<any>(null);
+    const  [ couponCode, setCouponCode ] = useState<any>("");
 
     useEffect(() => {
         if(currencyInfo && currencyInfo?.useRate){
@@ -54,7 +55,7 @@ export default function CartModal({ closeCart }: Props) {
                 dispatch(setCart(true));
             }
 
-            // calculate total of all courses 
+            // calculate total of all courses
             let total = 0;
             for(let i = 0; i<response.data.length; i++){
                 if(userInfo.country.toLowerCase() === 'nigeria'){
@@ -92,7 +93,11 @@ export default function CartModal({ closeCart }: Props) {
     }
 
     const handleCheckout = () => {
-        window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`, '_blank')
+        if(couponCode.length>0){
+            window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}/${couponCode}`, '_blank')
+        }else{
+            window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`, '_blank')
+        }
         dispatch(setCart(false));
         closeCart();
     }
@@ -109,47 +114,53 @@ export default function CartModal({ closeCart }: Props) {
             <h1 className={h1Style}>Cart</h1>
             { cartArr.length > 0 ?
             <div>
-                {cartArr.map((item: any) => ( 
+                {cartArr.map((item: any) => (
                     <div key={item.id} className={flexContainer}>
                         <div className='col-span-3'>
                             <p className={pStyle}> {`${item?.firstName} ${item?.lastName}`}</p>
                             <p className={pSubStyle}>{item?.programs[0]?.package?.title}</p>
                         </div>
                         <div className='col-span-2 text-center'>
-                            <p className={pStyle}>
-                                <span className='text-[12px]'>{currency ? currency?.currencyCode : 'USD'} </span>
-                                {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(item?.programs[0]?.package?.altAmount) :
-                                (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(item?.programs[0]?.package?.amount * currency?.rate) :
-                                    formatCurrency(item?.programs[0]?.package?.amount)
-                                }
+                            <p>
+                                8 Weeks Program
                             </p>
+                            {/*<p className={pStyle}>*/}
+                            {/*    <span className='text-[12px]'>{currency ? currency?.currencyCode : 'USD'} </span>*/}
+                            {/*    {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(item?.programs[0]?.package?.altAmount) :*/}
+                            {/*    (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(item?.programs[0]?.package?.amount * currency?.rate) :*/}
+                            {/*        formatCurrency(item?.programs[0]?.package?.amount)*/}
+                            {/*    }*/}
+                            {/*</p>*/}
                         </div>
                         <div className='col-span-1 flex justify-end'>
-                            <img 
-                                src={deleteImg} 
-                                alt="delete" 
-                                title='delete item: this action is irreversible.' 
-                                className={`hover:cursor-pointer ${(deleteLoading && deleteId === item?.programs[0]?.id) && 'animate-spin'}`} 
-                                onClick={() => handleItemDelete(item?.programs[0]?.id)} 
+                            <img
+                                src={deleteImg}
+                                alt="delete"
+                                title='delete item: this action is irreversible.'
+                                className={`hover:cursor-pointer ${(deleteLoading && deleteId === item?.programs[0]?.id) && 'animate-spin'}`}
+                                onClick={() => handleItemDelete(item?.programs[0]?.id)}
                                 />
                         </div>
                     </div>
                  ))}
 
                 <div className='flex justify-end mt-5 px-5 gap-x-3 font-[AvertaStd-Semibold]'>
-                    <p className={`${pStyle}`}>Total:</p>
+                    <p className={`${pStyle}`}><span>&#128073;</span></p>
                     <p>
-                        <span className='text-[12px]'>{ currency ? currency?.currencyCode : 'USD' } </span> 
-                        {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(totalAmount) : 
-                        (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(totalAmount * currency?.rate) : 
-                        formatCurrency(totalAmount)}
+                    <input placeholder={'Enter Promo Code'} style={{borderWidth: 0}} value={couponCode} onChange={e=>setCouponCode(e.target.value)}/>
                     </p>
+                    {/*<p>*/}
+                    {/*    <span className='text-[12px]'>{ currency ? currency?.currencyCode : 'USD' } </span>*/}
+                    {/*    {(currency && userInfo.country.toLowerCase() === 'nigeria') ? formatCurrency(totalAmount) :*/}
+                    {/*    (currency && userInfo.country.toLowerCase() !== 'nigeria') ? formatCurrency(totalAmount * currency?.rate) :*/}
+                    {/*    formatCurrency(totalAmount)}*/}
+                    {/*</p>*/}
                 </div>
 
                     <Button
                         isInverted={false}
                         category='button'
-                        text='Checkout'
+                        text='Proceed to checkout'
                         handleClick={handleCheckout}
                         btnStyle='w-full flex justify-center rounded-[16px] text-white text-center bg-ryd-primary py-4 mt-6'
                     />

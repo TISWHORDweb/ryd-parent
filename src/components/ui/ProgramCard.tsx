@@ -47,13 +47,13 @@ export default function ProgramCard({ setSelected, selected, id, price, program,
     return (
         <div className={containerStyle}>
             <h1 className={programStyle}>{program}</h1>
-            <div className={priceContainer}>
+            <div className={priceContainer} style={{display: 'none'}}>
                 <h1 className={priceH1Style}>
                     <span className='text-[16px]'>
                         {currency ? currency?.currencyCode : 'USD'}&nbsp;
                     </span>
-                    {(currency && country.toLowerCase() === 'nigeria') ? formatCurrency(altPrice) : 
-                    (currency && country.toLowerCase() !== 'nigeria') ?  formatCurrency(price * currency?.rate) : 
+                    {(currency && country.toLowerCase() === 'nigeria') ? formatCurrency(altPrice) :
+                    (currency && country.toLowerCase() !== 'nigeria') ?  formatCurrency(price * currency?.rate) :
                     formatCurrency(price)}
                 </h1>
                 <p className={pricePStyle}>/month</p>
@@ -63,20 +63,20 @@ export default function ProgramCard({ setSelected, selected, id, price, program,
                 <li className='text-[14px] font-[900] font-[AvertaStd-Light]'>Age range: <span className='font-[400]'>{minAge}yrs - {maxAge}yrs</span></li>
                 <li className='text-[14px] font-[900] font-[AvertaStd-Light]'>Duration: <span className='font-[400]'>{duration}weeks</span></li>
             </ul>
-            
-            {/* <Button 
+
+            {/* <Button
                 text='Select plan'
                 isInverted={true}
                 category='button'
                 handleClick={() => handleProgramSelect(id)}
                 btnStyle='w-full rounded-[8px] border border-ryd-primary mt-6 text-[16px] leading-[26px] font-[400] text-ryd-primary px-[26px] hover:text-white hover:bg-ryd-primary py-[12px]'
             />
-            {selected === id && 
+            {selected === id &&
                 <div className={overlayContainer}>
-                    <img 
-                        src={successIcon} 
-                        alt="success-icon" 
-                        className='h-[100px] w-[100px] mx-auto mt-[6rem]' 
+                    <img
+                        src={successIcon}
+                        alt="success-icon"
+                        className='h-[100px] w-[100px] mx-auto mt-[6rem]'
                         />
                 </div>
             } */}
