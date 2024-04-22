@@ -13,6 +13,7 @@ import { setCurrency, setRenewal, setCart } from '../../../redux/reducers/userSl
 import { RootState } from '../../../redux/rootReducer';
 import SurveySection from './SurveySection';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
+import RegRenewalModal from './RegRenewalModal';
 
 
 export default function Home() {
@@ -119,7 +120,7 @@ export default function Home() {
 
     useEffect(() => {
         if(child){
-            setRegTab(1);
+            setRegTab(0.5);
             setToggleRegModal(true);
             setIsRenewing(true)
             setChildInfo(child)
@@ -156,6 +157,20 @@ export default function Home() {
                         handleNext={handleNext}
                         closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}
                         closeRegModal={closeRegTabByBtnClick}
+                    />
+                }
+                {regTab === 0.5 &&
+                    <RegRenewalModal
+                        setChildInfo={(_arg1: number, _arg2: number) => {
+                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2 }] });
+                        }}
+                        handleNext={() => setRegTab(1)}
+                        closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}
+                        closeRegTab={() => {
+                            setRegTab(0)
+                            setToggleRegModal(false);
+                            dispatch(setRenewal(null))
+                        }}
                     />
                 }
                 { regTab === 1 &&

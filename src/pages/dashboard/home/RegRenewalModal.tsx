@@ -13,9 +13,9 @@ const initialValues = {
 
 interface Props {
     handleNext: () => void;
-    setChildInfo: (data: any) => void;
+    setChildInfo: (_arg1: number, _arg2: number) => void;
     closeModalOnOutsideClick: (data: boolean) => void;
-    closeRegModal: () => void;
+    closeRegTab: () => void;
 }
 
 
@@ -30,7 +30,7 @@ const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px
 
 
 
-export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOnOutsideClick, closeRegModal }: Props) {
+export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOnOutsideClick, closeRegTab }: Props) {
     // const userInfo: any = useSelector((state:RootState) => state.auth.userInfo);
     const userService = new UserService();
 
@@ -80,23 +80,8 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
             return;
         }
 
-        setLoading(true);
-        try {
-            // const response = await userService.addChild();
-            // setLoading(false);
-            // if(!response.status){
-            //     toast.error(response.message);
-            //     return;
-            // }
-            // const childData = { ...response.data, selectedDay, selectedTime };
-            // setChildInfo(childData);
-            // handleNext();
-        }catch(err: any){
-            setLoading(false);
-            toast.error(err.mesage);
-        }
-
-        return false;
+        setChildInfo(selectedDay.value, selectedTime.value)
+        handleNext();
     };
 
 
@@ -140,7 +125,7 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
     return (
         <form className={formStyle} onSubmit={handleSubmit}>
 
-            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegModal} />
+            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegTab} />
 
             <h1 className={h1Style}>Renew Child Registration</h1>
 

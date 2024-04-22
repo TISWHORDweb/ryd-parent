@@ -15,9 +15,11 @@ interface Props {
     isRenewing?: boolean,
 }
 
+const divStyle = `h-fit  overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
+const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[2rem]`;
+
 export default function RegSubModal({
     childInfo,
-    handlePrevious,
     setSuccessModal,
     closeRegTab,
     isRenewing,
@@ -31,9 +33,7 @@ export default function RegSubModal({
     const [ loading, setLoading ] = useState(false);
     const [ submitLoading, setSubmitLoading ] = useState(false);
 
-    useEffect(() => {
-        getPackages();
-    }, [])
+
 
     const getPackages = async() => {
         setLoading(true);
@@ -89,8 +89,11 @@ export default function RegSubModal({
         return false;
     }
 
-    const divStyle = `h-fit  overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
-    const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[2rem]`;
+
+    useEffect(() => {
+        getPackages();
+    }, [])
+
 
     const disabled = !selected ? true : false;
 
