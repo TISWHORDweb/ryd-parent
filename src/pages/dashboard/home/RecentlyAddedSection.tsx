@@ -34,8 +34,8 @@ export default function RecentlyAddedSection() {
 
     useEffect(() => {
         if(selectedChild){
-            if(selectedChild.package.length > 0){
-                window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`,'_blank')
+            if(selectedChild?.package?.length > 0){
+                window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo?.id}`,'_blank')
             }else{
                 dispatch(setRenewal(selectedChild));
             }
@@ -50,13 +50,13 @@ export default function RecentlyAddedSection() {
     const handleChildDelete = async() => {
         setLoading(true);
         try{
-           const response = await userService.deleteChild(selectedChild.id);
+           const response = await userService.deleteChild(selectedChild?.id);
            setLoading(false);
            if(!response.status){
-            toast.error(response.message);
+            toast.error(response?.message);
             return;
            }
-           toast.success(`${selectedChild.firstName} has been deleted!`);
+           toast.success(`${selectedChild?.firstName} has been deleted!`);
            getChildren();
            setToggleDel(false);
         }catch(err: any){
@@ -103,7 +103,7 @@ export default function RecentlyAddedSection() {
     return (
         loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[50%] border border-ryd-primary border-l-white animate-spin'></div> :
         <>
-            <div className={`mt-[3rem] ${childrenArr.length > 0 ? 'border-x border-x-[#F7F7F7] border-b border-b-[#F7F7F7]' : 'border-0'} md:w-full w-[700px] overflow-x-auto`}>
+            <div className={`mt-[3rem] ${childrenArr?.length > 0 ? 'border-x border-x-[#F7F7F7] border-b border-b-[#F7F7F7]' : 'border-0'} md:w-full w-[700px] overflow-x-auto`}>
                 { childrenArr?.length > 0 ?
                     <>
                         <ul>
