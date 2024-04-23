@@ -1,7 +1,7 @@
 export const homeTabs = [
     { name: 'Profiles', icon: 'profile.svg', id: 0 },
     { name: 'Activity', icon: 'activity.svg', id: 1 },
-    { name: 'Recently Added', icon: 'profile.svg', id: 2 }
+    { name: 'Children', icon: 'profile.svg', id: 2 }
 ];
 
 export const Days = ["Sun", "Mon", "Tue", "Wed", "Thur", "Fri", "Sat",]

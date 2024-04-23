@@ -5,7 +5,8 @@ import { toast } from 'react-toastify';
 import { formatDate } from '../../../components/custom-hooks';
 import RegSubModal from "./RegSubModal";
 import {setCart, setRenewal} from "../../../redux/reducers/userSlice";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import { RootState } from '../../../redux/rootReducer';
 
 
 const tableHeader = 'text-[15px] font-[400] leading-[26px] font-[AvertaStd-Semibold] text-ryd-headerTextPrimary';
@@ -14,6 +15,7 @@ const attendanceBtnStyle = 'rounded-[7px] bg-green-600 py-2.5 px-2.5 text-white 
 const btnStyle = 'text-[10px] px-3 py-1 rounded-[8px] bg-white'
 
 export default function RecentlyAddedSection() {
+    const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const userService = new UserService();
     const dispatch = useDispatch()
 
@@ -29,6 +31,16 @@ export default function RecentlyAddedSection() {
         setTogglePayModal(true);
         // console.log(data)
     }
+
+    useEffect(() => {
+        if(selectedChild){
+            if(selectedChild.package.length > 0){
+                window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo.id}`,'_blank')
+            }else{
+                dispatch(setRenewal(selectedChild));
+            }
+        }
+    }, [selectedChild])
 
     const triggerDelete = (data: any) => {
         setSelectedChild(data);
@@ -83,7 +95,9 @@ export default function RecentlyAddedSection() {
 
     useEffect(() => {
         getChildren();
-    }, [])
+    }, []);
+
+
 
 
     return (
@@ -113,15 +127,17 @@ export default function RecentlyAddedSection() {
                                     <p className={`${tableBody} w-[15%] `}>{item?.programs?.length === 0 ? <span>Incomplete</span> : <span>Completed</span>}</p>
                                    {item?.programs?.length === 0 ?
                                         <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
-                                            {/*<button*/}
-                                            {/*    onClick={() => handleRegResumption(item)}*/}
-                                            {/*    title='inactive: coming soon'*/}
-                                            {/*    className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}>*/}
-                                            {/*    Resume*/}
-                                            {/*</button>*/}
+                                            <button
+                                               onClick={() => handleRegResumption(item)}
+                                               title='inactive: coming soon'
+                                               className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}
+                                               >
+                                               Resume
+                                            </button>
                                             <button
                                                 onClick={() => triggerDelete(item)}
-                                                className={`${btnStyle} border border-red-700 text-red-700 hover:bg-red-700 hover:text-white`}>
+                                                className={`${btnStyle} border border-red-700 text-red-700 hover:bg-red-700 hover:text-white`}
+                                                >
                                                 Remove
                                             </button>
                                         </p> :

@@ -93,7 +93,8 @@ export default function StudentCard({ setTab, item }: Props) {
                 <div className={mediaBoxContainer}>
                     <button
                         onClick={() => setTab(item?.id)}
-                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}>
+                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}
+                        >
                             View Activity
                     </button>
 
