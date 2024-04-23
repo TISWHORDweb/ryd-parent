@@ -33,14 +33,14 @@ export default function RecentlyAddedSection() {
     }
 
     useEffect(() => {
-        if(selectedChild){
+        if(togglePayModal && selectedChild){
             if(selectedChild?.package?.length > 0){
                 window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo?.id}`,'_blank')
             }else{
                 dispatch(setRenewal(selectedChild));
             }
         }
-    }, [selectedChild])
+    }, [togglePayModal])
 
     const triggerDelete = (data: any) => {
         setSelectedChild(data);
