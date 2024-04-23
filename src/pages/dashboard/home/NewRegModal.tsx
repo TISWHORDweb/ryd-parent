@@ -7,7 +7,6 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../redux/rootReducer';
 import {calculateAge} from '../../../components/custom-hooks';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
-import DatePicker from "react-date-picker";
 
 type ValuePiece = Date | null;
 
