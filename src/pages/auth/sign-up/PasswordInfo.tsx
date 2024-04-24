@@ -28,7 +28,6 @@ export default function PasswordInfo({ props, setActiveTab }: AuthProps){
             return;
         }
 
-        // console.log('form data', formData);
         setError(false);
         toast.success(obj.message)
         setActiveTab();

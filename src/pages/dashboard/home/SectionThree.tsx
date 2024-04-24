@@ -74,9 +74,7 @@ export default function SectionThree() {
         }, 3000);
     }
 
-    useEffect(() => {
-        console.log('kids', kids)
-    }, [kids])
+
 
     useEffect(() => {
         if(data?.length > 0){

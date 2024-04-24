@@ -154,9 +154,7 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
         }
     }, [selectedDay]);
 
-    const dateChange = (d: any) => {
-        console.log(d)
-    }
+ 
 
 
     return (

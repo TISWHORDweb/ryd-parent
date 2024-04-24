@@ -74,9 +74,7 @@ export default function RecentlyAddedSection() {
            }
         //    setData(response.data)
             const res = response.data;
-            // console.log(res)
             setChildrenArr(res)
-           // console.log(response.data)
             setLoading(false);
         }catch(err: any){
             toast.error(err?.message);
