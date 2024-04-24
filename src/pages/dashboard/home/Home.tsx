@@ -9,15 +9,16 @@ import successGif from '../../../assets/images/success.json';
 import Lottie from 'lottie-react';
 import UserService from '../../../services/user.service';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrency, setRenewal, setCart } from '../../../redux/reducers/userSlice';
+import { setCurrency, setRenewal, setCart, setResume } from '../../../redux/reducers/userSlice';
 import { RootState } from '../../../redux/rootReducer';
 import SurveySection from './SurveySection';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
 import RegRenewalModal from './RegRenewalModal';
+import RegResumptionModal from './RegResumptionModal';
 
 
 export default function Home() {
-    const { child } = useSelector((state: RootState) => state.user)
+    const { child, resumeChildReg } = useSelector((state: RootState) => state.user)
     const userService = new UserService();
     const dispatch = useDispatch();
 
@@ -119,8 +120,22 @@ export default function Home() {
     }, [])
 
     useEffect(() => {
-        if(child){
+        if(resumeChildReg){
             setRegTab(0.5);
+            setToggleRegModal(true);
+            setIsRenewing(false)
+            setChildInfo(resumeChildReg)
+            getPackages();
+        }else{
+            setRegTab(0);
+            setToggleRegModal(false);
+        }
+    }, [resumeChildReg]);
+
+
+    useEffect(() => {
+        if(child){
+            setRegTab(0.7);
             setToggleRegModal(true);
             setIsRenewing(true)
             setChildInfo(child)
@@ -170,6 +185,20 @@ export default function Home() {
                             setRegTab(0)
                             setToggleRegModal(false);
                             dispatch(setRenewal(null))
+                        }}
+                    />
+                }
+                {regTab === 0.7 &&
+                    <RegResumptionModal
+                        setChildInfo={(_arg1: any, _arg2: any) => {
+                            setChildInfo({...childInfo, _arg1, _arg2 });
+                        }}
+                        handleNext={() => setRegTab(1)}
+                        closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}
+                        closeRegTab={() => {
+                            setRegTab(0)
+                            setToggleRegModal(false);
+                            dispatch(setResume(null))
                         }}
                     />
                 }

@@ -27,22 +27,16 @@ interface Props {
 }
 
 export default function ActivityCard({
-    imageUrl,
-    amount,
-    altAmount,
-    title,
-    description,
-    minAge,
-    maxAge,
-    week,
-    createdAt,
-    mediaUrl,
-    attendance,
-    classUrl,
-    docUrl,
-    childName,
-    teacher, isActive, oldClassLink
-}: Props) {
+    imageUrl, amount,
+    altAmount, title,
+    description, minAge,
+    maxAge, week,
+    createdAt, mediaUrl,
+    attendance, classUrl,
+    docUrl, childName,
+    teacher,
+    isActive, oldClassLink
+}: Props ) {
     const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const cardContainerStyle = 'h-fit border border-[#E7EEFE] shadow shadow-ryd-primaryLess1 rounded-[16px] w-full grid lg:grid-cols-5 grid-cols-1';

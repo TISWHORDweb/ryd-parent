@@ -4,7 +4,7 @@ import UserService from '../../../services/user.service';
 import { toast } from 'react-toastify';
 import { formatDate } from '../../../components/custom-hooks';
 import RegSubModal from "./RegSubModal";
-import {setCart, setRenewal} from "../../../redux/reducers/userSlice";
+import {setCart, setRenewal, setResume} from "../../../redux/reducers/userSlice";
 import {useDispatch, useSelector} from "react-redux";
 import { RootState } from '../../../redux/rootReducer';
 
@@ -29,18 +29,17 @@ export default function RecentlyAddedSection() {
     const handleRegResumption = (data: any) => {
         setSelectedChild(data);
         setTogglePayModal(true);
-        // console.log(data)
+        dispatch(setResume(data));
     }
 
     useEffect(() => {
-        if(togglePayModal && selectedChild){
+        if(selectedChild){
             if(selectedChild?.package?.length > 0){
-                window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo?.id}`,'_blank')
-            }else{
-                dispatch(setRenewal(selectedChild));
+                window.open(`https://api-pro.rydlearning.com/common/payment-init/${userInfo?.id}`,'_blank');
+                dispatch(setResume(null));
             }
         }
-    }, [togglePayModal])
+    }, [selectedChild])
 
     const triggerDelete = (data: any) => {
         setSelectedChild(data);
@@ -89,7 +88,7 @@ export default function RecentlyAddedSection() {
         setTogglePayModal(false)
         setSelectedChild({});
         dispatch(setCart(false))
-        dispatch(setRenewal(null))
+        dispatch(setResume(null))
     }
 
 
@@ -171,7 +170,7 @@ export default function RecentlyAddedSection() {
             </CustomModal>
             }
 
-            {togglePayModal &&
+            {/* {togglePayModal &&
                 <CustomModal
                     modalStyle={`relative bg-white lg:w-[30%] lg:mt-[5rem] mt-[3rem] md:w-[70%] w-[95%] mx-auto rounded-[16px] `}
                     closeModal={handleClosePayModal}
@@ -183,7 +182,7 @@ export default function RecentlyAddedSection() {
                         closeRegTab={handleClosePayModal}
                     />
                 </CustomModal>
-            }
+            } */}
         </>
     )
 }

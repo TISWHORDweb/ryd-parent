@@ -1,10 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {homeTabs} from '../../../utils/constants';
-import {CustomSearchInput} from '../../../components/ui';
+import {CustomModal, CustomSearchInput} from '../../../components/ui';
 import AccountSection from './AccountSection';
 import ActivitySection from './ActivitySection';
 import UserService from '../../../services/user.service';
 import RecentlyAddedSection from './RecentlyAddedSection';
+import closeIcon from '../../../assets/icons/closeIcon.svg';
+import infoGif from '../../../assets/images/info.json';
+import Lottie from 'lottie-react';
 
 interface Props {
     setRegTab: () => void
@@ -12,11 +15,14 @@ interface Props {
 
 export default function SectionThree() {
     const userService = new UserService();
+    
     const [activeTab, setActiveTab] = useState(0);
     const [imgSrc, setImgSrc] = useState('');
     const [data, setData] = useState<any>([]);
     const [activeChild, setActiveChild] = useState<any>(null);
     const [searchValue, setSearchValue] = useState<any>('');
+    const [ isNewCohort, setIsNewCohort ] = useState(false);
+    const [ kids, setKids ] = useState<any>([])
     const [loading, setLoading] = useState(false);
 
 
@@ -55,6 +61,32 @@ export default function SectionThree() {
             setData(filteredResult);
         }
     }
+
+
+    const checkCohortEligibility = (_arg: any) => { 
+        const exists = kids.some((child: any) => child.firstName.toLowerCase() === _arg.firstName.toLowerCase());
+        if (!exists) {
+            setKids([...kids, _arg]);
+        }
+
+        setTimeout(() => {
+            setIsNewCohort(true);
+        }, 3000);
+    }
+
+    useEffect(() => {
+        console.log('kids', kids)
+    }, [kids])
+
+    useEffect(() => {
+        if(data?.length > 0){
+            for(let i = 0; i < data?.length; i++){
+                if(data[i].allowNewCohort){
+                    checkCohortEligibility(data[i])
+                }
+            }
+        }
+    }, [data])
 
 
     useEffect(() => {
@@ -128,6 +160,29 @@ export default function SectionThree() {
                     // <div className='lg:w-full w-[300px] overflow-hidden'>
                     <RecentlyAddedSection/>
                     // </div>
+                }
+
+                {isNewCohort &&
+                    <CustomModal
+                        modalStyle="relative bg-white lg:w-[30%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[15rem] mt-[3rem]"
+                        closeModal={() => setIsNewCohort(false)}
+                        >
+                            <div className='p-[2rem]'>
+                                <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={() => setIsNewCohort(false)} />
+
+                                <div className='lg:h-[70px] h-[50px] lg:w-[70px] w-[50px] mx-auto'>
+                                    <Lottie animationData={infoGif} />
+                                </div>
+                                <div className='mt-7 text-center text-[20px] flex gap-x-1 font-[500]'>
+                                    {kids.map((kid: any, index: number) => (
+                                        <p key={index} className='capitalize'>
+                                            {kid.firstName}{index !== kids.length - 1 ? "," : "" }
+                                        </p>
+                                    ))}
+                                    {kids.length > 1 ? "are" : "is"} due for a New Cohort
+                                </div>
+                            </div>
+                    </CustomModal>
                 }
             </section>
         </section>

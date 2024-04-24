@@ -13,7 +13,7 @@ const initialValues = {
 
 interface Props {
     handleNext: () => void;
-    setChildInfo: (_arg1: number, _arg2: number) => void;
+    setChildInfo: (_arg1: any, _arg2: any) => void;
     closeModalOnOutsideClick: (data: boolean) => void;
     closeRegTab: () => void;
 }
@@ -30,7 +30,7 @@ const labelStyle = `text-ryd-subTextPrimary font-[400] text-[13px] leading-[26px
 
 
 
-export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOnOutsideClick, closeRegTab }: Props) {
+export default function RegResumptionModal({ handleNext, setChildInfo, closeModalOnOutsideClick, closeRegTab }: Props) {
     // const userInfo: any = useSelector((state:RootState) => state.auth.userInfo);
     const userService = new UserService();
 
@@ -79,8 +79,8 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
             toast.error('Date/Time is required!');
             return;
         }
-        
-        setChildInfo(selectedDay.value, selectedTime.value)
+
+        setChildInfo(selectedDay, selectedTime)
         handleNext();
     };
 

@@ -4,7 +4,7 @@ import UserService from '../../../services/user.service';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../redux/rootReducer';
-import { setCart, setRenewal } from '../../../redux/reducers/userSlice';
+import { setCart, setRenewal, setResume } from '../../../redux/reducers/userSlice';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 interface Props {
@@ -64,11 +64,15 @@ export default function RegSubModal({
             //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
             const packageId = selected;
             const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
-            const day = isRenewing ? childInfo.programs[0]?.day : childInfo.selectedDay.value;
+            const day = isRenewing ? childInfo.programs[0]?.day : childInfo?.selectedDay?.value ;
             const level =  isRenewing ? childInfo.level : 1;
-            const time = isRenewing ? childInfo.programs[0]?.time :childInfo.selectedTime.value;
+            const time = isRenewing ? childInfo.programs[0]?.time : childInfo?.selectedTime?.value ;
             const childId = childInfo.id;
             const payload = { packageId, timeOffset, day, time, level }
+
+
+            console.log('selected', childInfo);
+            console.log('is renewing', isRenewing)
 
             setSubmitLoading(true);
             try{
@@ -82,7 +86,8 @@ export default function RegSubModal({
                 setSuccessModal();
                 closeRegTab();
                 dispatch(setCart(true));
-                dispatch(setRenewal(null))
+                dispatch(setRenewal(null));
+                dispatch(setResume(null));
             }catch(err: any){
                 setSubmitLoading(false);
                 toast.error(err.message);

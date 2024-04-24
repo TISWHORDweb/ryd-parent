@@ -19,26 +19,30 @@ export default function ActivitySection({ data, loading }: Props) {
             { data?.length > 0 &&
                 <div className='grid gap-5'>
                     {data?.map((item, index) => (
-                        <ActivityCard
-                            key={index}
-                            childName={item?.firstName}
-                            imageUrl={item?.programs[0]?.package?.imageUrl}
-                            title={item?.programs[0]?.package?.title}
-                            amount={item?.programs[0]?.package?.amount}
-                            altAmount={item?.programs[0]?.package?.altAmount}
-                            description={item?.programs[0]?.package?.description}
-                            minAge={item?.programs[0]?.package?.minAge}
-                            maxAge={item?.programs[0]?.package?.maxAge}
-                            week={item?.programs[0]?.package?.weekDuration}
-                            createdAt={item?.programs[0]?.package?.createdAt}
-                            mediaUrl={item?.programs[0]?.mediaUrl}
-                            teacher={item?.programs[0]?.teacher?.firstName + ' ' + item?.programs[0]?.teacher?.lastName}
-                            attendance={item?.programs[0].attendance}
-                            classUrl={item?.programs[0]?.teacher?.classLink}
-                            oldClassLink={item?.programs[1]?.teacher?.classLink}
-                            docUrl={item?.programs[0]?.teacher?.docUrl}
-                            isActive={!item?.programs[0]?.isCompleted}
-                        />
+                        <>
+                        {item?.programs?.map((activity: any) => (
+                            <ActivityCard
+                                key={index}
+                                childName={item?.firstName}
+                                imageUrl={activity?.package?.imageUrl}
+                                title={activity?.package?.title}
+                                amount={activity?.package?.amount}
+                                altAmount={activity?.package?.altAmount}
+                                description={activity?.package?.description}
+                                minAge={activity?.package?.minAge}
+                                maxAge={activity?.package?.maxAge}
+                                week={activity?.package?.weekDuration}
+                                createdAt={activity?.package?.createdAt}
+                                mediaUrl={activity?.mediaUrl}
+                                teacher={activity?.teacher?.firstName + ' ' + activity?.teacher?.lastName}
+                                attendance={activity.attendance}
+                                classUrl={activity?.teacher?.classLink}
+                                oldClassLink={activity?.teacher?.classLink}
+                                docUrl={activity?.teacher?.docUrl}
+                                isActive={!activity?.isCompleted}
+                            />
+                        ))}
+                        </>
                     ))}
                 </div>
             }
