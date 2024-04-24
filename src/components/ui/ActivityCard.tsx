@@ -47,6 +47,7 @@ export default function ActivityCard({
     const mediaBoxContainer = 'w-full flex flex-wrap gap-5 items-center mt-5';
     const mediaBtn = 'flex items-center gap-2 px-[16px] lg:py-[7px] py-[7px] rounded-[16px] border border-[#476788] text-ryd-subTextPrimary text-[12px]';
     const goToBtn = 'flex items-center gap-2 px-[16px] lg:py-[7px] py-[7px] rounded-[16px] border border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white text-[12px]';
+    const goToBtnDisabled = 'flex items-center gap-2 px-[16px] lg:py-[7px] py-[7px] rounded-[16px] border border-gray-100 text-gray-100 text-[12px] cursor-not-allowed';
     const subFlexStyle = 'lg:flex items-center text-[13px] text-[#576877]';
     const subLabelStyle = 'text-white bg-ryd-primary py-1 px-3 rounded-tl-[10px] lg:rounded-bl-[10px] rounded-bl-[0px] lg:rounded-tr-[0px] rounded-tr-[10px] text-[12px]';
     const subPStyle = ' bg-ryd-primaryLess1 py-1 px-3 lg:rounded-tr-[10px] lg:rounded-bl-[0px] rounded-bl-[10px]  rounded-tr-[0px] rounded-br-[10px] text-[12px] text-center'
@@ -98,7 +99,11 @@ export default function ActivityCard({
                         <img src={mediaIcon} alt="media" className='h-[14px] w-[14px]' />
                         <span>Media</span>
                     </Link>
-                    <Link to={docUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
+                    {docUrl === '' ? 
+                        <button disabled className={goToBtnDisabled}>Get Curriculum</button>
+                    :
+                    <Link to={docUrl} aria-disabled className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
+                    }
                     {oldClassLink?<Link to={oldClassLink} className={goToBtn} target='_blank' rel="noopener noreferrer">Previous Class</Link>:null}
                     <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link>
                 </div>
