@@ -167,7 +167,7 @@ export default function SectionThree() {
                         modalStyle="relative bg-white lg:w-[30%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[15rem] mt-[3rem]"
                         closeModal={() => setIsNewCohort(false)}
                         >
-                            <div className='p-[2rem]'>
+                            <div className='p-[2rem] w-fit mx-auto text-center'>
                                 <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={() => setIsNewCohort(false)} />
 
                                 <div className='lg:h-[70px] h-[50px] lg:w-[70px] w-[50px] mx-auto'>
