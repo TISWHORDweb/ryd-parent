@@ -121,7 +121,7 @@ export default function Home() {
 
     useEffect(() => {
         if(resumeChildReg){
-            setRegTab(0.5);
+            setRegTab(0.7);
             setToggleRegModal(true);
             setIsRenewing(false)
             setChildInfo(resumeChildReg)
@@ -135,7 +135,7 @@ export default function Home() {
 
     useEffect(() => {
         if(child){
-            setRegTab(0.7);
+            setRegTab(0.5);
             setToggleRegModal(true);
             setIsRenewing(true)
             setChildInfo(child)

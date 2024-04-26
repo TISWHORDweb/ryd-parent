@@ -19,7 +19,7 @@ interface Props {
 }
 
 
-const formStyle = `lg:h-fit h-[80vh] overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
+const formStyle = `h-fit overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
 const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[1rem]`;
 const flexContainer = `w-full lg:flex grid gap-5 mb-[1rem]`;
 const gridContainer = `w-full grid gap-1`;
@@ -37,9 +37,10 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
     const [ formData, setFormData ] = useState(initialValues);
     const [ dayTime, setDayTime ] = useState<any>([]);
     const [ dayArr, setDayArr ] = useState<{ name: string; value: number; }[] | []>([]);
-    const [ selectedDay, setSelectedDay ] = useState<{ name: string, value: number } | null>(null);
     const [ timeArr, setTimeArr ] = useState<{ name: string; value: number; }[] | []>([]);
+
     const  [ selectedTime, setSelectedTime ] = useState<{ name: string, value: number } | null>(null);
+    const [ selectedDay, setSelectedDay ] = useState<{ name: string, value: number } | null>(null);
     const [ loading, setLoading ] = useState(false);
 
 
@@ -81,6 +82,7 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
         }
         
         setChildInfo(selectedDay.value, selectedTime.value)
+        // console.log('from renew', selectedDay, selectedTime)
         handleNext();
     };
 
