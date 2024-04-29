@@ -5,6 +5,7 @@ import { formatCurrency, formatDate } from '../custom-hooks';
 import imgBg from '../../assets/images/bg-info.jpg';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/rootReducer';
+import { curriculum } from '../../utils/constants';
 
 interface Props {
     imageUrl: string,
@@ -23,11 +24,12 @@ interface Props {
     childName: string,
     teacher: string,
     isActive: boolean,
-    oldClassLink: string
+    oldClassLink: string,
+    level: number,
 }
 
 export default function ActivityCard({
-    imageUrl, amount,
+    imageUrl, amount, level,
     altAmount, title,
     description, minAge,
     maxAge, week,
@@ -50,7 +52,32 @@ export default function ActivityCard({
     const goToBtnDisabled = 'flex items-center gap-2 px-[16px] lg:py-[7px] py-[7px] rounded-[16px] border border-gray-100 text-gray-100 text-[12px] cursor-not-allowed';
     const subFlexStyle = 'lg:flex items-center text-[13px] text-[#576877]';
     const subLabelStyle = 'text-white bg-ryd-primary py-1 px-3 rounded-tl-[10px] lg:rounded-bl-[10px] rounded-bl-[0px] lg:rounded-tr-[0px] rounded-tr-[10px] text-[12px]';
-    const subPStyle = ' bg-ryd-primaryLess1 py-1 px-3 lg:rounded-tr-[10px] lg:rounded-bl-[0px] rounded-bl-[10px]  rounded-tr-[0px] rounded-br-[10px] text-[12px] text-center'
+    const subPStyle = ' bg-ryd-primaryLess1 py-1 px-3 lg:rounded-tr-[10px] lg:rounded-bl-[0px] rounded-bl-[10px]  rounded-tr-[0px] rounded-br-[10px] text-[12px] text-center';
+
+
+const getCurriculum = (title: string, level: number) => {
+    if(title.toLowerCase().includes('basic')){
+        if(Number(level) === 1){
+            return curriculum.l1_basic;
+        }else if(Number(level) === 2){
+            return curriculum.l2_basic;
+        }else if(Number(level) === 3){
+            return curriculum.l3_basic;
+        }else{
+            return '';
+        }
+    }else{
+        if(Number(level) === 1){
+            return curriculum.l1_advanced;
+        }else if(Number(level) === 2){
+            return curriculum.l2_advanced;
+        }else if(Number(level) === 3){
+            return curriculum.l3_advanced;
+        }else{
+            return '';
+        }
+    }
+}
 
     return (
         <div className={cardContainerStyle}>
@@ -99,11 +126,11 @@ export default function ActivityCard({
                         <img src={mediaIcon} alt="media" className='h-[14px] w-[14px]' />
                         <span>Media</span>
                     </Link>
-                    {docUrl === '' ? 
+                    {/* {docUrl === '' ? 
                         <button disabled className={goToBtnDisabled}>Get Curriculum</button>
-                    :
-                    <Link to={docUrl} aria-disabled className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
-                    }
+                    : */}
+                    <Link to={getCurriculum(title, level)} aria-disabled className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
+                    {/* } */}
                     {oldClassLink?<Link to={oldClassLink} className={goToBtn} target='_blank' rel="noopener noreferrer">Previous Class</Link>:null}
                     <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link>
                 </div>
