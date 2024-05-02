@@ -32,12 +32,12 @@ export default function ForgotPassword(props : Props){
                 toast.error(response?.message);
                 return;
             }
-            toast.error(response.message);
+            toast.success(response?.message);
             navigate('/parent/sign-in');
         }catch(err: any){
             setLoading(false);
             toast.error(err.message);
-            return
+            return;
         }
     }
 

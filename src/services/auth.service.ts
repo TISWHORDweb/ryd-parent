@@ -87,7 +87,7 @@ class AuthService {
     async forgotPassword(payload: ForgotPasswordProps) {
         try {
             const response = await request(
-                '' , 
+                '/parent/auth/password-reset' , 
                 'POST',
                 payload,
                 false,
