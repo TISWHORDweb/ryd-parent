@@ -32,7 +32,7 @@ export default function ForgotPassword(props : Props){
                 toast.error(response?.message);
                 return;
             }
-            toast.success(response?.message);
+            toast.success(`${response?.message}: a new password has been sent to your email.`);
             navigate('/parent/sign-in');
         }catch(err: any){
             setLoading(false);
