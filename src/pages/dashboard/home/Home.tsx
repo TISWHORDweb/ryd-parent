@@ -192,7 +192,7 @@ export default function Home() {
                 {regTab === 0.7 &&
                     <RegResumptionModal
                         setChildInfo={(_arg1: any, _arg2: any) => {
-                            setChildInfo({...childInfo, _arg1, _arg2 });
+                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2 }]  });
                         }}
                         handleNext={() => setRegTab(1)}
                         closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}

@@ -75,12 +75,16 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
 
     const handleSubmit = async(e: any) => {
         e.preventDefault();
-        if(!selectedDay || !selectedTime){
-            toast.error('Date/Time is required!');
+        if(!selectedDay){
+            toast.error('Date is required!');
+            return;
+        }
+        if(!selectedTime){
+            toast.error('Time is required!');
             return;
         }
 
-        setChildInfo(selectedDay, selectedTime)
+        setChildInfo(selectedDay.value, selectedTime.value);
         handleNext();
     };
 
