@@ -11,7 +11,7 @@ export default function ActivitySection({ data, loading }: Props) {
 
 
     return (
-        <div className={`grid gap-[3rem] relative ${data?.length === 0 && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
+        <div className={`grid gap-[3rem] relative ${data?.length === 0 && !loading && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
             {loading ? <div className='h-[100px] w-[100px] rounded-full absolute left-[50%] top-[20%] border border-ryd-primary border-l-white animate-spin'></div> :
             <>
                 { data?.length === 0 &&
