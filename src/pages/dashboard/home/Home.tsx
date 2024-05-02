@@ -93,6 +93,7 @@ export default function Home() {
             setRegTab(0);
             setToggleRegModal(false);
             dispatch(setRenewal(null));
+            dispatch(setResume(null))
         }else{
             return;
         }
