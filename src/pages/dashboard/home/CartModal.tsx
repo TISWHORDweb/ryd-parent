@@ -113,7 +113,7 @@ export default function CartModal({ closeCart }: Props) {
             {/* <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegModal} /> */}
             <h1 className={h1Style}>Cart</h1>
             {loading ? 
-                <div className='h-[100px] w-[100px] rounded-full mt-5 border border-ryd-primary border-l-white animate-spin'></div> :
+                <div className='h-[100px] w-[100px] mx-auto rounded-full mt-5 border border-ryd-primary border-l-white animate-spin'></div> :
                 <>
                     { cartArr.length > 0 ?
                         <div>

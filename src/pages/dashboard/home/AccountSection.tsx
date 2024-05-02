@@ -10,7 +10,7 @@ interface Props {
 export default function AccountSection({ data, setTab, loading }: Props) {
 
     return (
-        <div className={`grid gap-[3rem] relative ${data?.length === 0 && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
+        <div className={`grid gap-[3rem] relative ${data?.length === 0 && !loading && 'border border-gray-100 rounded-[16px] pb-[6rem]'}`}>
             { loading ? <div className='h-[100px] w-[100px] left-[50%] top-[20%] rounded-full absolute border border-ryd-primary border-l-white animate-spin'></div> :
             <>
                 { data?.length === 0 &&
