@@ -65,7 +65,7 @@ export default function StudentCard({ setTab, item }: Props) {
                     </div>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Level</label>
-                        <label className={pStyle}>{Number(item?.level)-1}</label>
+                        <label className={pStyle}>{Number(item?.level)}</label>
                     </div>
                 </div>
 
