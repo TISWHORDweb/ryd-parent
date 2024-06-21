@@ -98,7 +98,7 @@ export default function StudentCard({ setTab, item }: Props) {
                             View Activity
                     </button>
 
-                    { !item.programs[0].isCompleted &&
+                    {
                     <Link
                         to={item?.programs[0]?.teacher?.classLink}
                         className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}

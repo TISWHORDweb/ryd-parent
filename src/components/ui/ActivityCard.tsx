@@ -128,10 +128,10 @@ const getCurriculum = (title: string, level: number) => {
                     </Link>
                     {/* {docUrl === '' ?
                         <button disabled className={goToBtnDisabled}>Get Curriculum</button>
-                    : */}
+                    :
                     <Link to={getCurriculum(title, level)} aria-disabled className={goToBtn} target='_blank' rel="noopener noreferrer">Get curriculum</Link>
                     {/* } */}
-                    {oldClassLink?<Link to={oldClassLink} className={goToBtn} target='_blank' rel="noopener noreferrer" style={{display: 'none'}}>Previous Class</Link>:null}
+                    {oldClassLink?<Link to={oldClassLink} className={goToBtn} target='_blank' rel="noopener noreferrer">Previous Class</Link>:null}
                     <Link to={classUrl} className={goToBtn} target='_blank' rel="noopener noreferrer">Go to class</Link>
                 </div>
             </div>
