@@ -44,7 +44,8 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             }
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === childInfo?.level));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
+            console.log(childInfo, 'childInfo')
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
                 setSelected(programFilter[0].id);
@@ -58,6 +59,8 @@ export default function RegSubModal({
         return false;
     };
 
+    //console.log(childInfo, 'childInfo')
+
     const handleSubmit = async() => {
         if(selected){
             //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
@@ -67,8 +70,7 @@ export default function RegSubModal({
             const level =  isRenewing ? childInfo.level : 1;
             const time = isRenewing ? childInfo.programs[0]?.time : (childInfo?.selectedTime?.value || childInfo.programs[0]?.time) ;
             const childId = childInfo.id;
-            const payload = { packageId, timeOffset, day, time, level }
-
+            const payload = { packageId, timeOffset, day, time, level, cohortId: childInfo?.programs[0]?.cohortId}
 
             setSubmitLoading(true);
             try{

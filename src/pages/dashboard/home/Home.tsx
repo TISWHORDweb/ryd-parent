@@ -79,7 +79,7 @@ export default function Home() {
                 return;
             }
             // filter programs based on student age; compare child age to viable age range
-            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === child?.child?.level))
+            const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === 1))
             //const programFilter = response.data.find((item: any) => (item?.minAge <= child?.child?.age) && (item?.maxAge >= child?.child?.age) && (item?.level === 1))
             setProgramArr(programFilter);
         }catch(err: any){
@@ -177,8 +177,8 @@ export default function Home() {
                 }
                 {regTab === 0.5 &&
                     <RegRenewalModal
-                        setChildInfo={(_arg1: number, _arg2: number) => {
-                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2 }] });
+                        setChildInfo={(_arg1: number, _arg2: number, _cohortId: number) => {
+                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2, cohortId: _cohortId }] });
                         }}
                         handleNext={() => setRegTab(1)}
                         closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}
@@ -191,8 +191,8 @@ export default function Home() {
                 }
                 {regTab === 0.7 &&
                     <RegResumptionModal
-                        setChildInfo={(_arg1: any, _arg2: any) => {
-                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2 }]  });
+                        setChildInfo={(_arg1: any, _arg2: any, _cohortId: number) => {
+                            setChildInfo({...childInfo, programs:[{ ...childInfo.programs[0],  day: _arg1, time: _arg2, cohortId: _cohortId }]  });
                         }}
                         handleNext={() => setRegTab(1)}
                         closeModalOnOutsideClick={(data: boolean) => setIsClosable(data)}

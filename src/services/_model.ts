@@ -44,5 +44,6 @@ export interface AddProgramProps {
     time: number,
     day: number,
     timeOffset: number,
-    packageId: number
+    packageId: number,
+    cohortId: number
 }

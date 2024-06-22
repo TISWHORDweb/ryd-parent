@@ -13,7 +13,7 @@ const initialValues = {
 
 interface Props {
     handleNext: () => void;
-    setChildInfo: (_arg1: any, _arg2: any) => void;
+    setChildInfo: (_arg1: any, _arg2: any, _cohortId: number) => void;
     closeModalOnOutsideClick: (data: boolean) => void;
     closeRegTab: () => void;
 }
@@ -39,9 +39,10 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
     const [ dayArr, setDayArr ] = useState<{ name: string; value: number; }[] | []>([]);
     const [ selectedDay, setSelectedDay ] = useState<{ name: string, value: number } | null>(null);
     const [ timeArr, setTimeArr ] = useState<{ name: string; value: number; }[] | []>([]);
+    const [ cohortId, setCohortId ] = useState(0);
+    const [ cohortArr, setCohortArr ] = useState<{ name: string; value: number; }[] | []>([]);
     const  [ selectedTime, setSelectedTime ] = useState<{ name: string, value: number } | null>(null);
     const [ loading, setLoading ] = useState(false);
-
 
     // load all available days and their corresponding time for BE
     const getDayTime = async() => {
@@ -50,13 +51,20 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
             if(!response.status){
                 toast.error(response.message)
                 return;
-            }       
+            }
             setDayTime(response.data);
             // dispatch(setDayTimeInfo(response.data))
 
+            const responseCohort = await userService.getCohort()
+            if(!responseCohort.status){
+                toast.error(responseCohort.message)
+                return;
+            }
+            setCohortArr(responseCohort.data);
+
             let xdayArr = []
             if(response?.data?.length > 0){
-                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
                 for(let i=0; i < response.data.length; i++){
                     let name = response.data[i].dayText;
                     let value = response.data[i].day;
@@ -72,7 +80,6 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
     };
 
 
-
     const handleSubmit = async(e: any) => {
         e.preventDefault();
         if(!selectedDay){
@@ -83,14 +90,17 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
             toast.error('Time is required!');
             return;
         }
-
-        setChildInfo(selectedDay.value, selectedTime.value);
+        if(!cohortId){
+            toast.error('Cohort is required!');
+            return;
+        }
+        setChildInfo(selectedDay.value, selectedTime.value, cohortId);
         handleNext();
     };
 
 
     const keepModalOpen = () => {
-        // if all these are unfilled or empty then closing modal by clicking outside is possible 
+        // if all these are unfilled or empty then closing modal by clicking outside is possible
         if(selectedTime === null && selectedDay === null){
             closeModalOnOutsideClick(true)
         }else{
@@ -112,7 +122,7 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
         if(selectedDay){
             const timeX = dayTime?.filter((item: any) => item.dayText === selectedDay.name);
             const tdx = timeX[0].times;
-            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
             let arr = []
             for(let i=0; i < tdx.length; i++){
                 let name = tdx[i].timeText;
@@ -139,7 +149,7 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
                     <label className={labelStyle}>Lesson day</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)}
                         data={dayArr}
                         />
                 </div>
@@ -151,14 +161,26 @@ export default function RegResumptionModal({ handleNext, setChildInfo, closeModa
                     <label className={labelStyle}>Lesson time</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)}
                         data={timeArr}
                         />
                 </div>
             </div>
 
+            {/* available cohort  */}
+            <div className={flexContainer}>
+                <div className={gridContainer}>
+                    <label className={labelStyle}>Choose Cohort</label>
+                    <select className={inputFieldStyle} onChange={(e: any) => {
+                        setCohortId(Number(e.target.value))
+                    }}>
+                        <option value={0}>--Choose Cohort--</option>
+                        {cohortArr && cohortArr.map((d: any, i: number) => <option key={i} value={d.id}>{d.title}</option>)}
+                    </select>
+                </div>
+            </div>
 
-            <Button 
+            <Button
                 text={loading ? 'Processing...' : 'Next'}
                 isInverted={false}
                 category='button'

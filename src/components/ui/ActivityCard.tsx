@@ -26,6 +26,7 @@ interface Props {
     isActive: boolean,
     oldClassLink: string,
     level: number,
+    cohort: any
 }
 
 export default function ActivityCard({
@@ -37,7 +38,7 @@ export default function ActivityCard({
     attendance, classUrl,
     docUrl, childName,
     teacher,
-    isActive, oldClassLink
+    isActive, oldClassLink, cohort
 }: Props ) {
     const currencyInfo: any = useSelector((state: RootState) => state.user.currency);
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
@@ -118,7 +119,11 @@ const getCurriculum = (title: string, level: number) => {
                     </div>
                     <div className={subFlexStyle}>
                         <label className={subLabelStyle}>Teacher</label>
-                        <p className={subPStyle}>{teacher.includes("undefined")?"No Teacher":teacher}</p>
+                        <p className={subPStyle}>{teacher.includes("undefined") ? "No Teacher" : teacher}</p>
+                    </div>
+                    <div className={subFlexStyle}>
+                        <label className={subLabelStyle}>Cohort</label>
+                        <p className={subPStyle}>{cohort?.title || "No Cohort Assigned"}</p>
                     </div>
                 </div>
                 <div className={mediaBoxContainer}>

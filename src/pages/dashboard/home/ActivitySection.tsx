@@ -7,7 +7,7 @@ interface Props {
 }
 
 
-export default function ActivitySection({ data, loading }: Props) { 
+export default function ActivitySection({ data, loading }: Props) {
 
 
     return (
@@ -44,6 +44,7 @@ export default function ActivitySection({ data, loading }: Props) {
                                     oldClassLink={activity?.teacher?.classLink}
                                     docUrl={activity?.teacher?.docUrl}
                                     isActive={!activity?.isCompleted}
+                                    cohort={activity?.cohort}
                                 />
                             ))}
                             </>

@@ -56,6 +56,8 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
     const [timeArr, setTimeArr] = useState<{ name: string; value: number; }[] | []>([]);
     const [selectedTime, setSelectedTime] = useState<{ name: string, value: number } | null>(null);
     const [loading, setLoading] = useState(false);
+    const [ cohortId, setCohortId ] = useState(0);
+    const [ cohortArr, setCohortArr ] = useState<{ name: string; value: number; }[] | []>([]);
 
 
     // load all available days and their corresponding time for BE
@@ -68,6 +70,13 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
             }
             setDayTime(response.data);
             // dispatch(setDayTimeInfo(response.data))
+
+            const responseCohort = await userService.getCohort()
+            if(!responseCohort.status){
+                toast.error(responseCohort.message)
+                return;
+            }
+            setCohortArr(responseCohort.data);
 
             let xdayArr = []
             if (response?.data?.length > 0) {
@@ -94,8 +103,8 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if (!selectedDay || !selectedTime) {
-            toast.error('Date/Time is required!');
+        if (!selectedDay || !selectedTime || !cohortId) {
+            toast.error('date, time, and cohort is required!');
             return;
         }
 
@@ -107,7 +116,7 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
                 toast.error(response.message);
                 return;
             }
-            const childData = {...response.data, selectedDay, selectedTime};
+            const childData = {...response.data, selectedDay, selectedTime, cohortId};
             setChildInfo(childData);
             handleNext();
         } catch (err: any) {
@@ -154,7 +163,7 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
         }
     }, [selectedDay]);
 
- 
+
 
 
     return (
@@ -253,6 +262,18 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
                 </div>
             </div>
 
+            {/* available cohort  */}
+            <div className={flexContainer}>
+                <div className={gridContainer}>
+                    <label className={labelStyle}>Choose Cohort</label>
+                    <select className={inputFieldStyle} onChange={(e: any) => {
+                        setCohortId(Number(e.target.value))
+                    }}>
+                        <option value={0}>--Choose Cohort--</option>
+                        {cohortArr && cohortArr.map((d: any, i: number) => <option key={i} value={d.id}>{d.title}</option>)}
+                    </select>
+                </div>
+            </div>
 
             <Button
                 text={loading ? 'Processing...' : 'Next'}

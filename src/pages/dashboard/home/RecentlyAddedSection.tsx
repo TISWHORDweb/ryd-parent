@@ -161,7 +161,7 @@ export default function RecentlyAddedSection() {
                 <div className='p-[2rem]'>
                     <h2 className='text-[18px] text-center mb-5'>Are you sure you want to delete child?</h2>
                     <div className='flex items-center gap-x-5 text-[14px]'>
-                        <button onClick={handleChildDelete}  className={`w-full px-5 py-3 border border-red-700 bg-red-700 text-white rounded-[8px]`}>{loading ? 'deleteing...' : 'Yes, delete'}</button>
+                        <button onClick={handleChildDelete}  className={`w-full px-5 py-3 border border-red-700 bg-red-700 text-white rounded-[8px]`}>{loading ? 'deleting...' : 'Yes, delete'}</button>
                         <button  onClick={() => setToggleDel(false)} className={`w-full px-5 py-3 border border-gray-200 bg-gray-200 text-black rounded-[8px]`}>No</button>
                     </div>
                 </div>

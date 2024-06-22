@@ -13,7 +13,7 @@ const initialValues = {
 
 interface Props {
     handleNext: () => void;
-    setChildInfo: (_arg1: number, _arg2: number) => void;
+    setChildInfo: (_arg1: number, _arg2: number, _cohortId: number) => void;
     closeModalOnOutsideClick: (data: boolean) => void;
     closeRegTab: () => void;
 }
@@ -38,6 +38,8 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
     const [ dayTime, setDayTime ] = useState<any>([]);
     const [ dayArr, setDayArr ] = useState<{ name: string; value: number; }[] | []>([]);
     const [ timeArr, setTimeArr ] = useState<{ name: string; value: number; }[] | []>([]);
+    const [ cohortId, setCohortId ] = useState(0);
+    const [ cohortArr, setCohortArr ] = useState<{ name: string; value: number; }[] | []>([]);
 
     const  [ selectedTime, setSelectedTime ] = useState<{ name: string, value: number } | null>(null);
     const [ selectedDay, setSelectedDay ] = useState<{ name: string, value: number } | null>(null);
@@ -51,13 +53,20 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
             if(!response.status){
                 toast.error(response.message)
                 return;
-            }       
+            }
             setDayTime(response.data);
+
+            const responseCohort = await userService.getCohort()
+            if(!responseCohort.status){
+                toast.error(responseCohort.message)
+                return;
+            }
+            setCohortArr(responseCohort.data);
             // dispatch(setDayTimeInfo(response.data))
 
             let xdayArr = []
             if(response?.data?.length > 0){
-                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+                // extracted dayText and day values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
                 for(let i=0; i < response.data.length; i++){
                     let name = response.data[i].dayText;
                     let value = response.data[i].day;
@@ -76,19 +85,19 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
 
     const handleSubmit = async(e: any) => {
         e.preventDefault();
-        if(!selectedDay || !selectedTime){
-            toast.error('Date/Time is required!');
+        if(!selectedDay || !selectedTime || !cohortId){
+            toast.error('Date or time or cohort is required!');
             return;
         }
-        
-        setChildInfo(selectedDay.value, selectedTime.value)
+
+        setChildInfo(selectedDay.value, selectedTime.value, cohortId)
         // console.log('from renew', selectedDay, selectedTime)
         handleNext();
     };
 
 
     const keepModalOpen = () => {
-        // if all these are unfilled or empty then closing modal by clicking outside is possible 
+        // if all these are unfilled or empty then closing modal by clicking outside is possible
         if(selectedTime === null && selectedDay === null){
             closeModalOnOutsideClick(true)
         }else{
@@ -110,7 +119,7 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
         if(selectedDay){
             const timeX = dayTime?.filter((item: any) => item.dayText === selectedDay.name);
             const tdx = timeX[0].times;
-            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component 
+            // extracted timeText and time values and saved them as 'name' and 'value' respectively for ease of use in the custom dropdown component
             let arr = []
             for(let i=0; i < tdx.length; i++){
                 let name = tdx[i].timeText;
@@ -137,7 +146,7 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
                     <label className={labelStyle}>Lesson day</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedDay(data)}
                         data={dayArr}
                         />
                 </div>
@@ -149,14 +158,26 @@ export default function RegRenewalModal({ handleNext, setChildInfo, closeModalOn
                     <label className={labelStyle}>Lesson time</label>
                     <CustomDropdown
                         className={inputFieldStyle}
-                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)} 
+                        handleChange={(data: { name: string, value: number}) => setSelectedTime(data)}
                         data={timeArr}
                         />
                 </div>
             </div>
 
+            {/* available cohort  */}
+            <div className={flexContainer}>
+                <div className={gridContainer}>
+                    <label className={labelStyle}>Choose Cohort</label>
+                    <select className={inputFieldStyle} onChange={(e: any) => {
+                        setCohortId(Number(e.target.value))
+                    }}>
+                        <option value={0}>--Choose Cohort--</option>
+                        {cohortArr && cohortArr.map((d: any, i: number) => <option key={i} value={d.id}>{d.title}</option>)}
+                    </select>
+                </div>
+            </div>
 
-            <Button 
+            <Button
                 text={loading ? 'Processing...' : 'Next'}
                 isInverted={false}
                 category='button'

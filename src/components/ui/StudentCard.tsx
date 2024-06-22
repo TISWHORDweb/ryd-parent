@@ -43,7 +43,8 @@ export default function StudentCard({ setTab, item }: Props) {
             <div className='pt-7 pb-[2rem] w-fit mx-auto'>
                 <div className='flex  flex-wrap items-start  gap-5'>
                     <h1 className={h1Style}>{item?.firstName} {item?.lastName}</h1>
-                    <div className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status && item.allowNewCohort === false ? 'bg-green-500': 'bg-red-500'}`}>{item.status && item.allowNewCohort === false ? 'Active' : 'Inactive'}</div>
+                    <div
+                        className={`text-[10px] relative z-10 px-3 py-1 rounded-[16px] tracking-wide text-white ${item.status && item.allowNewCohort === false ? 'bg-green-500' : 'bg-red-500'}`}>{item.status && item.allowNewCohort === false ? 'Active' : 'Inactive'}</div>
                 </div>
 
 
@@ -65,7 +66,7 @@ export default function StudentCard({ setTab, item }: Props) {
                     </div>
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Level</label>
-                        <label className={pStyle}>{Number(item?.level)}</label>
+                        <label className={pStyle}>{Number(item?.programs[0]?.package?.level)}</label>
                     </div>
                 </div>
 
@@ -78,48 +79,51 @@ export default function StudentCard({ setTab, item }: Props) {
                     <div className={subFlexCont}>
                         <label className={labelStyle}>Time</label>
                         <label className={pStyle}>
-                        <Moment format="hh:mm A" date={pTime.toISOString()}></Moment>
+                            <Moment format="hh:mm A" date={pTime.toISOString()}></Moment>
                         </label>
                     </div>
                 </div>
 
-
                 {/* <div className='flex gap-8 mt-[.4rem]'> */}
                 <div className={`${subFlexCont} mt-4`}>
                     <label className={labelStyle}>Commence date</label>
-                    <label className={pStyle}>{formatDate(item?.createdAt)}</label>
+                    <label className={pStyle}>{item?.programs[0]?.cohort?formatDate(item?.programs[0]?.cohort?.startDate):"No Cohort Date"}</label>
+                </div>
+
+                <div className={`${subFlexCont} mt-4`}>
+                    <label className={labelStyle}>Cohort</label>
+                    <label className={pStyle}>{item?.programs[0]?.cohort?.title || "No Cohort Assigned"}</label>
                 </div>
 
                 <div className={mediaBoxContainer}>
                     <button
                         onClick={() => setTab(item?.id)}
-                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}
-                        >
-                            View Activity
+                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}>
+                        View Activity
                     </button>
 
                     {
-                    <Link
-                        to={item?.programs[0]?.teacher?.classLink}
-                        className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}
-                        target='_blank'
-                        rel="noopener noreferrer">
+                        <Link
+                            to={item?.programs[0]?.teacher?.classLink}
+                            className={`${goToBtn} border-ryd-primary text-ryd-primary hover:bg-ryd-primary hover:text-white`}
+                            target='_blank'
+                            rel="noopener noreferrer">
                             Go to class
                         </Link>
                     }
 
-                    { item.allowNewCohort === true &&
+                    {item.allowNewCohort === true &&
                         <button
                             onClick={() => dispatch(setRenewal(item))}
                             className={`${goToBtn} border-red-800 text-red-800 hover:bg-red-800 hover:text-white`}
                             onMouseOver={() => setHoverToggle(true)}
                             onMouseOut={() => setHoverToggle(false)}
-                            >
+                        >
                             <img
                                 src={hoverToggle ? premiumIcon : onPremiumIcon}
                                 alt="prem"
                                 className='h-[15px] flex items-start'
-                                />
+                            />
                             Add New Program
                         </button>
                     }

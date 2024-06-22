@@ -19,7 +19,7 @@ class UserService {
     async getUserData() {
         try {
             const response = await request(
-                '/parent/auth/register' , 
+                '/parent/auth/register' ,
                 'GET',
                 {},
                 true,
@@ -35,7 +35,7 @@ class UserService {
     async profileUpdate(payload: ProfileUpdateProps) {
         try {
             const response = await request(
-                '/parent/auth/profile-update' , 
+                '/parent/auth/profile-update' ,
                 'POST',
                 payload,
                 true,
@@ -52,7 +52,7 @@ class UserService {
     async passwordUpdate(payload: PasswordUpdateProps) {
         try {
             const response = await request(
-                '/parent/auth/password-update' , 
+                '/parent/auth/password-update' ,
                 'POST',
                 payload,
                 true,
@@ -69,7 +69,7 @@ class UserService {
     async getAllPackages() {
         try {
             const response = await request(
-                '/common/package/all' , 
+                '/common/package/all' ,
                 'GET',
                 {},
                 true,
@@ -85,7 +85,7 @@ class UserService {
     async getDayTime() {
         try {
             const response = await request(
-                '/common/program/daytime' , 
+                '/common/program/daytime' ,
                 'GET',
                 {},
                 true,
@@ -97,11 +97,11 @@ class UserService {
             throw err;
         }
     }
-    
+
     async addChild(payload: AddChildProps){
         try {
             const response = await request(
-                '/parent/child/add' , 
+                '/parent/child/add' ,
                 'POST',
                 payload,
                 true,
@@ -117,7 +117,7 @@ class UserService {
     async deleteChild(payload: AddChildProps){
         try {
             const response = await request(
-                `/parent/child/remove/${payload}` , 
+                `/parent/child/remove/${payload}` ,
                 'GET',
                 {},
                 true,
@@ -133,7 +133,7 @@ class UserService {
     async addProgram(payload: AddProgramProps, id: number | string){
         try {
             const response = await request(
-                `/parent/program/add/${id}` , 
+                `/parent/program/add/${id}` ,
                 'POST',
                 payload,
                 true,
@@ -147,10 +147,13 @@ class UserService {
     }
 
 
+
+
+
     async getCart(){
         try {
             const response = await request(
-                '/parent/program/get/cart' , 
+                '/parent/program/get/cart' ,
                 'GET',
                 {},
                 true,
@@ -166,7 +169,7 @@ class UserService {
     async deleteProgram(id: number | string){
         try {
             const response = await request(
-                `/parent/program/del/cart/${id}` , 
+                `/parent/program/del/cart/${id}` ,
                 'GET',
                 {},
                 true,
@@ -183,7 +186,7 @@ class UserService {
     async getCurrency(){
         try {
             const response = await request(
-                `/parent/get/currency` , 
+                `/parent/get/currency` ,
                 'GET',
                 {},
                 true,
@@ -200,7 +203,7 @@ class UserService {
     async getChildren(){
         try {
             const response = await request(
-                `/parent/program/get/all` , 
+                `/parent/program/get/all` ,
                 'GET',
                 {},
                 true,
@@ -216,7 +219,7 @@ class UserService {
     async getSurvey(){
         try {
             const response = await request(
-                `/parent/survey/get` , 
+                `/parent/survey/get` ,
                 'GET',
                 {},
                 true,
@@ -232,7 +235,7 @@ class UserService {
     async answerSurvey(id: string | number, payload: { response: boolean }){
         try {
             const response = await request(
-                `/parent/survey/answer/${id}` , 
+                `/parent/survey/answer/${id}` ,
                 'POST',
                 payload,
                 true,
@@ -248,7 +251,7 @@ class UserService {
     async getAllChildren(){
         try {
             const response = await request(
-                `/parent/child/get` , 
+                `/parent/child/get` ,
                 'GET',
                 {},
                 true,
@@ -262,6 +265,22 @@ class UserService {
     }
 
 
+
+    async getCohort(){
+        try {
+            const response = await request(
+                `/parent/program/get/cohort` ,
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
 }
 
 
