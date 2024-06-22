@@ -61,6 +61,7 @@ export default function RegSubModal({
 
     const handleSubmit = async() => {
         if(selected){
+            //console.log(childInfo)
             //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
             const packageId = selected;
             const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
@@ -68,7 +69,7 @@ export default function RegSubModal({
             const level =  isRenewing ? childInfo.level : 1;
             const time = isRenewing ? childInfo.programs[0]?.time : (childInfo?.selectedTime?.value || childInfo.programs[0]?.time) ;
             const childId = childInfo.id;
-            const payload = { packageId, timeOffset, day, time, level, cohortId: childInfo?.programs[0]?.cohortId}
+            const payload = { packageId, timeOffset, day, time, level, cohortId: childInfo?.cohortId}
 
             setSubmitLoading(true);
             try{
