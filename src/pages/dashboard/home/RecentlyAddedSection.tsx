@@ -110,7 +110,7 @@ export default function RecentlyAddedSection() {
                                 <p className={`${tableHeader} w-[10%] `}>Age</p>
                                 <p className={`${tableHeader} w-[15%] `}>Date Added</p>
                                 <p className={`${tableHeader} w-[15%] `}>Reg. Status</p>
-                                <p className={`${tableHeader} w-[20%] text-center`}>Action</p>
+                                <p className={`${tableHeader} w-[20%] text-left`}>Action</p>
                             </li>
                         </ul>
                         <ol>
@@ -123,7 +123,7 @@ export default function RecentlyAddedSection() {
                                     <p className={`${tableBody} w-[15%] `}>{formatDate(item?.createdAt)}</p>
                                     <p className={`${tableBody} w-[15%] `}>{item?.programs?.length === 0 ? <span>Incomplete</span> : <span>Completed</span>}</p>
                                    {item?.programs?.length === 0 ?
-                                        <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
+                                        <p className={`${tableBody} w-[20%] flex items-left justify-left gap-x-4`}>
                                             <button
                                                onClick={() => handleRegResumption(item)}
                                                title='inactive: coming soon'
@@ -138,17 +138,25 @@ export default function RecentlyAddedSection() {
                                                 Remove
                                             </button>
                                         </p> :
-                                       <p className={`${tableBody} w-[20%] flex items-center justify-center gap-x-4`}>
-                                           <button disabled={true} className={`${btnStyle} border border-gray-200 text-gray-200`}>Done
-                                           </button>
-                                       </p>
+                                       <>
+                                           <p className={`${tableBody} flex items-center justify-center gap-x-4`}>
+                                               <button disabled={true}
+                                                       className={`${btnStyle} border border-gray-200 text-gray-200`}>Done
+                                               </button>
+                                           </p>
+                                           <p className={`${tableBody} flex items-center justify-center gap-x-4`} style={{marginLeft: 5}}>
+                                               <button disabled={true}
+                                                       className={`${btnStyle} border border-gray-200 text-gray-200`}>Get Certificate.
+                                               </button>
+                                           </p>
+                                       </>
                                    }
                                 </li>
                             )
                         })}
                         </ol>
                     </> :
-                    <Empty text='You have no recent child record' />
+                    <Empty text='You have no recent child record'/>
                 }
 
             </div>

@@ -15,7 +15,7 @@ interface Props {
 
 export default function SectionThree() {
     const userService = new UserService();
-    
+
     const [activeTab, setActiveTab] = useState(0);
     const [imgSrc, setImgSrc] = useState('');
     const [data, setData] = useState<any>([]);
@@ -63,7 +63,7 @@ export default function SectionThree() {
     }
 
 
-    const checkCohortEligibility = (_arg: any) => { 
+    const checkCohortEligibility = (_arg: any) => {
         const exists = kids.some((child: any) => child.firstName.toLowerCase() === _arg.firstName.toLowerCase());
         if (!exists) {
             setKids([...kids, _arg]);
@@ -163,8 +163,7 @@ export default function SectionThree() {
                 {isNewCohort &&
                     <CustomModal
                         modalStyle="relative bg-white lg:w-[30%] md:w-[70%] w-[95%] mx-auto rounded-[16px] lg:mt-[15rem] mt-[3rem]"
-                        closeModal={() => setIsNewCohort(false)}
-                        >
+                        closeModal={() => setIsNewCohort(false)}>
                             <div className='p-[2rem] w-fit mx-auto text-center'>
                                 <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={() => setIsNewCohort(false)} />
 

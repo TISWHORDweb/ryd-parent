@@ -43,7 +43,7 @@ export default function RegSubModal({
                 return;
             }
             const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs?.package?.level ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
-            console.log(childInfo, 'childInfo')
+            //console.log(childInfo, 'childInfo')
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
                 setSelected(programFilter[0].id);
