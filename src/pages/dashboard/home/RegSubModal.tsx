@@ -33,8 +33,6 @@ export default function RegSubModal({
     const [ loading, setLoading ] = useState(false);
     const [ submitLoading, setSubmitLoading ] = useState(false);
 
-
-
     const getPackages = async() => {
         setLoading(true);
         try{
@@ -44,7 +42,7 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             }
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs?.package?.level ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
             console.log(childInfo, 'childInfo')
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
