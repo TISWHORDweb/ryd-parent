@@ -42,7 +42,7 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             }
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs?.package?.level ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs[0]?.package?.level ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
             //console.log(childInfo, 'childInfo')
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
