@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Button, Empty, ProgramCard } from '../../../components/ui';
+import {useEffect, useState} from 'react';
+import {Button, Empty, ProgramCard} from '../../../components/ui';
 import UserService from '../../../services/user.service';
-import { toast } from 'react-toastify';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../redux/rootReducer';
-import { setCart, setRenewal, setResume } from '../../../redux/reducers/userSlice';
+import {toast} from 'react-toastify';
+import {useDispatch, useSelector} from 'react-redux';
+import {RootState} from '../../../redux/rootReducer';
+import {setCart, setRenewal, setResume} from '../../../redux/reducers/userSlice';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
 
 interface Props {
@@ -19,38 +19,41 @@ const divStyle = `h-fit  overflow-y-auto px-7 pb-[2rem] pt-[2rem]`;
 const h1Style = `font-[400] text-[25px] leading-[36.2px] font-[AvertaStd-Semibold] text-center text-ryd-subTextPrimary mb-[2rem]`;
 
 export default function RegSubModal({
-    childInfo,
-    setSuccessModal,
-    closeRegTab,
-    isRenewing,
-}: Props) {
+                                        childInfo,
+                                        setSuccessModal,
+                                        closeRegTab,
+                                        isRenewing,
+                                    }: Props) {
     const userInfo: any = useSelector((state: RootState) => state.auth.userInfo);
     const userService = new UserService();
     const dispatch = useDispatch();
 
-    const [ selected, setSelected ] = useState<any>(null);
-    const [ programArr, setProgramArr ] = useState([]);
-    const [ loading, setLoading ] = useState(false);
-    const [ submitLoading, setSubmitLoading ] = useState(false);
+    const [selected, setSelected] = useState<any>(null);
+    const [programArr, setProgramArr] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [submitLoading, setSubmitLoading] = useState(false);
 
-    const getPackages = async() => {
+    const getPackages = async () => {
         setLoading(true);
-        try{
+        try {
             const response = await userService.getAllPackages();
             setLoading(false);
-            if(!response.status){
+            if (!response.status) {
                 toast.error(response.message)
                 return;
             }
-            // console.log(childInfo)
-            // console.log(response)
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === ((Array.isArray(childInfo?.programs)) ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
+            //check programs
+            const hasPrograms = Array.isArray(childInfo?.programs)
+            const hasProgramAndPackages = (hasPrograms && childInfo?.programs[0].hasOwnProperty("package"))
+            //console.log(hasPrograms)
+            //console.log(childInfo?.programs)
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (hasProgramAndPackages ? childInfo?.programs[0].package?.level + 1 : 1)));
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
-            if(programFilter?.length > 0){
+            if (programFilter?.length > 0) {
                 setSelected(programFilter[0]?.id);
             }
             setProgramArr(programFilter);
-        }catch(err: any){
+        } catch (err: any) {
             setLoading(false)
             toast.error(err?.message);
             return;
@@ -60,23 +63,23 @@ export default function RegSubModal({
 
     //console.log(childInfo, 'childInfo')
 
-    const handleSubmit = async() => {
-        if(selected){
+    const handleSubmit = async () => {
+        if (selected) {
             //console.log(childInfo)
             //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
             const packageId = selected;
             const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
             const day = isRenewing ? childInfo.programs[0]?.day : (childInfo?.selectedDay?.value || childInfo.programs[0]?.day);
-            const level =  isRenewing ? childInfo.level : 1;
-            const time = isRenewing ? childInfo.programs[0]?.time : (childInfo?.selectedTime?.value || childInfo.programs[0]?.time) ;
+            const level = isRenewing ? childInfo.level : 1;
+            const time = isRenewing ? childInfo.programs[0]?.time : (childInfo?.selectedTime?.value || childInfo.programs[0]?.time);
             const childId = childInfo.id;
-            const payload = { packageId, timeOffset, day, time, level, cohortId: childInfo?.cohortId}
+            const payload = {packageId, timeOffset, day, time, level, cohortId: childInfo?.cohortId}
 
             setSubmitLoading(true);
-            try{
-                const response = await userService.addProgram( payload, childId );
+            try {
+                const response = await userService.addProgram(payload, childId);
                 setSubmitLoading(false);
-                if(!response.status){
+                if (!response.status) {
                     toast.error(response.message);
                     dispatch(setCart(false));
                     return
@@ -86,7 +89,7 @@ export default function RegSubModal({
                 dispatch(setCart(true));
                 dispatch(setRenewal(null));
                 dispatch(setResume(null));
-            }catch(err: any){
+            } catch (err: any) {
                 setSubmitLoading(false);
                 toast.error(err.message);
             }
@@ -104,44 +107,50 @@ export default function RegSubModal({
 
     return (
         <div className={divStyle}>
-            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer' onClick={closeRegTab} />
+            <img src={closeIcon} alt="close" className='float-right relative -top-4 -right-3 hover:cursor-pointer'
+                 onClick={closeRegTab}/>
 
             <h1 className={h1Style}>Available Program</h1>
 
             <div className='lg:w-[75%] mx-auto'>
                 {programArr.length > 0 ?
-                <> {programArr.map((item: any) => (
-                    <ProgramCard
-                        // setSelected={(data) => setSelected(data)}
-                        // selected={selected}
-                        id={item.id}
-                        key={item.id}
-                        price={item.amount}
-                        program={item.title}
-                        description={item.description}
-                        minAge={item.minAge}
-                        maxAge={item.maxAge}
-                        duration={item.weekDuration}
-                        altPrice={item.altAmount}
-                        country={userInfo.country}
-                    />
-                ))}
-                </> :
-                <Empty text={<>There is no available package for this age group, kindly contact the admin via <a href="tel:+18337371275" target='_blank'>+1-8337371275</a> or  <a href="https://t.me/+kRUSHEc8S_thYzJk" target='_blank'>Telegram</a></>}/>
+                    <> {programArr.map((item: any) => (
+                        <ProgramCard
+                            // setSelected={(data) => setSelected(data)}
+                            // selected={selected}
+                            id={item.id}
+                            key={item.id}
+                            price={item.amount}
+                            program={item.title}
+                            description={item.description}
+                            minAge={item.minAge}
+                            maxAge={item.maxAge}
+                            duration={item.weekDuration}
+                            altPrice={item.altAmount}
+                            country={userInfo.country}
+                        />
+                    ))}
+                    </> :
+                    <Empty text={<>There is no available package for this age group, kindly contact the admin via <a
+                        href="tel:+18337371275" target='_blank'>+1-8337371275</a> or <a
+                        href="https://t.me/+kRUSHEc8S_thYzJk" target='_blank'>Telegram</a></>}/>
                 }
             </div>
 
-            <div className={`grid ${!isRenewing ? 'lg:gap-3 gap-y-4 lg:grid-cols-5' : 'lg:gap-0 gap-y-0 lg:grid-cols-1'} grid-cols-1 mt-[4rem]`}>
+            <div
+                className={`grid ${!isRenewing ? 'lg:gap-3 gap-y-4 lg:grid-cols-5' : 'lg:gap-0 gap-y-0 lg:grid-cols-1'} grid-cols-1 mt-[4rem]`}>
                 {!isRenewing &&
-                <div className="col-span-2">
-                    <Button
-                        text='Cancel'
-                        isInverted={true}
-                        category='button'
-                        handleClick={()=>{closeRegTab()}}
-                        btnStyle='w-full rounded-[16px] text-[16px] leading-[26px] font-[400] text-ryd-primary border border-ryd-primary px-[26px] py-[12px]'
-                    />
-                </div>
+                    <div className="col-span-2">
+                        <Button
+                            text='Cancel'
+                            isInverted={true}
+                            category='button'
+                            handleClick={() => {
+                                closeRegTab()
+                            }}
+                            btnStyle='w-full rounded-[16px] text-[16px] leading-[26px] font-[400] text-ryd-primary border border-ryd-primary px-[26px] py-[12px]'
+                        />
+                    </div>
                 }
                 <div className="lg:col-span-3 col-span-1">
                     <Button
