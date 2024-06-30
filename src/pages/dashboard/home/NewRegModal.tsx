@@ -165,7 +165,6 @@ export default function NewRegModal({handleNext, setChildInfo, closeModalOnOutsi
 
 
 
-
     return (
         <form className={formStyle} onSubmit={handleSubmit}>
 

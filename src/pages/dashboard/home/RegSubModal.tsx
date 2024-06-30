@@ -42,11 +42,12 @@ export default function RegSubModal({
                 toast.error(response.message)
                 return;
             }
-            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === (childInfo?.programs[0]?.package?.level ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
-            //console.log(childInfo, 'childInfo')
+            // console.log(childInfo)
+            // console.log(response)
+            const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === ((Array.isArray(childInfo?.programs)) ? childInfo?.programs[0]?.package?.level + 1 : 1 )));
             //const programFilter = response?.data?.filter((item: any) => (item.minAge <= childInfo.age) && (item.maxAge >= childInfo.age) && (item?.level === 1));
             if(programFilter?.length > 0){
-                setSelected(programFilter[0].id);
+                setSelected(programFilter[0]?.id);
             }
             setProgramArr(programFilter);
         }catch(err: any){
