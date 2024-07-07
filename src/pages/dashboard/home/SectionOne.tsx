@@ -18,9 +18,9 @@ export default function SectionOne({ toggleRegModal }: Props) {
             <div className='h-fit my-auto grid  items-center gap-10'>
                 <div className='w-full  lg:flex grid grid-cols-2 lg:items-center items-start lg:justify-between'>
                     <h1 className={headerH1Style}>Welcome to your RYD Activity Board</h1>
-                    
+
                     <div className='flex justify-end lg:mt-0 mt-2'>
-                        <Button 
+                        <Button
                             text='Add Child +'
                             isInverted={false}
                             category='button'
