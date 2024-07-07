@@ -23,7 +23,7 @@ export default function ActivitySection({ data, loading }: Props) {
                     <div className='grid gap-5'>
                         {data?.map((item, index) => (
                             <>
-                            {item?.programs?.map((activity: any) => (
+                            {item?.programs?.filter((f: any)=>!f.isCompleted && f.isPaid).map((activity: any) => (
                                 <ActivityCard
                                     key={index}
                                     childName={item?.firstName}
