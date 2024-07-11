@@ -37,8 +37,7 @@ import { toast } from 'react-toastify';
       requestHeader['authorization'] = `bearer ${bearerToken}`;
     }
 
-    requestHeader["Content-Type"] =
-      form === true ? "multipart/form-data" : "application/json";
+    requestHeader["Content-Type"] = form === true ? "multipart/form-data" : "application/json";
 
     if (method === "GET") {
       return fetch(API_USER_URL + url, {

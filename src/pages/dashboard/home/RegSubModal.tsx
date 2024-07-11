@@ -68,12 +68,12 @@ export default function RegSubModal({
             //console.log(childInfo)
             //const packageId = isRenewing ? childInfo?.programs[0]?.package?.id : selected;
             const packageId = selected;
-            const timeOffset = isRenewing ? childInfo.programs[0]?.timeOffset : userInfo.timeOffset;
-            const day = isRenewing ? childInfo.programs[0]?.day : (childInfo?.selectedDay?.value || childInfo.programs[0]?.day);
+            const timeOffset = isRenewing ? childInfo?.programs[0]?.timeOffset : userInfo.timeOffset;
+            const day = isRenewing ? childInfo.programs[0]?.day : (childInfo?.selectedDay?.value || childInfo?.programs[0]?.day);
             const level = isRenewing ? childInfo.level : 1;
             const time = isRenewing ? childInfo.programs[0]?.time : (childInfo?.selectedTime?.value || childInfo.programs[0]?.time);
             const childId = childInfo.id;
-            const payload = {packageId, timeOffset, day, time, level, cohortId: childInfo?.cohortId}
+            const payload = {packageId, timeOffset, day, time, level, cohortId: (childInfo?.cohortId || childInfo?.programs[0]?.cohortId)}
 
             setSubmitLoading(true);
             try {
