@@ -20,7 +20,7 @@ export type AuthProps = {
             password: string,
             timezone: string,
             // timeOffset: number
-        
+
         }
     },
     setActiveTab: () => void,
@@ -54,7 +54,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
         setFormData({...formData, timezone: data.zoneName});
     }
 
-    const handleCountryChange = (data: any) => {  
+    const handleCountryChange = (data: any) => {
         setCountry(data);
         setFormData({...formData, country: data.name, state: data?.states[0]?.name, });
     }
@@ -83,7 +83,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
             setLoading(false)
             toast.error(err?.message);
         }
-        // verify email 
+        // verify email
     }
 
 
@@ -98,7 +98,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
                     <div className={gridContainer}>
                         <label className={labelStyle}>First Name</label>
                         <CustomInput
-                            type="text" 
+                            type="text"
                             placeholder='John'
                             required={true}
                             onChange={(e: any) => setFormData({...formData, firstName: e.target.value })}
@@ -107,7 +107,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
                     <div className={gridContainer}>
                         <label className={labelStyle}>Last Name</label>
                         <CustomInput
-                            type="text" 
+                            type="text"
                             placeholder='Doe'
                             required={true}
                             onChange={(e: any) => setFormData({...formData, lastName: e.target.value })}
@@ -120,7 +120,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
                     <div className={gridContainer}>
                         <label className={labelStyle}>Email Address</label>
                         <CustomInput
-                            type="email" 
+                            type="email"
                             placeholder='Example@example.com'
                             required={true}
                             onChange={(e: any) => setFormData({...formData, email: e.target.value })}
@@ -168,21 +168,21 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
                                 className={inputFieldStyle}
                                 placeholder='-- select timezone --'
                                 />
-                            
+
                         </div>
                     </div>
                 </div>
 
-    
 
-                <div className={` flex items-center gap-3`}>
+
+                <div className={` flex items-center gap-3`} style={{display: 'none'}}>
                     <input type="checkbox" required className='accent-ryd-primary hover:cursor-pointer' />
                     <label className={labelStyle}>
                         I agree to the <a href='' target='_blank' className='text-ryd-primary'>terms</a> and <a href='' target='_blank' className='text-ryd-primary'>conditions</a>
                     </label>
                 </div>
 
-                <Button 
+                <Button
                     text={loading ? 'Processing...' : 'Continue'}
                     isInverted={false}
                     category='button'
