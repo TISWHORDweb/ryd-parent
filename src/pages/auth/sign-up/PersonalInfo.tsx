@@ -175,7 +175,7 @@ export default function PersonalInfo({ props, setActiveTab }: AuthProps) {
 
 
 
-                <div className={` flex items-center gap-3`} style={{display: 'none'}}>
+                <div className={` flex items-center gap-3`}>
                     <input type="checkbox" required className='accent-ryd-primary hover:cursor-pointer' />
                     <label className={labelStyle}>
                         I agree to the <a href='' target='_blank' className='text-ryd-primary'>terms</a> and <a href='' target='_blank' className='text-ryd-primary'>conditions</a>
