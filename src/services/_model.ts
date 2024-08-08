@@ -33,6 +33,10 @@ export interface PasswordUpdateProps {
     passwordOld: string
 }
 
+export interface AddTestimonial {
+    testimonial: string,
+}
+
 export interface AddChildProps {
     firstName: string,
     lastName: string,

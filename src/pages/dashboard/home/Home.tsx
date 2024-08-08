@@ -15,6 +15,7 @@ import SurveySection from './SurveySection';
 import closeIcon from "../../../assets/icons/closeIcon.svg";
 import RegRenewalModal from './RegRenewalModal';
 import RegResumptionModal from './RegResumptionModal';
+import { Testimonial } from '../../../components/ui/Testimonial';
 
 
 export default function Home() {
@@ -154,6 +155,7 @@ export default function Home() {
     return (
         <AppLayout>
             {survey.length > 0 && <SurveySection surveys={survey} />}
+            <Testimonial />
             <SectionOne
                 toggleRegModal={() => setToggleRegModal(true)}
             />

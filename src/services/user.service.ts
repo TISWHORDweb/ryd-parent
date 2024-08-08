@@ -1,5 +1,5 @@
 import { request } from "../hook/api";
-import { AddChildProps, AddProgramProps, PasswordUpdateProps, ProfileUpdateProps } from "./_model";
+import { AddChildProps, AddProgramProps, AddTestimonial, PasswordUpdateProps, ProfileUpdateProps } from "./_model";
 
 /**
  *
@@ -147,7 +147,21 @@ class UserService {
     }
 
 
-
+    async addTestimonial(payload: AddTestimonial){
+        try {
+            const response = await request(
+                `/parent/testimonial` ,
+                'POST',
+                payload,
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
 
 
     async getCart(){
