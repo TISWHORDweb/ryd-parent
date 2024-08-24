@@ -15,7 +15,7 @@ export default function TimezoneSelect({ country, handleTimezoneChange, classNam
   const [ zoneList, setZoneList ] = useState([]);
   const [ selectedZone, setSelectedZone ] = useState<any>({});
   const [ toggle, setToggle ] = useState(false);
-  const [ _placeholder, setPlaceholder ] = useState<any>(placeholder);
+  const [ _placeholder, setPlaceholder ] = useState<any>("- select timezone -");
 
   const timezoneSelectRef = useRef(null)
 
@@ -43,7 +43,7 @@ export default function TimezoneSelect({ country, handleTimezoneChange, classNam
       </div>
       {toggle &&
         <div className={`${zoneList.length > 3 ? 'h-[20vh] overflow-y-auto': 'h-fit'}  absolute top-3 w-full shadow bg-white text-ryd-subTextPrimary text-[14px]`}>
-          <div className="text-center px-4 py-1 bg-ryd-gray">-- select timezone --</div>
+          <div className="text-center px-4 py-1 bg-ryd-gray">- select timezone -</div>
           {zoneList?.length > 0 ? 
             zoneList.map((item: any, index) => (
               <div key={index} 

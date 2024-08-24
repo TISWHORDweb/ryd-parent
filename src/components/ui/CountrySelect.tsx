@@ -15,7 +15,7 @@ export default function CountrySelectInput({ placeholder, handleCountryChange, c
   const [ selectedCountry, setSelectedCountry ] = useState<any>({});
   const [ toggle, setToggle ] = useState(false);
   const [ searchQuery, setSearchQuery ] = useState('');
-  const [ _placeholder, setPlaceholder ] = useState<any>(placeholder);
+  const [ _placeholder, setPlaceholder ] = useState<any>("- select country -");
 
   const countrySelectRef = useRef(null);
 
