@@ -34,6 +34,7 @@ export default function RecentlyAddedSection() {
   const [togglePayModal, setTogglePayModal] = useState(false);
   const [selectedChild, setSelectedChild] = useState<any>({});
   const [loading, setLoading] = useState(true);
+  const [enableDone, setEnableDone] = useState(false);
 
   const handleRegResumption = (data: any) => {
     setSelectedChild(data);
@@ -196,16 +197,18 @@ export default function RecentlyAddedSection() {
                       </p>
                     ) : (
                       <>
-                        <p
-                          className={`${tableBody} flex items-center justify-center gap-x-4`}
-                        >
-                          <button
-                            // disabled={true}
-                            className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}
+                        {enableDone ?
+                            <p
+                            className={`${tableBody} flex items-center justify-center gap-x-4`}
                           >
-                            Done
-                          </button>
-                        </p>
+                            <button
+                              // disabled={true}
+                              className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}
+                            >
+                              Doneƒ
+                            </button>
+                          </p> : null
+                        }
                         <p
                           className={`${tableBody} flex items-center justify-center gap-x-4`}
                           style={{ marginLeft: 5 }}
@@ -214,7 +217,7 @@ export default function RecentlyAddedSection() {
                             onClick={() => triggerCertificate(item)}
                             className={`${btnStyle} border border-green-600 text-green-600 hover:bg-green-600 hover:text-white`}
                           >
-                            Get Certificate.
+                            Get-Certificate.
                           </button>
                         </p>
                       </>

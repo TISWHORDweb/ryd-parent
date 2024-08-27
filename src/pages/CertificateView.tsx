@@ -2,12 +2,17 @@ import generatePDF, { Options } from "react-to-pdf";
 import Layout from "../assets/images/certificate.png";
 import { useEffect, useState } from "react";
 import { getCertificateData } from "../utils/constants";
+import { useNavigate } from "react-router-dom";
 
 const CertificateView = () => {
   const [clicked, setClicked] = useState(false);
   const [data, setData] =  useState<any>({});
+  const navigate = useNavigate()
   useEffect(()=>{
     const data = getCertificateData()
+    if(data === null || data === undefined || !data){
+      navigate('/parent/home')
+    }
     setClicked(true)
     setData(data)
     console.log(data)
@@ -24,7 +29,6 @@ const CertificateView = () => {
   const getTargetElement = () => document.getElementById("container");
 
   const downloadPdf = () => generatePDF(getTargetElement, options);
-
 
   return (
     <>
