@@ -295,6 +295,22 @@ class UserService {
             throw err;
         }
     }
+
+    async getPrograms(id: number | string){
+        try {
+            const response = await request(
+                `/common/program/${id}` ,
+                'GET',
+                {},
+                true,
+                false,
+                false,
+            )
+            return response;
+        }catch(err){
+            throw err;
+        }
+    }
 }
 
 

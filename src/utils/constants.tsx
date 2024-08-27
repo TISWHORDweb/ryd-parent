@@ -17,3 +17,43 @@ export const curriculum = {
     l3_basic: 'https://drive.google.com/file/d/1zdusl9lStagwiJt8jVqws1HvV2DoVC0Y/view?usp=sharing',
     l3_advanced: '',
 }
+
+export function formatDate() {
+  
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.toLocaleString('default', { month: 'long' });
+    const year = today.getFullYear();
+    
+    function getDaySuffix(day:number) {
+        if (day >= 11 && day <= 13) {
+            return 'th';
+        }
+        switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+        }
+    }
+    
+    const daySuffix = getDaySuffix(day);
+    const formattedDate = `${day}${daySuffix} ${month} ${year}`;
+    return formattedDate;
+}
+
+export const setCertificateData = (data:any) => {
+    const certificateData = JSON.stringify(data);
+    sessionStorage.removeItem('certificateData');
+    sessionStorage.setItem('certificateData', certificateData);
+  };
+  
+  export function getCertificateData() {
+    const certificateData = sessionStorage.getItem('certificateData');
+  
+    if (certificateData) {
+      return JSON.parse(certificateData);
+    } else {
+      return null;
+    }
+  }

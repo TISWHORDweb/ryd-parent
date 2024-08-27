@@ -3,6 +3,7 @@ import { Navigate, RouteObject } from "react-router-dom";
 import { CreateNewPassword, ErrorPage, ForgotPassword, Home, SignIn, SignUp, SurveyForm } from "../pages";
 import SuccessPage from "../pages/auth/sign-up/SuccessPage";
 import AuthMiddleware from "./AuthMiddleware";
+import CertificateView from "../pages/CertificateView";
 
 
 const routes: RouteObject[] = [
@@ -11,6 +12,7 @@ const routes: RouteObject[] = [
     { path: '/parent/sign-in', element: <SignIn />},
     { path: '/parent/forgot-psd', element: <ForgotPassword />},
     { path: '/parent/create-psd', element: <CreateNewPassword />},
+    { path: '/parent/certificate', element: <CertificateView />},
     { path: '/parent/home', element: (
          <AuthMiddleware>
             <Home/>

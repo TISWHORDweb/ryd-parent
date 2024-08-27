@@ -55,7 +55,6 @@ export default function ActivityCard({
     const subLabelStyle = 'text-white bg-ryd-primary py-1 px-3 rounded-tl-[10px] lg:rounded-bl-[10px] rounded-bl-[0px] lg:rounded-tr-[0px] rounded-tr-[10px] text-[12px]';
     const subPStyle = ' bg-ryd-primaryLess1 py-1 px-3 lg:rounded-tr-[10px] lg:rounded-bl-[0px] rounded-bl-[10px]  rounded-tr-[0px] rounded-br-[10px] text-[12px] text-center';
 
-
 const getCurriculum = (title: string, level: number) => {
     if(title.toLowerCase().includes('basic')){
         if(Number(level) === 1){

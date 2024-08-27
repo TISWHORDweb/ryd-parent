@@ -30,3 +30,35 @@ html {
 .dc {
   color: rgba(9, 8, 8, 0.58);
 }
+.Certificate {
+  position: relative;
+  width: 842px;
+  height: 595px;
+  overflow: scroll;
+}
+
+.Certificate img{
+ width: 100%;
+}
+.Certificate .name{
+  position: absolute;
+  top: 40%;
+  left: 35%;
+  transition: (-50%, -50%);
+  font-size: 40px;
+}
+.Certificate .title{
+  position: absolute;
+  top: 55%;
+  font-size: 45px;
+  left: 35%;
+}
+.Certificate .date{
+  position: absolute;
+  top: 77%;
+  font-size: 20px;
+  right: 27%;
+  transition: (-50%, -50%);
+}
+
+

@@ -25,8 +25,6 @@ export const Testimonial = () => {
     toast.success(response.message);
   };
 
-  console.log(userInfo?.email)
-
   return (
     <div className="fixed bottom-4 right-4 z-50">
       <button
@@ -49,7 +47,6 @@ export const Testimonial = () => {
         <div className="absolute bottom-0 right-0 bg-white p-4 border rounded-lg shadow-lg w-80 ">
           <div className="bg-ryd-primary text-white p-3 rounded-t-lg mb-2">
             <p className="text-white">
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
               Hi 👋.... We’re thrilled to hear from you!
             </p>
             <button
